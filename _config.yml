@@ -16,11 +16,15 @@
 title: Haseeb Shah
 email: haseebs [at] outlook [dot] com
 description: > # this means to ignore newlines until "baseurl:"
-  Haseeb Shah's random thoughts
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: haseebsz
 github_username:  haseebs
+
+collections:
+  projects:
+    output: true
+    permalink: /projects/:path/
 
 # Build settings
 markdown: kramdown
