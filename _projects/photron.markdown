@@ -20,7 +20,7 @@ description: Windows 10 Universal application (Desktop + phone + Xbox + Hololens
 
 **Downloads:** ~25,000
 
-** Download Link:** [Link](https://www.microsoft.com/store/apps/9nblggh58rz3)
+**Download Link:** [Link](https://www.microsoft.com/store/apps/9nblggh58rz3)
 
 **Platforms Supported:** Windows 10, Windows Phone 10, Xbox, Hololens
 
@@ -48,7 +48,7 @@ There are four major features of this application.
 One of the most challenging and fun part of designing this application was its design. Half of the total time was spent on planning  and implementing the design. I wanted the design to be obvious, easy to use and minimalistic both aesthetically and functionally.
 
 #### Logo Design
-![Logo](../assets/media/photron/photron_logo.jpg)
+![Logo](/assets/media/photron/photron_logo.jpg)
 
 The logo follows our design philosophy. The outer triangles portray a camera shutter and the inner lines portray text. They perfectly describes what this application can do.
 
@@ -73,7 +73,7 @@ This shows that when someone opens the application, there are 2 ways he may proc
 
 So if he is presented with just 2 buttons at the start, all use cases are covered and the user will not be confused.
 
-![Logo](../assets/media/photron/main_screen.jpg)
+![Main Page](/assets/media/photron/main_screen.jpg)
 
 So there are 3 pages : Sources, Extracted text and Translation. The 3 functions of the application are achieved quickly and easily as:
 
@@ -85,7 +85,7 @@ Since the user may choose to translate from any page, the language bar was made 
 
 If the user Swipes to other tab without providing any input, he is provided with a helpful message telling him what he is doing and what he should do.
 
-![Logo](../assets/media/photron/input_missing.jpg)
+![Input Missing](/assets/media/photron/input_missing.jpg)
 
 ### Video Demo
 <iframe width="560" height="315" src="https://www.youtube.com/embed/_GtYWHLkSjw?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
