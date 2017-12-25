@@ -6,8 +6,8 @@ categories: project
 description: Windows 10 Universal application (Desktop + phone + Xbox + Hololens) that takes an image as input, extracts the text from it with OCR and translates the text to the desired language. It has more than 25,000 downloads to date.
 
 ---
-# Photron Image Translator
-### Overview
+# **Photron Image Translator**
+## **Overview**
 **Semester:** 1st
 
 **Project Date:** December 2015
@@ -26,7 +26,7 @@ description: Windows 10 Universal application (Desktop + phone + Xbox + Hololens
 
 **Description:** Photron Image Translator is a Windows 10 Universal application (Desktop + Phone + Xbox + Hololens) that takes an image as input, extracts the text from it with OCR and translates the text to the desired language. This application was built when windows 10 and windows phone 10 were still in beta (Insider preview), so the userbase was pretty small.
 
-### Features
+## **Features**
 There are four major features of this application.
 1. OCR capability
 
@@ -44,15 +44,15 @@ There are four major features of this application.
 
     System's API were used allowing the user to share the extracted text at any stage while he is using the application.
 
-### Design Philosophy
+## **Design Philosophy**
 One of the most challenging and fun part of designing this application was its design. Half of the total time was spent on planning  and implementing the design. I wanted the design to be obvious, easy to use and minimalistic both aesthetically and functionally.
 
-#### Logo Design
+### **Logo Design**
 ![Logo](/assets/media/photron/photron_logo.jpg)
 
 The logo follows our design philosophy. The outer triangles portray a camera shutter and the inner lines portray text. They perfectly describes what this application can do.
 
-#### UI Design
+### **UI Design**
 When someone opens up the application, he should know exactly what he wants to do and not be confused by other elements. So, after days of brainstorming, I drew wireframes on a paper and came up with something that satisfied the design philosophy.
 
 The application has 3 main functions:
@@ -87,5 +87,5 @@ If the user Swipes to other tab without providing any input, he is provided with
 
 ![Input Missing](/assets/media/photron/input_missing.jpg)
 
-### Video Demo
+## **Video Demo**
 <iframe width="560" height="315" src="https://www.youtube.com/embed/_GtYWHLkSjw?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
