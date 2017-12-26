@@ -24,7 +24,7 @@ description: Windows 10 Universal application (Desktop + phone + Xbox + Hololens
 
 **Platforms Supported:** Windows 10, Windows Phone 10, Xbox, Hololens
 
-**Description:** Photron Image Translator is a Windows 10 Universal application (Desktop + Phone + Xbox + Hololens) that takes an image as input, extracts the text from it with OCR and translates the text to the desired language. This application was built when windows 10 and windows phone 10 were still in beta (Insider preview), so the userbase was pretty small.
+**Short Description:** Photron Image Translator is a Windows 10 Universal application that takes an image as input, extracts the text from it with OCR and translates the text to the desired language. This application was built when windows 10 and windows phone 10 were still in beta (Insider preview), so the userbase was pretty small.
 
 ## **Features**
 There are four major features of this application.
