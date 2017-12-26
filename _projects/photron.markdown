@@ -12,8 +12,6 @@ description: Windows 10 Universal application (Desktop + phone + Xbox + Hololens
 
 **Project Date:** December 2015
 
-**Team Members:** None
-
 **Project Duration:** 2 weeks
 
 **Languages/Frameworks:** C#, XAML
