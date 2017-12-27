@@ -35,7 +35,7 @@ that they use lower number of polygons. A texture map was built which
 had a grid of solid colors so that all the different models can use a
 single texture file to color themselves. This greatly reduced the memory
 load. Further, there are options in the settings which allow the player to
-turn off the vehicle's skidmarks and smoke, which result in a massive
+turn off the shadows and smoke, which result in a massive
 performance improvement.
 
 ## **Class Diagram**
