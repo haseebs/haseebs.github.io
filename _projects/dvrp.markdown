@@ -8,7 +8,7 @@ description: Implementation of distance-vector routing protocol using Bellman-Fo
 ---
 # **Distance Vector Routing Protocol**
 ## **Overview**
-**Semester:** 1st
+**Semester:** 4th
 
 **Project Date:** May 2017
 

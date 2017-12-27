@@ -4,7 +4,6 @@ title:  "Photron Image Translator"
 date:   2015-12-13 02:54:25 +0500
 categories: project
 description: Windows 10 Universal application (Desktop + phone + Xbox + Hololens) that takes an image as input, extracts the text from it with OCR and translates the text to the desired language. It has more than 25,000 downloads to date.
-
 ---
 # **Photron Image Translator**
 ## **Overview**
