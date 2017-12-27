@@ -1,6 +1,6 @@
 ---
 layout: default
-title:  "Overtrack"
+title:  "Overtrack: Overwatch Match Tracker"
 date:   2015-12-13 02:54:25 +0500
 categories: project
 description: Collects Overwatch match data from the player and in turn provides statistics, graphs and analysis which shows him his weaknesses and strengths so that he can improve quickly. If a player wanted to gather information from data from existing solution, he had to add data into an excel sheet and draw results from there, which is an old and hectic process.
