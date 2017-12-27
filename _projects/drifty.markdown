@@ -20,7 +20,6 @@ description: Cross-platform 3D game in which the player has to maneuver a slippe
 **Windows Download:** [Link](/assets/downloads/drifty/drifty-windows-desktop.zip)
 
 **Short Description:** Cross-platform 3D game in which the player has to maneuver a slippery vehicle through an endless map of obstacles. It was designed to run smoothly on low-end devices and features an online leaderboard.
----
 
 ## **Overview**
 This game features a slippery vehicle which has to be maneuvered safely
@@ -53,7 +52,7 @@ performance improvement.
 ![Gameplay](/assets/media/drifty/gameplay.png)
 
 ### **Car Crash**
-![Car Explosion](/assets/media/drifty/explosion.png)
+![Car Explosion](/assets/media/drifty/crash.png)
 
 ## **Future Plans**
 Future plan involves adding the missing features in the game and
