@@ -3,9 +3,8 @@ layout: default
 title:  "WikiHunt: Simple Wikipedia Search Engine"
 date:   2015-12-13 02:54:25 +0500
 categories: project
-description: WikiHunt is a scalable search engine. It involved
-generation of inverted index, calculating IR scores using different
-weights and then sorting the results.
+description: WikiHunt is a scalable search engine. It involved generation of inverted index, calculating IR scores using different weights and then sorting the results.
+
 ---
 # **WikiHunt: Simple Wikipedia Search Engine**
 ## **Overview**
