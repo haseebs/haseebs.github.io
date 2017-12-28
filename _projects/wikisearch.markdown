@@ -34,7 +34,7 @@ The data was obtained in form of a single XML file in which each page is
 separated by <page> tag. This file is read by repositoryGenerator.rb
 which uses Nokogiri gem for parsing the XML. The content of each page
 is separated and stored in files and named as
-**page_id**-**page_title**-**number_of_words**.
+Page_id-Page_title-Number_of_words.
 
 ### **Generation of Lexicon**
 Afterwards, a Lexicon is generated as a table in MySQL database. We
