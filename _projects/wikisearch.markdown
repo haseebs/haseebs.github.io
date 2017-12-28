@@ -54,4 +54,32 @@ For the generation of forward index, we follow the following steps:
    separately, and if we do that, it would take us 10-30 weeks longer to
    complete the generation of forward index.
 
-2. In progress ...
+2. We iterate over each page, and in each page, we iterate over all the
+   words. Each word's hit type is determined an stored as the respective
+   hit in array. Each hit is encoded into 32-bit integer using bitwise
+   operators. A hit contains information about the capitalization,
+   importance and the position of the word.
+   
+3. The array is then parsed and converted into a MySQL file which contains
+   multiple MySQL statements, each containing 5000 row entries. This was
+   done instead of using the mysql library because generation of forward
+   index by executing the generated mySQL file resulted in creation of
+   forward index 80 times faster than the library method. This is believed
+   to be because multiple hits are appended to be inserted as one query as
+   compared to a separate query for each new hit.
+   
+### **Generation of Inverted Index
+For the generation of inverted index, we follow the following steps:  
+1. Get the max Word ID from the database.
+2. Add index on Word ID in the forward index to ensure faster retrieval
+3. For each Word ID, retrieve the hits containing it.
+4. Generate the mySQL file for inverted index
+5. Drop index from the inverted index and the forward index before executing
+   the mySQL file.
+   
+### **Search Process**
+When a query arrives, it is first determined whether the query is a single word
+or a multi-word query, then it is processed accordingly:
+#### **Single Word**
+1. We retrieve the wordID of the word
+2. ...
