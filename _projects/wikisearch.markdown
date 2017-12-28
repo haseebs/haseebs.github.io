@@ -68,7 +68,7 @@ For the generation of forward index, we follow the following steps:
    to be because multiple hits are appended to be inserted as one query as
    compared to a separate query for each new hit.
    
-### **Generation of Inverted Index
+### **Generation of Inverted Index**
 For the generation of inverted index, we follow the following steps:  
 1. Get the max Word ID from the database.
 2. Add index on Word ID in the forward index to ensure faster retrieval
