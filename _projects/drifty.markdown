@@ -9,7 +9,7 @@ description: Cross-platform 3D game in which the player has to maneuver a slippe
 ## **Overview**
 **Semester:** 2nd
 
-**Project Date:** Februaru 2016
+**Project Date:** February 2016
 
 **Project Duration:** 2 months
 
