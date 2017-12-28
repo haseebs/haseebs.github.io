@@ -80,6 +80,19 @@ For the generation of inverted index, we follow the following steps:
 ### **Search Process**
 When a query arrives, it is first determined whether the query is a single word
 or a multi-word query, then it is processed accordingly:
-#### **Single Word**
-1. We retrieve the wordID of the word
-2. ...
+#### **Single Word Search**
+1. We retrieve wordID of the word
+2. Hit information is extracted for that word
+3. IR score is calculated by dot product of Hit vector with Typeweight vector.
+4. Top 100 results are returned when sorted by IR scores.
+
+#### **Multi-Word Search**
+1. We retrieve wordID of the each word
+2. Hit information is extracted for each word
+3. Only those documents are kept which have all the query words.
+4. Proximity vector (contains distance between the query words)
+and Hit vectors dot products with Proximity-weight vector
+and Typeweight vector are calculated respectively.
+3. IR score is calculated from the dot product of resulting proximity and type
+weights.
+4. Top 100 results are returned when sorted by IR scores.
