@@ -3,8 +3,8 @@ layout: default
 title:  "Retrieval of Visually Similar Garments"
 date:   2015-12-13 02:54:25 +0500
 categories: project
-description: A Machine Learning model implemented in Tensorflow which
-allows the retrieval of visually similar garment images.
+description: A Machine Learning model implemented in Tensorflow which allows the retrieval of visually similar garment images.
+
 ---
 # **Retrieval of Visually Similar Garments**
 ## **Overview**
