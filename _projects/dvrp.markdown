@@ -12,7 +12,7 @@ description: Implementation of distance-vector routing protocol using Bellman-Fo
 
 **Project Date:** May 2017
 
-**Project Duration:** ~4 staggered days
+**Project Duration:** ~5 days
 
 **Languages/Frameworks:** Python, Protocol Buffers
 
