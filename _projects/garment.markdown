@@ -93,7 +93,7 @@ on Aws S3.
     }
 }
 
-#file1 {
+.btns {
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
@@ -102,8 +102,9 @@ on Aws S3.
     z-index: -1;
 }
 
-#file1 + label {
-    max-width: 80%;
+.btns + label {
+    width: 240px;
+    max-width: 80% !important;
     font-size: 1.25rem;
     /* 20px */
     font-weight: 700;
@@ -116,8 +117,8 @@ on Aws S3.
     /* 10px 20px */
 }
 
-#file1:focus + label,
-#file1.has-focus + label {
+.btns:focus + label,
+.btns.has-focus + label{
     outline: 1px dotted #000;
     outline: -webkit-focus-ring-color auto 5px;
 }
@@ -134,23 +135,23 @@ on Aws S3.
 }
 
 
-#file1 + label {
+.btns + label {
     color: #f1e5e6;
     background-color: #d3394c;
 }
 
-#file1:focus + label,
-#file1.has-focus + label,
-#file1 + label:hover {
+.btns:focus + label,
+.btns.has-focus + label,
+.btns + label:hover {
     background-color: #722040;
 }
 
 
-#file1 + label {
+.btns + label {
 	cursor: pointer; /* "hand" cursor */
 }
 
-#file1:focus + label {
+.btns:focus + label {
 	outline: 1px dotted #000;
 	outline: -webkit-focus-ring-color auto 5px;
 }
@@ -161,12 +162,22 @@ on Aws S3.
 
 </style>
 
-<form enctype="multipart/form-data" method="post" action="https://garment-retrieval.appspot.com/" style="text-align: center;">
-    <input type="file" name="file" id="file1"/>
-    <label for="file1"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Choose a file&hellip;</span></label>
+<form enctype="multipart/form-data" style="text-align: center;">
+    <input class="btns" type="file" name="file" id="file1"/>
+    <label for="file1"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Upload Image file</span></label>
 </form>
 
+<div style="text-align:center;">
+    <button class="btns" id="random"></button>
+    <label for="random"><span>Get Random Image</span></label>
+</div>
+<br>
 
+<div style="text-align:center;">
+    <img id="src" src=""/>
+</div>
+          
+<br>
 <div id="results" class="row">
     <div class="column">
         <img src=""/>
@@ -206,12 +217,29 @@ on Aws S3.
             processData: false,
             contentType: false,
             success: function(response) {
+                $('#src').attr("src", "");
                 $('#results img').each(function(index) {
+                    $(this).attr("src", "");
                     $(this).attr("src", response[index]);
                 });
             }
         });
     }
+});
+$("#random").on("click", function() {
+    jQuery.getJSON({
+        url: "https://garment-retrieval.appspot.com/random",
+        type: "GET",
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            $('#src').attr("src", response[0]);
+            $('#results img').each(function(index) {
+                $(this).attr("src", "");
+                $(this).attr("src", response[index+1]);
+            });
+        }
+    });
 });
     
 /*
