@@ -44,12 +44,12 @@ approach nowadays is to apply deep-learning methodology and try to learn
 a similarity measure that is invariant to domain-shift.
 
 ## **Demo**
-Upload any jpeg, jpg or png image of a clothing item **cropped/resized to 
-160x160** (Any larger size will yield inaccurate results) below and the model
-will retrieve visually similar images from among those currently stored in
-the gallery. The inference is performed by the model hosted on Google Cloud
-(CPU) and the results are obtained from the gallery of ~60k images I stored
-on Aws S3.
+Upload any jpeg, jpg or png image of a clothing item or press the get
+random image button and the model will retrieve visually similar images
+from among those currently stored in the gallery. The uploaded image will
+be resized to 160x160 using a box filter with equal weights before inference.
+The inference is performed by the model hosted on Google Cloud (CPU) and the
+results are obtained from the gallery of ~60k images I stored on AWS S3.
 
 <style>
 * {
@@ -103,7 +103,7 @@ on Aws S3.
 }
 
 .btns + label {
-    width: 240px;
+    width: 260px;
     max-width: 80% !important;
     font-size: 1.25rem;
     /* 20px */
