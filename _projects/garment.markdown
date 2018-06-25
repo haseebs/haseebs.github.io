@@ -51,6 +51,8 @@ be resized to 160x160 using a box filter with equal weights before inference.
 The inference is performed by the model hosted on Google Cloud (CPU) and the
 results are obtained from the gallery of ~60k images I stored on AWS S3.
 
+**Note: Demo is currently offline due to hosting costs.**
+
 <style>
 * {
     box-sizing: border-box;
@@ -243,7 +245,7 @@ $("#random").on("click", function() {
 });
     
 /*
-	Script by Osvaldas Valutis
+	Script below by Osvaldas Valutis
 	Available for use under the MIT License
 */
 'use strict';
