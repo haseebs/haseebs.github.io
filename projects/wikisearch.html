@@ -1,0 +1,94 @@
+<!--<script>
+  window.location.replace("http://stackoverflow.com");
+</script>-->
+<h1><strong>WikiHunt: Simple Wikipedia Search Engine</strong></h1>
+<h2><strong>Overview</strong></h2>
+<p><strong>Semester:</strong> 3rd</p>
+<p><strong>Project Date:</strong> December 2016</p>
+<p><strong>Languages/Frameworks:</strong> Ruby, MySQL, Sinatra, HTML, CSS</p>
+<p><strong>Github Link:</strong> <a href="https://www.github.com/haseebs/search-engine-ruby">Link</a></p>
+<p><strong>Short Description:</strong> WikiHunt is a scalable search engine. It involved
+generation of inverted index, calculating IR scores using different
+weights and then sorting the results. Various parts of the
+implementation were profiled and optimized for performance.</p>
+<h2><strong>Description</strong></h2>
+<p>WikiHunt is made as a search engine for <a href="https://simple.wikipedia.org/wiki/Main_Page">Simple
+Wikipedia</a>. The entirety of
+this wikipedia was downloaded from the data dumps in XML format, which
+was then parsed using Nokogiri gem.</p>
+<h3><strong>Parsing</strong></h3>
+<p>The data was obtained in form of a single XML file in which each page is
+separated by &lt;page&gt; tag. This file is read by repositoryGenerator.rb
+which uses Nokogiri gem for parsing the XML. The content of each page
+is separated and stored in files and named as
+Page_id-Page_title-Number_of_words.</p>
+<h3><strong>Generation of Lexicon</strong></h3>
+<p>Afterwards, a Lexicon is generated as a table in MySQL database. We
+iterate through each page in the repository and using regex, we:</p>
+<ol>
+<li>Split the content string based on any whitespace or non-word character</li>
+<li>Select the elements from the resulting array that consist of word
+characters.</li>
+<li>These are pushed into Lexicon with Insert Ignore, which automatically
+rejects duplicate word entries, and each word is mapped to a unique
+word ID.</li>
+</ol>
+<h3><strong>Generation of Forward Index</strong></h3>
+<p>For the generation of forward index, we follow the following steps:</p>
+<ol>
+<li>
+<p>Load the entire Lexicon from the database into RAM. It is usually
+small so it can be loaded entirely into the RAM easily. This is done
+because otherwise we would have to send queries for each word
+separately, and if we do that, it would take us 10-30 weeks longer to
+complete the generation of forward index.</p>
+</li>
+<li>
+<p>We iterate over each page, and in each page, we iterate over all the
+words. Each word’s hit type is determined an stored as the respective
+hit in array. Each hit is encoded into 32-bit integer using bitwise
+operators. A hit contains information about the capitalization,
+importance and the position of the word.</p>
+</li>
+<li>
+<p>The array is then parsed and converted into a MySQL file which contains
+multiple MySQL statements, each containing 5000 row entries. This was
+done instead of using the mysql library because generation of forward
+index by executing the generated mySQL file resulted in creation of
+forward index 80 times faster than the library method. This is believed
+to be because multiple hits are appended to be inserted as one query as
+compared to a separate query for each new hit.</p>
+</li>
+</ol>
+<h3><strong>Generation of Inverted Index</strong></h3>
+<p>For the generation of inverted index, we follow the following steps:</p>
+<ol>
+<li>Get the max Word ID from the database.</li>
+<li>Add index on Word ID in the forward index to ensure faster retrieval</li>
+<li>For each Word ID, retrieve the hits containing it.</li>
+<li>Generate the mySQL file for inverted index</li>
+<li>Drop index from the inverted index and the forward index before executing
+the mySQL file.</li>
+</ol>
+<h3><strong>Search Process</strong></h3>
+<p>When a query arrives, it is first determined whether the query is a single word
+or a multi-word query, then it is processed accordingly:</p>
+<h4><strong>Single Word Search</strong></h4>
+<ol>
+<li>We retrieve wordID of the word</li>
+<li>Hit information is extracted for that word</li>
+<li>IR score is calculated by dot product of Hit vector with Typeweight vector.</li>
+<li>Top 100 results are returned when sorted by IR scores.</li>
+</ol>
+<h4><strong>Multi-Word Search</strong></h4>
+<ol>
+<li>We retrieve wordID of the each word</li>
+<li>Hit information is extracted for each word</li>
+<li>Only those documents are kept which have all the query words.</li>
+<li>Proximity vector (contains distance between the query words)
+and Hit vectors dot products with Proximity-weight vector
+and Typeweight vector are calculated respectively.</li>
+<li>IR score is calculated from the dot product of resulting proximity and type
+weights.</li>
+<li>Top 100 results are returned when sorted by IR scores.</li>
+</ol>
