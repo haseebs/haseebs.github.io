@@ -23,11 +23,11 @@
       <!-- Header -->
       <header class="w3-panel w3-center w3-opacity" style="padding:128px 16px">
         <h1>Haseeb Shah</h1>
-        <h1 class="w3-xlarge">Undergraduate Student at NUST</h1>
+        <h1 class="w3-xlarge"> </h1>
 
         <div class="w3-padding-32">
           <div class="w3-bar w3-border">
-            <a href="cv/haseeb_shah_resume.pdf" class="w3-bar-item w3-button">Curriculum Vitae</a>
+            <a href="assets/haseeb_shah_resume.pdf" class="w3-bar-item w3-button">Curriculum Vitae</a>
             <!--<a href="#" class="w3-bar-item w3-button w3-light-grey">Projects</a>
             <a href="#" class="w3-bar-item w3-button">CV</a>
             <a href="#" class="w3-bar-item w3-button w3-hide-small">Contact</a>-->
@@ -38,41 +38,25 @@
       <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
         <h1 style="letter-spacing:1px"> Research Papers </h1>
         <div style="">
+          <h4 class="paper-title"> H. Shah, J. Villmow, A. Ulges, F. Shafait. ”Relation Specific Transformations for Open World Knowledge Graph Completion”. Under review at Special Issue on Machine Learning and Knowledge Graphs, FGCS-2020</h4>
+          <p>We utilized relation specific transformations and contextualized word embedding models (such as BERT) to substantially improve the performance of Open World Knowledge Graph Completion models. We also proposed an approach for clustering of relations to reduce the training time and memory footprint.</p>
+        </div>
+        <div style="">
           <h4 class="paper-title"> H. Shah, J. Villmow, A. Ulges, U. Schwanecke, F. Shafait. ”An Open-World Extension for Knowledge Graph Completion Models”. Accepted at AAAI-2019 (ORAL)</h4>
           <button onclick="location.href='papers/owe'" class="w3-button w3-black w3-round w3-small"> Paper </button>
           <button class="w3-button w3-black w3-round w3-small"> Slides </button>
           <button onclick="location.href='https://github.com/haseebs/OWE'" class="w3-button w3-black w3-round w3-small"> Code </button>
-          <p>We present a novel extension to embedding-based knowledge graph completion models which enables them to perform open-world link prediction, i.e. to predict facts for entities unseen in training based on their textual description. 
-            Our model combines a regular link prediction model learned from a knowledge graph with word embeddings learned from a textual corpus. After training both independently, we learn a transformation to map the embeddings of an entity's name and description to the graph-based embedding space. 
-
-            In experiments on several datasets including FB20k, DBPedia50k and our new dataset FB15k-237-OWE, we demonstrate competitive results.
-            Particularly, our approach exploits the full knowledge graph structure even when textual descriptions are scarce, does not require a joint training on graph and text, and can be applied to any embedding-based link prediction model, such as TransE, ComplEx and DistMult.  </p>
+          <p>We propose an extension that enables any existing Knowledge Graph Completion model to predict facts about the open-world entities. This approach is more robust, more portable and has better performance than the published state of the art on most datasets. We also released a new dataset that overcomes the shortcomings of previous ones.</p>
         </div>
         <div style="">
           <h4 class="paper-title"> H. Shah, K. Javed, F. Shafait. ”Distillation Techniques for Pseudo-rehearsal Based Incremental Learning”. 2018</h4>
           <button onclick="location.href='https://arxiv.org/abs/1807.02799'" class="w3-button w3-black w3-round w3-small"> Paper </button>
           <button onclick="location.href='https://github.com/haseebs/Pseudo-rehearsal-Incremental-Learning'" class="w3-button w3-black w3-round w3-small"> Code </button>
-          <p>The ability to learn from incrementally arriving data is essential for
-            any life-long learning system. However, standard deep neural networks 
-            suffer from catastrophic forgetting when they are trained incrementally.
-            We explore the use of Auxiliary Classifier Generative Adversarial Networks (AC-GAN) as an alternative
-            to storing exemplars for incremental learning of classifiers. We show that
-            the classifier learned by knowledge distillation from older model
-            is biased and propose a way to remove this bias by distilling knowledge from 
-            auxiliary classifier of AC-GAN. Experiments on MNIST show that this method is 
-            comparable to current state of the art approaches which rely on exemplars.
-            Additionally, we perform ablation studies and discuss the limitations of this approach. </p>
+          <p>Standard neural networks suffer from catastrophic forgetting when they are trained on incrementally arriving stream of i.i.d. data. To combat this forgetting, one approach is to train GANs on previously arrived data and feed it to the network again. In this paper, we showed that the techniques based on this approach are biased and proposed a framework to mitigate this bias and reduce the effect of catastrophic forgetting. </p>
         </div>
 
       </div>
-      <div class="w3-row-padding w3-grayscale" style="margin-bottom:128px">
-        <h1 style="letter-spacing:1px"> Selected Projects </h1>
-        <div style="">
-          <h4 class="paper-title"> Retrieval of Visually Similar Garment Images</h4>
-          <button onclick="location.href='projects/garment'" class="w3-button w3-black w3-round w3-small"> Demo and Details </button>
-          <p>The purpose of this system is to return a set of visually similar images of clothing given an image that contains a clothing item. I adapted the techniques used in face recognition to this problem and achieved a performance that beats the published state of the art in this domain. </p>
-        </div>
-      </div>
+    
 
 
     </body>
