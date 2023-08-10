@@ -10,57 +10,141 @@
     body,h1 {font-family: "Raleway", Arial, sans-serif}
     h1 {letter-spacing: 6px}
     .w3-row-padding img {margin-bottom: 12px}
-    .paper-title {font-weight: bold}
+    .paper-title {font-weight: normal}
     .paper-button {background-color: #4CAF50; border-radius: 4px} /* Green */
     .code-button {background-color: #008CBA;border-radius: 4px} /* Blue */
     .slides-button {background-color: #f44336;border-radius: 4px} /* Red */
+    .paper-div {border-left: 3px double; padding-left: 10px;}
+
+    h4 mark {
+      background-color: lightgray;
+      color: #000000;
+      border-radius: 4px;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+      padding: 5px 5px 5px 5px;
+    }
+
   </style>
   <body>
 
     <!-- !PAGE CONTENT! -->
-    <div class="w3-content" style="max-width:1500px">
+    <div class="w3-content" style="max-width:1000px; padding-right: min(50px, 5%); padding-left: min(50px, 5%);">
 
       <!-- Header -->
       <header class="w3-panel w3-center w3-opacity" style="padding:128px 16px">
-        <h1>Haseeb Shah</h1>
-        <h1 class="w3-xlarge"> </h1>
+        <h1><b>Haseeb Shah</b></h1>
+        <!--<h1 class="w3-xlarge"> </h1>-->
+        <h5>Graduate student at the University of Alberta supervised by Martha White</h5>
 
         <div class="w3-padding-32">
           <div class="w3-bar w3-border">
-            <a href="assets/haseeb_shah_resume.pdf" class="w3-bar-item w3-button">Curriculum Vitae</a>
-            <!--<a href="#" class="w3-bar-item w3-button w3-light-grey">Projects</a>
-            <a href="#" class="w3-bar-item w3-button">CV</a>
-            <a href="#" class="w3-bar-item w3-button w3-hide-small">Contact</a>-->
+            <a href="https://github.com/haseebs" class="w3-bar-item w3-button">Github</a>
+            <a href="https://scholar.google.com/citations?user=NKRLBscAAAAJ&hl=en" class="w3-bar-item w3-button w3-light-grey">Google Scholar</a>
           </div>
         </div>
       </header>
 
       <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
-        <h1 style="letter-spacing:1px"> Research Papers </h1>
-        <div style="">
-          <h4 class="paper-title"> H. Shah, J. Villmow, A. Ulges. ”Relation Specific Transformations for Open World Knowledge Graph Completion”. COLING-2020 (workshop paper)</h4>
-          <button onclick="location.href='papers/2020.textgraphs-1.9.pdf'" class="w3-button w3-black w3-round w3-small"> Paper </button>
-          <button onclick="location.href='papers/2020.textgraphs-1.9.OptionalSupplementaryMaterial.pdf'" class="w3-button w3-black w3-round w3-small"> Appendix </button>
-          <button onclick="location.href='https://github.com/haseebs/RST-OWE'" class="w3-button w3-black w3-round w3-small"> Code </button>
-          <p>    We introduced relation specific transformations to substantially improve the performance of Open World Knowledge Graph Completion models. We also proposed an approach for clustering of relations to reduce the training time and memory footprint.</p>
-        </div>
-        <div style="">
-          <h4 class="paper-title"> H. Shah, J. Villmow, A. Ulges, U. Schwanecke, F. Shafait. ”An Open-World Extension for Knowledge Graph Completion Models”. Accepted at AAAI-2019 (oral paper)</h4>
-          <button onclick="location.href='papers/owe'" class="w3-button w3-black w3-round w3-small"> Paper </button>
-          <button class="w3-button w3-black w3-round w3-small"> Slides </button>
-          <button onclick="location.href='https://github.com/haseebs/OWE'" class="w3-button w3-black w3-round w3-small"> Code </button>
-          <p>    We propose an extension that enables any existing Knowledge Graph Completion model to predict facts about the open-world entities. This approach is more robust, more portable and has better performance than the published state of the art on most datasets. We also released a new dataset that overcomes the shortcomings of previous ones.</p>
-        </div>
-        <div style="">
-          <h4 class="paper-title"> H. Shah, K. Javed, F. Shafait. ”Distillation Techniques for Pseudo-rehearsal Based Incremental Learning”. 2018</h4>
-          <button onclick="location.href='https://arxiv.org/abs/1807.02799'" class="w3-button w3-black w3-round w3-small"> Paper </button>
-          <button onclick="location.href='https://github.com/haseebs/Pseudo-rehearsal-Incremental-Learning'" class="w3-button w3-black w3-round w3-small"> Code </button>
-          <p>Standard neural networks suffer from catastrophic forgetting when they are trained on incrementally arriving stream of i.i.d. data. To combat this forgetting, one approach is to train GANs on previously arrived data and feed it to the network again. In this paper, we highlighted that this method is biased and proposed an approach to mitigate this bias and reduce the effect of catastrophic forgetting. </p>
+        <h1 style="letter-spacing:1px"> Conference & Journal Publications </h1>
+        <div class="paper-div">
+          <h4 class="paper-title">  Scalable Real-Time Recurrent Learning Using Columnar-Constructive Networks </h4>
+          <h4><mark>JMLR-23 [Journal]</mark></h4>
+          <h5>K. Javed, H. Shah, R. Sutton, M. White</h5>
+          <button onclick="location.href='#'" class="w3-button w3-border w3-round w3-small"> Paper </button>
+          <button onclick="location.href='#'" class="w3-button w3-border w3-round w3-small"> Code </button>
+          <p align="justify">    We show that by either decomposing the network into independent modules or learning a recurrent network incrementally, we can make RTRL scale linearly with the number of parameters. Unlike prior scalable gradient estimation algorithms, our algorithms do not add noise or bias to the gradient estimate.          </p>
+        </div> 
+
+        <div class="paper-div">
+          <h4 class="paper-title">  GVFs in the Real World: Making Predictions Online for Water Treatment</h4>
+          <h4><mark>MLJ-23 [Journal - under review]</mark></h4>
+          <h5>K. Janjua, H. Shah, M. White, E. Miahi, M. C. Machado, A. White</h5>
+          <button onclick="location.href='#'" class="w3-button w3-border w3-round w3-small"> Paper </button>
+          <button onclick="location.href='#'" class="w3-button w3-border w3-round w3-small"> Code </button>
+          <p align="justify">    We propose a framework for making accurate predictions on a real world water treatment plant based on the General Value Functions. This work is one of the first to motivate the importance of adapting predictions in real-time, for non-stationary high-volume systems in the real world.</p>
+        </div> 
+
+        <div class="paper-div">
+          <h4 class="paper-title"> An Open-World Extension for Knowledge Graph Completion Models </h4>
+          <h4> <mark>AAAI-19 [Oral]</mark> </h4>
+          <h5>H. Shah, J. Villmow, A. Ulges, U. Schwanecke, F. Shafait </h5>
+          <button onclick="location.href='papers/owe'" class="w3-button w3-border w3-round w3-small"> Paper </button>
+          <button class="w3-button w3-border w3-round w3-small"> Slides </button>
+          <button onclick="location.href='https://github.com/haseebs/OWE'" class="w3-button w3-border w3-round w3-small"> Code </button>
+          <p align="justify">    We propose an extension that enables any existing Knowledge Graph Completion model to predict facts about the open-world entities. This approach is more robust, more portable and has better performance than the published state of the art on most datasets. We also released a new dataset that overcomes the shortcomings of previous ones.</p>
         </div>
 
       </div>
-    
 
+      <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
+        <h1 style="letter-spacing:1px"> Workshops & Preprints </h1>
+        <div class="paper-div">
+          <h4 class="paper-title"> Relation Specific Transformations for Open World Knowledge Graph Completion </h4>
+          <h4> <mark>COLING-20</mark> </h4>
+          <h5>H. Shah, J. Villmow, A. Ulges </h5>
+          <button onclick="location.href='papers/2020.textgraphs-1.9.pdf'" class="w3-button w3-border w3-round w3-small"> Paper </button>
+          <button onclick="location.href='papers/2020.textgraphs-1.9.OptionalSupplementaryMaterial.pdf'" class="w3-button w3-border w3-round w3-small"> Appendix </button>
+          <button onclick="location.href='https://github.com/haseebs/RST-OWE'" class="w3-button w3-border w3-round w3-small"> Code </button>
+
+          <p align="justify">  We introduced relation specific transformations to substantially improve the performance of Open World Knowledge Graph Completion models. We also proposed an approach for clustering of relations to reduce the training time and memory footprint.</p>
+        </div>
+
+        <div class="paper-div">
+          <h4 class="paper-title"> Distillation Techniques for Pseudo-rehearsal Based Incremental Learning </h4>
+          <h4> <mark>Preprint</mark> </h4>
+          <h5>H. Shah, K. Javed, F. Shafait. </h5>
+          <button onclick="location.href='https://arxiv.org/abs/1807.02799'" class="w3-button w3-border w3-round w3-small"> Paper </button>
+          <button onclick="location.href='https://github.com/haseebs/Pseudo-rehearsal-Incremental-Learning'" class="w3-button w3-border w3-round w3-small"> Code </button>
+          <p align="justify">  Standard neural networks suffer from catastrophic forgetting when they are trained on incrementally arriving stream of i.i.d. data. To combat this forgetting, one approach is to train GANs on previously arrived data and feed it to the network again. In this paper, we highlighted that this method is biased and proposed an approach to mitigate this bias and reduce the effect of catastrophic forgetting.</p>
+        </div>
+
+      </div> 
+      
+      <!--<div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
+        <h1 style="letter-spacing:1px"> Ongoing Research</h1>
+        <div style="">
+          <h4 class="paper-title">  Scalable Real-Time Recurrent Learning Using Columnar-Constructive Networks </h4>
+          <h4><mark>JMLR-23 [Journal]</mark></h4>
+          <h5>K. Javed, H. Shah, R. Sutton, M. White</h5>
+          <button onclick="location.href='#'" class="w3-button w3-border w3-round w3-small"> Paper </button>
+          <button onclick="location.href='#'" class="w3-button w3-border w3-round w3-small"> Code </button>
+          <p align="justify">    We show that by either decomposing the network into independent modules or learning a recurrent network incrementally, we can make RTRL scale linearly with the number of parameters. Unlike prior scalable gradient estimation algorithms, our algorithms do not add noise or bias to the gradient estimate.          </p>
+        </div> 
+
+        <div style="">
+          <h4 class="paper-title">  GVFs in the Real World: Making Predictions Online for Water Treatment</h4>
+          <h4><mark>MLJ-23 [Journal - under review]</mark></h4>
+          <h5>K. Janjua, H. Shah, M. White, E. Miahi, M. C. Machado, A. White</h5>
+          <button onclick="location.href='#'" class="w3-button w3-border w3-round w3-small"> Paper </button>
+          <button onclick="location.href='#'" class="w3-button w3-border w3-round w3-small"> Code </button>
+          <p align="justify">    We propose a framework for making accurate predictions on a real world water treatment plant based on the General Value Functions. This work is one of the first to motivate the importance of adapting predictions in real-time, for non-stationary high-volume systems in the real world.</p>
+        </div> 
+
+        <div style="">
+          <h4 class="paper-title"> An Open-World Extension for Knowledge Graph Completion Models </h4>
+          <h4> <mark>AAAI-19 [Oral]</mark> </h4>
+          <h5>H. Shah, J. Villmow, A. Ulges, U. Schwanecke, F. Shafait </h5>
+          <button onclick="location.href='papers/owe'" class="w3-button w3-border w3-round w3-small"> Paper </button>
+          <button class="w3-button w3-border w3-round w3-small"> Slides </button>
+          <button onclick="location.href='https://github.com/haseebs/OWE'" class="w3-button w3-border w3-round w3-small"> Code </button>
+          <p align="justify">    We propose an extension that enables any existing Knowledge Graph Completion model to predict facts about the open-world entities. This approach is more robust, more portable and has better performance than the published state of the art on most datasets. We also released a new dataset that overcomes the shortcomings of previous ones.</p>
+        </div>
+       
+      <p> To be filled... </p>
+      </div>-->
+      <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
+        <h1 style="letter-spacing:1px"> Public Talks</h1>
+        <div class="paper-div">
+          <h4 class="paper-title">  Online Feature Decorrelation </h4>
+          <h4><mark>Tea Time Talks - AMII - 2022</mark></h4>
+          <h5>K. Javed, H. Shah, R. Sutton, M. White</h5>
+          <button onclick="location.href='https://drive.google.com/file/d/1xk45BM2qEsPtyM4zL2aGzDbk_DA_5Rd_/view?usp=sharing'" class="w3-button w3-border w3-round w3-small"> Talk </button>
+          <button onclick="location.href='https://drive.google.com/file/d/1BOBPC7JiTTGfpu5G8kFdDmQ6_cqILSyu/view?usp=sharing'" class="w3-button w3-border w3-round w3-small"> Slides </button>
+          <button onclick="location.href='https://github.com/haseebs/online-feature-decorrelation'" class="w3-button w3-border w3-round w3-small"> Code </button>
+          <p align="justify">    A significant proportion of the representations learned by the current generate \& test methods consist of highly redundant features. This talk demonstrates how the feature ranking criteria utilized by these methods are highly ineffective in addressing this problem. In this talk, I present a new approach for decorrelating features in an online setting. I demonstrate that this decorrelator can effectively eliminate redundant features and produce a statistically significant performance improvement in the low-capacity function approximation setting.         </p>
+        </div> 
+      </div> 
 
     </body>
   </html>
