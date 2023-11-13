@@ -6,6 +6,8 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
   <style>
     body,h1 {font-family: "Raleway", Arial, sans-serif}
     h1 {letter-spacing: 6px}
@@ -24,6 +26,59 @@
       box-decoration-break: clone;
       padding: 5px 5px 5px 5px;
     }
+    .fa {
+      padding: 10px;
+      font-size: 20px;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      text-decoration: none;
+      margin: 5px 5px;
+      border-radius: 5px;
+    }
+
+    .fa:hover {
+        opacity: 0.7;
+    }
+
+    .ai {
+      padding: 10px;
+      font-size: 23px;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      text-decoration: none;
+      margin: 5px 5px;
+      border-radius: 5px;
+    }
+
+    .ai:hover {
+        opacity: 0.7;
+    }
+
+    .fa-github {
+      background: #434343;
+      color: white;
+    }
+    .ai-google-scholar {
+      background: #434343;
+      color: white;
+    }
+    .fa-twitter {
+      background: #434343;
+      color: white;
+    }
+
+    .fa-linkedin {
+      background: #434343;
+      color: white;
+    }
+
+
+    .fa-instagram {
+      background: #434343;
+      color: white;
+    }
 
   </style>
   <body>
@@ -32,17 +87,20 @@
     <div class="w3-content" style="max-width:1000px; padding-right: min(50px, 5%); padding-left: min(50px, 5%);">
 
       <!-- Header -->
-      <header class="w3-panel w3-center w3-opacity" style="padding:128px 16px">
+      <header class="w3-panel w3-center" style="padding:64px 16px">
         <h1><b>Haseeb Shah</b></h1>
-        <!--<h1 class="w3-xlarge"> </h1>-->
-        <h5>Graduate student at the University of Alberta supervised by Martha White</h5>
+        <p align="justify">I am a graduate student at the <a href="http://rlai.ualberta.ca">RLAI lab</a> at University of Alberta advised by <a href="http://webdocs.cs.ualberta.ca/~whitem/">Prof. Martha White</a>. My research focuses on building intelligent agents capable of learning and adapting their behavior online. Previously, I completed my M.Sc. with Prof. Martha White on Neural Network Pruning in the continual learning setting, worked at the <a href="http://lavis.cs.hs-rm.de/home.html">LAVIS</a> lab with <a href="https://www.cs.hs-rm.de/~ulges/">Prof. Adrian Ulges</a> on Knowledge Graph Completion and Semantic Code Search and at <a href="https://tukl.seecs.nust.edu.pk">TUKL-SEECS</a> lab with <a href="https://scholar.google.com/citations?user=o9RCNZYAAAAJ&hl=en">Prof. Faisal Shafait</a> on Generative Adversarial Networks. </p>
 
         <div class="w3-padding-32">
-          <div class="w3-bar w3-border">
-            <a href="https://github.com/haseebs" class="w3-bar-item w3-button">Github</a>
-            <a href="https://scholar.google.com/citations?user=NKRLBscAAAAJ&hl=en" class="w3-bar-item w3-button w3-light-grey">Google Scholar</a>
+          <div class="w3-bar">
+            <a href="https://github.com/haseebs" class="w3-bar-item fa fa-github"></a>
+            <a href="https://scholar.google.com/citations?user=NKRLBscAAAAJ" class="w3-bar-item ai ai-google-scholar"></a>
+            <a href="https://www.linkedin.com/in/haseebs" class="w3-bar-item fa fa-linkedin"></a>
+            <a href="https://twitter.com/haseebsz" class="w3-bar-item fa fa-twitter"></a>
+            <a href="https://www.instagram.com/haseeebs" class="w3-bar-item fa fa-instagram"></a>
           </div>
         </div>
+
       </header>
 
       <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
@@ -51,7 +109,7 @@
           <h4 class="paper-title">  Scalable Real-Time Recurrent Learning Using Columnar-Constructive Networks </h4>
           <h4><mark>JMLR-23 [Journal]</mark></h4>
           <h5>K. Javed, H. Shah, R. Sutton, M. White</h5>
-          <button onclick="location.href='#'" class="w3-button w3-border w3-round w3-small"> Paper </button>
+          <button onclick="location.href='https://www.jmlr.org/papers/volume24/23-0367/23-0367.pdf'" class="w3-button w3-border w3-round w3-small"> Paper </button>
           <button onclick="location.href='#'" class="w3-button w3-border w3-round w3-small"> Code </button>
           <p align="justify">    We show that by either decomposing the network into independent modules or learning a recurrent network incrementally, we can make RTRL scale linearly with the number of parameters. Unlike prior scalable gradient estimation algorithms, our algorithms do not add noise or bias to the gradient estimate.          </p>
         </div> 
@@ -60,7 +118,7 @@
           <h4 class="paper-title">  GVFs in the Real World: Making Predictions Online for Water Treatment</h4>
           <h4><mark>MLJ-23 [Journal - under review]</mark></h4>
           <h5>K. Janjua, H. Shah, M. White, E. Miahi, M. C. Machado, A. White</h5>
-          <button onclick="location.href='#'" class="w3-button w3-border w3-round w3-small"> Paper </button>
+          <button onclick="location.href='https://link.springer.com/article/10.1007/s10994-023-06413-x'" class="w3-button w3-border w3-round w3-small"> Paper </button>
           <button onclick="location.href='#'" class="w3-button w3-border w3-round w3-small"> Code </button>
           <p align="justify">    We propose a framework for making accurate predictions on a real world water treatment plant based on the General Value Functions. This work is one of the first to motivate the importance of adapting predictions in real-time, for non-stationary high-volume systems in the real world.</p>
         </div> 
@@ -70,7 +128,6 @@
           <h4> <mark>AAAI-19 [Oral]</mark> </h4>
           <h5>H. Shah, J. Villmow, A. Ulges, U. Schwanecke, F. Shafait </h5>
           <button onclick="location.href='papers/owe'" class="w3-button w3-border w3-round w3-small"> Paper </button>
-          <button class="w3-button w3-border w3-round w3-small"> Slides </button>
           <button onclick="location.href='https://github.com/haseebs/OWE'" class="w3-button w3-border w3-round w3-small"> Code </button>
           <p align="justify">    We propose an extension that enables any existing Knowledge Graph Completion model to predict facts about the open-world entities. This approach is more robust, more portable and has better performance than the published state of the art on most datasets. We also released a new dataset that overcomes the shortcomings of previous ones.</p>
         </div>
@@ -141,7 +198,7 @@
           <button onclick="location.href='https://drive.google.com/file/d/1xk45BM2qEsPtyM4zL2aGzDbk_DA_5Rd_/view?usp=sharing'" class="w3-button w3-border w3-round w3-small"> Talk </button>
           <button onclick="location.href='https://drive.google.com/file/d/1BOBPC7JiTTGfpu5G8kFdDmQ6_cqILSyu/view?usp=sharing'" class="w3-button w3-border w3-round w3-small"> Slides </button>
           <button onclick="location.href='https://github.com/haseebs/online-feature-decorrelation'" class="w3-button w3-border w3-round w3-small"> Code </button>
-          <p align="justify">    A significant proportion of the representations learned by the current generate \& test methods consist of highly redundant features. This talk demonstrates how the feature ranking criteria utilized by these methods are highly ineffective in addressing this problem. In this talk, I present a new approach for decorrelating features in an online setting. I demonstrate that this decorrelator can effectively eliminate redundant features and produce a statistically significant performance improvement in the low-capacity function approximation setting.         </p>
+          <p align="justify">    A significant proportion of the representations learned by the current generate & test methods consist of highly redundant features. This talk demonstrates how the feature ranking criteria utilized by these methods are highly ineffective in addressing this problem. In this talk, I present a new approach for decorrelating features in an online setting. I demonstrate that this decorrelator can effectively eliminate redundant features and produce a statistically significant performance improvement in the low-capacity function approximation setting.         </p>
         </div> 
       </div> 
 
