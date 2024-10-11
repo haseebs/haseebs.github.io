@@ -9,6 +9,39 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 
   <style>
+    .row {
+      display: flex;
+    }
+
+    .left {
+      width: 30%;
+      float: left;
+      margin-right: 5%;
+      margin-bottom: 5%;
+    }
+
+    .right {
+      width: 75%;
+      float: right;
+    }
+
+    @media screen and (max-width: 600px) {
+      .left{
+        width: 100%;
+        padding-right: 10%;
+        padding-left: 10%
+      }
+      .right{
+        width: 100%;
+      }
+      .row{
+        display:inline;
+      }
+      .container img{
+        border-color: black;
+        border: 1px solid;
+      }
+    }
     body,h1 {font-family: "Raleway", Arial, sans-serif}
     h1 {letter-spacing: 6px}
     .w3-row-padding img {margin-bottom: 12px}
@@ -84,6 +117,17 @@
 
 .myname { color: #111; font-family: 'Helvetica Neue', sans-serif; font-size: 50px; font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: center; }
 
+.container img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 3%;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
   </style>
   <body>
 
@@ -94,18 +138,24 @@
 
       <!-- Header -->
       <header class="w3-panel w3-center" style="padding:48px 16px">
-        <h1 class='myname'><b>Haseeb Shah</b></h1>
-        <div class="w3-padding-32">
-          <div class="w3-bar">
-            <a href="https://github.com/haseebs" class="w3-bar-item fa fa-github"></a>
-            <a href="https://scholar.google.com/citations?user=NKRLBscAAAAJ" class="w3-bar-item ai ai-google-scholar"></a>
-            <a href="https://www.linkedin.com/in/haseebs" class="w3-bar-item fa fa-linkedin"></a>
-            <a href="https://twitter.com/haseebsz" class="w3-bar-item fa fa-twitter"></a>
-            <a href="https://www.instagram.com/haseeebs" class="w3-bar-item fa fa-instagram"></a>
+        <div class="row">
+          <div class="container left">
+            <img src="assets/pictures/haseeb_photo_rain1.jpg" alt="Photo of Haseeb Shah" class="picture">
+          </div>
+          <div class="right">
+            <h1 class='myname'><b>Haseeb Shah</b></h1>
+            <div class="w3-padding-32">
+              <div class="w3-bar">
+                <a href="https://github.com/haseebs" class="w3-bar-item fa fa-github"></a>
+                <a href="https://scholar.google.com/citations?user=NKRLBscAAAAJ" class="w3-bar-item ai ai-google-scholar"></a>
+                <a href="https://www.linkedin.com/in/haseebs" class="w3-bar-item fa fa-linkedin"></a>
+                <a href="https://twitter.com/haseebsz" class="w3-bar-item fa fa-twitter"></a>
+                <a href="https://www.instagram.com/haseeebs" class="w3-bar-item fa fa-instagram"></a>
+              </div>
+            </div>
+            <p align="justify">I am a Ph.D. student at the <a href="http://rlai.ualberta.ca">RLAI lab</a> at University of Alberta advised by <a href="http://webdocs.cs.ualberta.ca/~whitem/">Prof. Martha White</a>. My research focuses on building intelligent agents capable of learning and adapting their behavior online, both in applied and simulated settings. Previously, I completed my M.Sc. with Prof. Martha White on Neural Network Pruning in the continual learning setting, worked at the <a href="http://lavis.cs.hs-rm.de/home.html">LAVIS</a> lab with <a href="https://www.cs.hs-rm.de/~ulges/">Prof. Adrian Ulges</a> on Knowledge Graph Completion and Semantic Code Search and at <a href="https://tukl.seecs.nust.edu.pk">TUKL-SEECS</a> lab with <a href="https://scholar.google.com/citations?user=o9RCNZYAAAAJ&hl=en">Prof. Faisal Shafait</a> on Catastrophic Forgetting. </p>
           </div>
         </div>
-        <p align="justify">I am a graduate student at the <a href="http://rlai.ualberta.ca">RLAI lab</a> at University of Alberta advised by <a href="http://webdocs.cs.ualberta.ca/~whitem/">Prof. Martha White</a>. My research focuses on building intelligent agents capable of learning and adapting their behavior online. Previously, I completed my M.Sc. with Prof. Martha White on Neural Network Pruning in the continual learning setting, worked at the <a href="http://lavis.cs.hs-rm.de/home.html">LAVIS</a> lab with <a href="https://www.cs.hs-rm.de/~ulges/">Prof. Adrian Ulges</a> on Knowledge Graph Completion and Semantic Code Search and at <a href="https://tukl.seecs.nust.edu.pk">TUKL-SEECS</a> lab with <a href="https://scholar.google.com/citations?user=o9RCNZYAAAAJ&hl=en">Prof. Faisal Shafait</a> on Catastrophic Forgetting. </p>
-
 
       </header>
 
@@ -113,7 +163,7 @@
         <h1 style="letter-spacing:1px"> Education</h1>
         <div class="paper-div">
           <h4 class="paper-title"> University of Alberta</h4>
-          <p class="sub"><em>Ph.D. in Computer Science, starting September 2024</em></p>
+          <p class="sub"><em>Ph.D. in Computer Science, September 2024-present</em></p>
           <p class="sub">Supervisor: Martha White</p>
         </div> 
 
