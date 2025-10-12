@@ -585,13 +585,27 @@
   .w3-button {
       font-size: 0.9rem;  /* Increased from 0.8rem */
   }
-  </style>
-  <body>
+
+  /* Side-by-side on wide screens, stacked on narrow */
+  .edu-work {
+    display: grid;
+    grid-template-columns: 1fr;   /* stacked by default (mobile) */
+    gap: 24px;
+  }
+  @media (min-width: 992px) {
+  .edu-work {
+    grid-template-columns: 1fr 1fr;  /* two columns on laptops/desktops */
+    align-items: start;
+  }
+}
+
+</style>
+<body>
 
 
 
-    <!-- !PAGE CONTENT! -->
-    <div class="w3-content" style="max-width:1000px; padding-right: min(50px, 5%); padding-left: min(50px, 5%);">
+<!-- !PAGE CONTENT! -->
+<div class="w3-content" style="max-width:1000px; padding-right: min(50px, 5%); padding-left: min(50px, 5%);">
 
       <!-- Header -->
       <header class="w3-panel w3-center" style="padding:48px 16px">
@@ -616,6 +630,7 @@
 
       </header>
 
+      <div class="edu-work">
       <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
         <h1 style="letter-spacing:1px"> Education</h1>
         <div class="paper-div">
@@ -683,6 +698,7 @@
           <p class="sub">Pakistan, Jun 2017 - Dec 2017</p>
         </div>
 
+      </div>
       </div>
       <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
         <h1 style="letter-spacing:1px"> Publications </h1>
