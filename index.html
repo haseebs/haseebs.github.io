@@ -65,15 +65,15 @@
 
   h1 {
       color: var(--primary-color);
-      font-size: 1.3rem;
+      font-size: 1.6rem;
       margin: 1.5rem 0 1rem;
       letter-spacing: normal;
   }
 
   /* Paper sections */
   .paper-div {
-      border-left: 2px solid var(--accent-color);
-      padding-left: 1rem;
+      position: relative;
+      padding-left: 2rem;
       margin-bottom: 1rem;
       background: white;
       border-radius: 0px;
@@ -81,50 +81,232 @@
   }
 
   .paper-div-with-figure {
-      display: flex;
-      gap: 1rem;
-      padding-left: 1rem;
+      position: relative;
+      padding-left: 2rem;
       margin-bottom: 1rem;
       background: white;
       border-radius: 4px;
       transition: transform 0.2s ease;
   }
 
+  .paper-div::before,
+  .paper-div-with-figure::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 3px;
+      background: linear-gradient(
+          to bottom,
+          rgba(195, 67, 69, 0.55) 0%,
+          rgba(195, 67, 69, 0.95) 50%,
+          rgba(195, 67, 69, 0.55) 100%
+      );
+  }
+
   .paper-title {
       font-size: 1.1rem;
       color: var(--primary-color);
-      margin-bottom: 0.3rem;
+      margin: 0;
       font-weight: 450;
-  }
-
-  .paper-figure {
-      flex: 0 0 30%;
-      max-width: 30%;
-      position: relative;
-      border-radius: 4px;
-      overflow: hidden;
-  }
-
-  .paper-figure::before {
-      content: "";
-      display: block;
-      padding-top: 75%;
-  }
-
-  .paper-figure img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      background-color: #f8f9fa;
+      line-height: 1.35;
   }
 
   .paper-content {
-      flex: 1;
-      border-left: 2px solid var(--accent-color);
-      padding-left: 1rem;
+      padding-left: 0;
+  }
+
+  .paper-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.8rem;
+      margin-bottom: 0.45rem;
+  }
+
+  .paper-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.4rem;
+      flex-shrink: 0;
+  }
+
+  .paper-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.14rem 0.5rem;
+      border: 1px solid rgba(195, 67, 69, 0.18);
+      border-radius: 999px;
+      background: rgba(195, 67, 69, 0.06);
+      color: var(--accent-color);
+      font-size: 0.78rem;
+      font-weight: 500;
+      line-height: 1.2;
+      white-space: nowrap;
+  }
+
+  .paper-badge-muted {
+      border-color: rgba(35, 37, 42, 0.12);
+      background: rgba(35, 37, 42, 0.05);
+      color: #5c6066;
+  }
+
+  .paper-authors {
+      margin: 0 0 0.65rem;
+      color: #6b7280;
+      font-size: 0.95rem;
+      line-height: 1.55;
+  }
+
+  .paper-authors u {
+      color: var(--primary-color);
+      font-weight: 500;
+      text-decoration-color: rgba(195, 67, 69, 0.65);
+      text-underline-offset: 0.12rem;
+  }
+
+  .paper-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin: 0 0 0.75rem;
+  }
+
+  .paper-actions .w3-button {
+      margin: 0;
+      padding: 0.28rem 0.7rem;
+      font-size: 0.78rem;
+      border-radius: 999px;
+      background: rgba(35, 37, 42, 0.04) !important;
+      border-color: rgba(35, 37, 42, 0.12) !important;
+      color: #5c6066 !important;
+  }
+
+  .paper-actions .w3-button:first-child {
+      background: var(--accent-color) !important;
+      border-color: var(--accent-color) !important;
+      color: white !important;
+  }
+
+  .paper-actions .w3-button:hover {
+      background: rgba(195, 67, 69, 0.12) !important;
+      border-color: rgba(195, 67, 69, 0.35) !important;
+      color: var(--accent-color) !important;
+  }
+
+  .paper-actions .w3-button:first-child:hover {
+      background: var(--primary-color) !important;
+      border-color: var(--primary-color) !important;
+      color: white !important;
+  }
+
+  .paper-details {
+      margin-top: 0.1rem;
+  }
+
+  .paper-details summary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      color: var(--accent-color);
+      font-size: 0.86rem;
+      font-weight: 500;
+      list-style: none;
+      user-select: none;
+    }
+
+  .paper-details summary::-webkit-details-marker {
+      display: none;
+  }
+
+  .paper-details summary::before {
+      content: "+";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1rem;
+      height: 1rem;
+      border: 1px solid rgba(195, 67, 69, 0.24);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      line-height: 1;
+  }
+
+  .paper-details[open] summary::before {
+      content: "-";
+  }
+
+  .paper-details .sub1 {
+      margin-top: 0.65rem;
+  }
+
+  .timeline {
+      position: relative;
+      margin-left: 0.4rem;
+      padding-left: 1.5rem;
+  }
+
+  .timeline::before {
+      content: "";
+      position: absolute;
+      top: 0.4rem;
+      bottom: 0.4rem;
+      left: 0;
+      width: 3px;
+      background: linear-gradient(
+          to bottom,
+          rgba(195, 67, 69, 0.55) 0%,
+          rgba(195, 67, 69, 0.95) 50%,
+          rgba(195, 67, 69, 0.55) 100%
+      );
+  }
+
+  .timeline-item {
+      position: relative;
+      margin-bottom: 1.6rem;
+      padding-left: 1.2rem;
+  }
+
+  .timeline-item:last-child {
+      margin-bottom: 0;
+  }
+
+  .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.2rem;
+  }
+
+  .timeline-title {
+      margin: 0;
+      font-size: 1.1rem;
+      color: var(--primary-color);
+      font-weight: 450;
+  }
+
+  .timeline-date {
+      color: var(--accent-color);
+      font-size: 0.95rem;
+      white-space: nowrap;
+  }
+
+  .timeline-role {
+      margin: 0.1rem 0;
+      font-style: italic;
+  }
+
+  .timeline-meta {
+      margin: 0.15rem 0;
+      color: #666;
+  }
+
+  .timeline-links {
+      margin-top: 0.45rem;
   }
 
   /* Buttons */
@@ -209,7 +391,9 @@
   }
 
   .sub1 {
-      margin-top: 0.5rem;
+      margin: 0;
+      color: #3f4349;
+      line-height: 1.65;
   }
 
   p mark {
@@ -290,15 +474,15 @@
 
       h1 {
           color: var(--primary-color);
-          font-size: 1.3rem;
+          font-size: 1.6rem;
           margin: 1.5rem 0 1rem;
           letter-spacing: normal;
       }
 
       /* Paper sections */
       .paper-div {
-          border-left: 2px solid var(--accent-color);
-          padding-left: 1rem;
+          position: relative;
+          padding-left: 2rem;
           margin-bottom: 1rem;
           background: white;
           border-radius: 0px;
@@ -306,50 +490,232 @@
       }
 
       .paper-div-with-figure {
-          display: flex;
-          gap: 1rem;
-          padding-left: 1rem;
+          position: relative;
+          padding-left: 2rem;
           margin-bottom: 1rem;
           background: white;
           border-radius: 0px;
           transition: transform 0.2s ease;
       }
 
+      .paper-div::before,
+      .paper-div-with-figure::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          width: 3px;
+          background: linear-gradient(
+              to bottom,
+              rgba(195, 67, 69, 0.55) 0%,
+              rgba(195, 67, 69, 0.95) 50%,
+              rgba(195, 67, 69, 0.55) 100%
+          );
+      }
+
       .paper-title {
           font-size: 1.2rem;
           color: var(--primary-color);
-          margin-bottom: 0.3rem;
+          margin: 0;
           font-weight: 450;
-      }
-
-      .paper-figure {
-          flex: 0 0 30%;
-          max-width: 30%;
-          position: relative;
-          border-radius: 4px;
-          overflow: hidden;
-      }
-
-      .paper-figure::before {
-          content: "";
-          display: block;
-          padding-top: 75%;
-      }
-
-      .paper-figure img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          wiopacitydth: 100%;
-          height: 100%;
-          object-fit: cover;
-          background-color: #f8f9fa;
+          line-height: 1.35;
       }
 
       .paper-content {
-          flex: 1;
-          border-left: 2px solid var(--accent-color);
-          padding-left: 1rem;
+          padding-left: 0;
+      }
+
+      .paper-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 0.8rem;
+          margin-bottom: 0.45rem;
+      }
+
+      .paper-badges {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+          gap: 0.4rem;
+          flex-shrink: 0;
+      }
+
+      .paper-badge {
+          display: inline-flex;
+          align-items: center;
+          padding: 0.14rem 0.5rem;
+          border: 1px solid rgba(195, 67, 69, 0.18);
+          border-radius: 999px;
+          background: rgba(195, 67, 69, 0.06);
+          color: var(--accent-color);
+          font-size: 0.8rem;
+          font-weight: 500;
+          line-height: 1.2;
+          white-space: nowrap;
+      }
+
+      .paper-badge-muted {
+          border-color: rgba(35, 37, 42, 0.12);
+          background: rgba(35, 37, 42, 0.05);
+          color: #5c6066;
+      }
+
+      .paper-authors {
+          margin: 0 0 0.65rem;
+          color: #6b7280;
+          font-size: 0.98rem;
+          line-height: 1.55;
+      }
+
+      .paper-authors u {
+          color: var(--primary-color);
+          font-weight: 500;
+          text-decoration-color: rgba(195, 67, 69, 0.65);
+          text-underline-offset: 0.12rem;
+      }
+
+      .paper-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.45rem;
+          margin: 0 0 0.75rem;
+      }
+
+      .paper-actions .w3-button {
+          margin: 0;
+          padding: 0.28rem 0.72rem;
+          font-size: 0.82rem;
+          border-radius: 999px;
+          background: rgba(35, 37, 42, 0.04) !important;
+          border-color: rgba(35, 37, 42, 0.12) !important;
+          color: #5c6066 !important;
+      }
+
+      .paper-actions .w3-button:first-child {
+          background: var(--accent-color) !important;
+          border-color: var(--accent-color) !important;
+          color: white !important;
+      }
+
+      .paper-actions .w3-button:hover {
+          background: rgba(195, 67, 69, 0.12) !important;
+          border-color: rgba(195, 67, 69, 0.35) !important;
+          color: var(--accent-color) !important;
+      }
+
+      .paper-actions .w3-button:first-child:hover {
+          background: var(--primary-color) !important;
+          border-color: var(--primary-color) !important;
+          color: white !important;
+      }
+
+      .paper-details {
+          margin-top: 0.1rem;
+      }
+
+      .paper-details summary {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+          cursor: pointer;
+          color: var(--accent-color);
+          font-size: 0.9rem;
+          font-weight: 500;
+          list-style: none;
+          user-select: none;
+      }
+
+      .paper-details summary::-webkit-details-marker {
+          display: none;
+      }
+
+      .paper-details summary::before {
+          content: "+";
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 1rem;
+          height: 1rem;
+          border: 1px solid rgba(195, 67, 69, 0.24);
+          border-radius: 999px;
+          font-size: 0.8rem;
+          line-height: 1;
+      }
+
+      .paper-details[open] summary::before {
+          content: "-";
+      }
+
+      .paper-details .sub1 {
+          margin-top: 0.65rem;
+      }
+
+      .timeline {
+          position: relative;
+          margin-left: 0.4rem;
+          padding-left: 1.5rem;
+      }
+
+      .timeline::before {
+          content: "";
+          position: absolute;
+          top: 0.4rem;
+          bottom: 0.4rem;
+          left: 0;
+          width: 3px;
+          background: linear-gradient(
+              to bottom,
+              rgba(195, 67, 69, 0.55) 0%,
+              rgba(195, 67, 69, 0.95) 50%,
+              rgba(195, 67, 69, 0.55) 100%
+          );
+      }
+
+      .timeline-item {
+          position: relative;
+          margin-bottom: 1.6rem;
+          padding-left: 1.2rem;
+      }
+
+      .timeline-item:last-child {
+          margin-bottom: 0;
+      }
+
+      .timeline-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          gap: 1rem;
+          margin-bottom: 0.2rem;
+      }
+
+      .timeline-title {
+          margin: 0;
+          font-size: 1.2rem;
+          color: var(--primary-color);
+          font-weight: 450;
+      }
+
+      .timeline-date {
+          color: var(--accent-color);
+          font-size: 0.98rem;
+          white-space: nowrap;
+      }
+
+      .timeline-role {
+          margin: 0.1rem 0;
+          font-style: italic;
+      }
+
+      .timeline-meta {
+          margin: 0.15rem 0;
+          color: #666;
+      }
+
+      .timeline-links {
+          margin-top: 0.45rem;
       }
 
 
@@ -474,25 +840,41 @@
               padding: 1rem;
           }
 
-          .paper-div-with-figure {img
-              flex-direction: column;
-              border-left: 2px solid var(--accent-color);
-              padding-left: 1rem;
-          }
-
-          .paper-figure {
-              flex: none;
-              max-width: 100%;
-              margin-bottom: 1rem;
-          }
-
-          .paper-figure::before {
-              padding-top: 75%;
+          .paper-div-with-figure {
+              padding-left: 1.5rem;
           }
 
           .paper-content {
-              border-left: none;
               padding-left: 0;
+          }
+
+          .paper-header {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 0.45rem;
+          }
+
+          .paper-badges {
+              justify-content: flex-start;
+          }
+
+          .timeline {
+              margin-left: 0;
+              padding-left: 1.2rem;
+          }
+
+          .timeline-item {
+              padding-left: 1rem;
+          }
+
+          .timeline-header {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 0.15rem;
+          }
+
+          .timeline-date {
+              white-space: normal;
           }
 
 
@@ -507,22 +889,8 @@
           scroll-behavior: smooth;
       }
 
-      .paper-div-with-figure {
-          flex-direction: column;
-      }
-
-      .paper-figure {
-          flopacityex: none;
-          max-width: 100%;
-          margin-bottom: 1rem;
-      }
-
-      .paper-figure::before {
-          padding-top: 75%;
-      }
-
       .paper-content {
-          padding-left: 1rem;
+          padding-left: 0;
       }
   }
 
@@ -564,28 +932,6 @@
 
   .sub1 {
       font-size: 1.05rem;  /* Increased from default */
-  }
-
-  /* Add this new class for the buttons and year container */
-  .button-year-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: left;
-      margin-top: 0.5rem;
-  }
-
-  .button-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-  }
-
-  .year-container {
-      text-align: right;
-      margin-left: auto;
-      font-style: italic;
-      font-weight: bold;
-      color: var(--accent-color);
   }
 
   /* Update button styles */
@@ -646,70 +992,105 @@
 
       <div class="edu-work">
       <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
-        <h1 style="letter-spacing:1px"> Education</h1>
-        <div class="paper-div">
-          <h4 class="paper-title"> University of Alberta</h4>
-          <p class="sub"><em>Ph.D. in Computer Science, September 2024-present</em></p>
-          <p class="sub">Supervisor: Martha White</p>
-        </div>
+        <h1 style="letter-spacing:1px"> Work Experience</h1>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <h4 class="timeline-title">RL Core Technologies</h4>
+              <span class="timeline-date">Jan 2024 - Aug 2024</span>
+            </div>
+            <p class="timeline-role">Machine Learning Intern</p>
+            <p class="timeline-meta">Canada</p>
+          </div>
 
-        <div class="paper-div">
-          <h4 class="paper-title"> University of Alberta</h4>
-          <p class="sub"><em>M.Sc. in Computer Science, 2021-2023</em></p>
-          <p class="sub">CGPA: 4.00/4.00</p>
-          <p class="sub">Supervisor: Martha White</p>
-          <p class="sub">Thesis: Greedy Pruning for Continually Adapting Networks</p>
-          <button onclick="location.href='https://era.library.ualberta.ca/items/daded82e-9b3f-43e4-9089-65558fcdff98'" class="w3-button w3-border w3-tiny w3-padding-small"> Thesis</button>
-          <button onclick="location.href='https://drive.google.com/file/d/1xgUU5XRoDnVxTItC0J6UtuVfZhnPggZH/view?usp=sharing'" class="w3-button w3-border w3-tiny w3-padding-small"> Slides</button>
-          <button onclick="location.href='https://github.com/haseebs/continually-adapting-networks'" class="w3-button w3-border   w3-tiny w3-padding-small"> Code </button>
-        </div>
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <h4 class="timeline-title">University of Alberta</h4>
+              <span class="timeline-date">Feb 2023 - Jan 2024</span>
+            </div>
+            <p class="timeline-role">Research Assistant (Fulltime)</p>
+            <p class="timeline-meta">Canada</p>
+          </div>
 
-        <div class="paper-div">
-          <h4 class="paper-title"> National University of Sciences and Technology</h4>
-          <p class="sub"><em>Bachlors of Engineering in Software Engineering, 2015-2019</em></p>
-          <p class="sub">Supervisor: Faisal Shafait</p>
-          <p class="sub">Thesis: An Open-World Extension for Knowledge Graph Completion Models</p>
-          <button onclick="location.href='papers/owe'" class="w3-button w3-border   w3-tiny w3-padding-small"> Paper </button>
-          <button onclick="location.href='https://github.com/haseebs/OWE'" class="w3-button w3-border   w3-tiny w3-padding-small"> Code </button>
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <h4 class="timeline-title">LAVIS Lab, Hochschule RheinMain</h4>
+              <span class="timeline-date">Jan 2020 - Dec 2020</span>
+            </div>
+            <p class="timeline-role">Research Assistant</p>
+            <p class="timeline-meta">Remote</p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <h4 class="timeline-title">DCube Tech.</h4>
+              <span class="timeline-date">Mar 2020 - Jul 2020</span>
+            </div>
+            <p class="timeline-role">Machine Learning Engineer</p>
+            <p class="timeline-meta">Pakistan</p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <h4 class="timeline-title">LAVIS Lab, Hochschule RheinMain</h4>
+              <span class="timeline-date">Jun 2018 - Aug 2018</span>
+            </div>
+            <p class="timeline-role">DAAD Research Intern</p>
+            <p class="timeline-meta">Germany</p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <h4 class="timeline-title">TUKL-NUST R&amp;D Center</h4>
+              <span class="timeline-date">Jun 2017 - Dec 2017</span>
+            </div>
+            <p class="timeline-role">Undergraduate Research Intern</p>
+            <p class="timeline-meta">Pakistan</p>
+          </div>
         </div>
 
       </div>
-
       <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
-        <h1 style="letter-spacing:1px"> Work Experience</h1>
-        <div class="paper-div">
-          <h4 class="paper-title"> RL Core Technologies</h4>
-          <p class="sub">Machine Learning Intern</p>
-          <p class="sub">Canada, Jan 2024 - Aug 2024</p>
-        </div>
+        <h1 style="letter-spacing:1px"> Education</h1>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <h4 class="timeline-title">University of Alberta</h4>
+              <span class="timeline-date">September 2024 - Present</span>
+            </div>
+            <p class="timeline-role">Ph.D. in Computer Science</p>
+            <p class="timeline-meta">Supervisor: Martha White</p>
+          </div>
 
-        <div class="paper-div">
-          <h4 class="paper-title"> University of Alberta</h4>
-          <p class="sub">Research Assistant (Fulltime)</p>
-          <p class="sub">Canada, Feb 2023 - Jan 2024</p>
-        </div>
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <h4 class="timeline-title">University of Alberta</h4>
+              <span class="timeline-date">2021 - 2023</span>
+            </div>
+            <p class="timeline-role">M.Sc. in Computer Science</p>
+            <p class="timeline-meta">CGPA: 4.00/4.00</p>
+            <p class="timeline-meta">Supervisor: Martha White</p>
+            <p class="timeline-meta">Thesis: Greedy Pruning for Continually Adapting Networks</p>
+            <div class="timeline-links">
+              <button onclick="location.href='https://era.library.ualberta.ca/items/daded82e-9b3f-43e4-9089-65558fcdff98'" class="w3-button w3-border w3-tiny w3-padding-small"> Thesis</button>
+              <button onclick="location.href='https://drive.google.com/file/d/1xgUU5XRoDnVxTItC0J6UtuVfZhnPggZH/view?usp=sharing'" class="w3-button w3-border w3-tiny w3-padding-small"> Slides</button>
+              <button onclick="location.href='https://github.com/haseebs/continually-adapting-networks'" class="w3-button w3-border w3-tiny w3-padding-small"> Code </button>
+            </div>
+          </div>
 
-        <div class="paper-div">
-          <h4 class="paper-title">LAVIS Lab, Hochschule RheinMain </h4>
-          <p class="sub">Research Assistant</p>
-          <p class="sub">Remote, Jan 2020 - Dec 2020</p>
-        </div>
-        <div class="paper-div">
-          <h4 class="paper-title">DCube Tech. </h4>
-          <p class="sub">Machine Learning Engineer</p>
-          <p class="sub">Pakistan, Mar 2020 - Jul 2020</p>
-        </div>
-
-        <div class="paper-div">
-          <h4 class="paper-title">LAVIS Lab, Hochschule RheinMain </h4>
-          <p class="sub">DAAD Research Intern</p>
-          <p class="sub">Germany, Jun 2018 - Aug 2018</p>
-        </div>
-
-        <div class="paper-div">
-          <h4 class="paper-title">TUKL-NUST R&D Center</h4>
-          <p class="sub">Undergraduate Research Intern</p>
-          <p class="sub">Pakistan, Jun 2017 - Dec 2017</p>
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <h4 class="timeline-title">National University of Sciences and Technology</h4>
+              <span class="timeline-date">2015 - 2019</span>
+            </div>
+            <p class="timeline-role">Bachlors of Engineering in Software Engineering</p>
+            <p class="timeline-meta">Supervisor: Faisal Shafait</p>
+            <p class="timeline-meta">Thesis: An Open-World Extension for Knowledge Graph Completion Models</p>
+            <div class="timeline-links">
+              <button onclick="location.href='papers/owe'" class="w3-button w3-border w3-tiny w3-padding-small"> Paper </button>
+              <button onclick="location.href='https://github.com/haseebs/OWE'" class="w3-button w3-border w3-tiny w3-padding-small"> Code </button>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -719,172 +1100,199 @@
 
 
         <div class="paper-div-with-figure">
-            <div class="paper-figure">
-                <img src="assets/paperfigs/5.png" alt="Paper visualization">
-            </div>
             <div class="paper-content">
-                <h4 class="paper-title"> <em>q</em>-Exponential Family for Policy Optimization </h4>
-                <p class="sub">L. Zhu*, <u>H. Shah*</u>, H. Wang*, M. White  | *equal contribution</p>
-                <div class="button-year-container">
-                    <div class="button-container">
-                        <button onclick="location.href='https://openreview.net/pdf?id=OyyE1FDdrQ'" class="w3-button w3-border w3-tiny w3-padding-small"> Paper </button>
-                    </div>
-                    <div class="year-container">
-                        <em>ICLR 2025</em>
+                <div class="paper-header">
+                    <h4 class="paper-title"><em>q</em>-Exponential Family for Policy Optimization</h4>
+                    <div class="paper-badges">
+                        <span class="paper-badge">ICLR 2025</span>
+                        <span class="paper-badge paper-badge-muted">Equal contribution</span>
                     </div>
                 </div>
-                <p align="justify" class="sub1"> We explore the effectiveness of <em>q</em>-exponential policies in policy optimization methods, finding that heavy-tailed policies (<em>q</em> > 1) are generally more effective and can consistently outperform the Gaussian policy.</p>
+                <p class="paper-authors">L. Zhu*, <u>H. Shah*</u>, H. Wang*, M. White</p>
+                <div class="paper-actions">
+                    <button onclick="location.href='https://openreview.net/pdf?id=OyyE1FDdrQ'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
+                </div>
+                <details class="paper-details">
+                    <summary>Description</summary>
+                    <p align="justify" class="sub1"> We explore the effectiveness of <em>q</em>-exponential policies in policy optimization methods, finding that heavy-tailed policies (<em>q</em> > 1) are generally more effective and can consistently outperform the Gaussian policy.</p>
+                </details>
             </div>
         </div>
 
         <!-- Publications Section -->
         <div class="paper-div-with-figure">
-            <div class="paper-figure">
-                <img src="assets/paperfigs/1.png" alt="Paper visualization">
-            </div>
             <div class="paper-content">
-                <h4 class="paper-title">Scalable Real-Time Recurrent Learning Using Columnar-Constructive Networks</h4>
-                <p class="sub">K. Javed, <u>H. Shah</u>, R. Sutton, M. White</p>
-                <div class="button-year-container">
-                    <div class="button-container">
-                        <button onclick="location.href='https://www.jmlr.org/papers/volume24/23-0367/23-0367.pdf'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
-                    </div>
-                    <div class="year-container">
-                        <em>JMLR 2023</em>
+                <div class="paper-header">
+                    <h4 class="paper-title">Scalable Real-Time Recurrent Learning Using Columnar-Constructive Networks</h4>
+                    <div class="paper-badges">
+                        <span class="paper-badge">JMLR 2023</span>
                     </div>
                 </div>
-                <p align="justify" class="sub1">We show that by either decomposing the network into independent modules or learning a recurrent network incrementally, we can make RTRL scale linearly with the number of parameters. Unlike prior scalable gradient estimation algorithms, our algorithms do not add noise or bias to the gradient estimate.</p>
+                <p class="paper-authors">K. Javed, <u>H. Shah</u>, R. Sutton, M. White</p>
+                <div class="paper-actions">
+                    <button onclick="location.href='https://www.jmlr.org/papers/volume24/23-0367/23-0367.pdf'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
+                </div>
+                <details class="paper-details">
+                    <summary>Description</summary>
+                    <p align="justify" class="sub1">We show that by either decomposing the network into independent modules or learning a recurrent network incrementally, we can make RTRL scale linearly with the number of parameters. Unlike prior scalable gradient estimation algorithms, our algorithms do not add noise or bias to the gradient estimate.</p>
+                </details>
             </div>
         </div>
 
         <div class="paper-div-with-figure">
-            <div class="paper-figure">
-                <img src="assets/paperfigs/2.png" alt="Paper visualization">
-            </div>
             <div class="paper-content">
-                <h4 class="paper-title">GVFs in the Real World: Making Predictions Online for Water Treatment</h4>
-                <p class="sub">K. Janjua, <u>H. Shah</u>, M. White, E. Miahi, M. C. Machado, A. White</p>
-                <div class="button-year-container">
-                    <div class="button-container">
-                        <button onclick="location.href='https://link.springer.com/article/10.1007/s10994-023-06413-x'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
-                        <button onclick="location.href='https://drive.google.com/file/d/1n5aDsu-kBv16J9mJEHraVBRaRa3VxPo0/view?usp=sharing'" class="w3-button w3-border w3-tiny w3-padding-small">Poster</button>
-                        <button onclick="location.href='https://github.com/haseebs/gvf-real-world'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
-                    </div>
-                    <div class="year-container">
-                        <em>MLJ 2023</em>
+                <div class="paper-header">
+                    <h4 class="paper-title">GVFs in the Real World: Making Predictions Online for Water Treatment</h4>
+                    <div class="paper-badges">
+                        <span class="paper-badge">MLJ 2023</span>
                     </div>
                 </div>
-                <p align="justify" class="sub1">We propose a framework for making accurate predictions on a real world water treatment plant based on the General Value Functions. This work is one of the first to motivate the importance of adapting predictions in real-time, for non-stationary high-volume systems in the real world.</p>
+                <p class="paper-authors">K. Janjua, <u>H. Shah</u>, M. White, E. Miahi, M. C. Machado, A. White</p>
+                <div class="paper-actions">
+                    <button onclick="location.href='https://link.springer.com/article/10.1007/s10994-023-06413-x'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
+                    <button onclick="location.href='https://drive.google.com/file/d/1n5aDsu-kBv16J9mJEHraVBRaRa3VxPo0/view?usp=sharing'" class="w3-button w3-border w3-tiny w3-padding-small">Poster</button>
+                    <button onclick="location.href='https://github.com/haseebs/gvf-real-world'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
+                </div>
+                <details class="paper-details">
+                    <summary>Description</summary>
+                    <p align="justify" class="sub1">We propose a framework for making accurate predictions on a real world water treatment plant based on the General Value Functions. This work is one of the first to motivate the importance of adapting predictions in real-time, for non-stationary high-volume systems in the real world.</p>
+                </details>
             </div>
         </div>
 
         <div class="paper-div-with-figure">
-            <div class="paper-figure">
-                <img src="assets/paperfigs/3.png" alt="Paper visualization">
-            </div>
             <div class="paper-content">
-                <h4 class="paper-title">An Open-World Extension for Knowledge Graph Completion Models</h4>
-                <p class="sub"><u>H. Shah</u>, J. Villmow, A. Ulges, U. Schwanecke, F. Shafait</p>
-                <div class="button-year-container">
-                    <div class="button-container">
-                        <button onclick="location.href='https://dl.acm.org/doi/pdf/10.1609/aaai.v33i01.33013044'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
-                        <button onclick="location.href='https://github.com/haseebs/OWE'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
-                    </div>
-                    <div class="year-container">
-                        <em>AAAI 2019 (oral)</em>
+                <div class="paper-header">
+                    <h4 class="paper-title">An Open-World Extension for Knowledge Graph Completion Models</h4>
+                    <div class="paper-badges">
+                        <span class="paper-badge">AAAI 2019</span>
+                        <span class="paper-badge paper-badge-muted">Oral</span>
                     </div>
                 </div>
-                <p align="justify" class="sub1">We propose an extension that enables any existing Knowledge Graph Completion model to predict facts about the open-world entities. This approach is more robust, more portable and has better performance than the published state of the art on most datasets. We also released a new dataset that overcomes the shortcomings of previous ones.</p>
+                <p class="paper-authors"><u>H. Shah</u>, J. Villmow, A. Ulges, U. Schwanecke, F. Shafait</p>
+                <div class="paper-actions">
+                    <button onclick="location.href='https://dl.acm.org/doi/pdf/10.1609/aaai.v33i01.33013044'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
+                    <button onclick="location.href='https://github.com/haseebs/OWE'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
+                </div>
+                <details class="paper-details">
+                    <summary>Description</summary>
+                    <p align="justify" class="sub1">We propose an extension that enables any existing Knowledge Graph Completion model to predict facts about the open-world entities. This approach is more robust, more portable and has better performance than the published state of the art on most datasets. We also released a new dataset that overcomes the shortcomings of previous ones.</p>
+                </details>
             </div>
         </div>
 
-        <!-- Workshops & Preprints Section -->
-        <div class="w3-row-padding " style="margin-bottom:10px">
-          <h1 style="letter-spacing:1px"> Preprints and Workshops </h1>
+      </div>
+      <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
+        <h1 style="letter-spacing:1px"> Under Review </h1>
 
         <div class="paper-div-with-figure">
-            <div class="paper-figure">
-                <img src="assets/paperfigs/8.png" alt="Paper visualization">
-            </div>
             <div class="paper-content">
-                <h4 class="paper-title">Symmetric Behavior Policy Optimization</h4>
-                <p class="sub"> L. Zhu, <u>H. Shah</u>, C. Zheng, N. Yukie, M. White </p>
-                <div class="button-year-container">
-                    <div class="button-container">
-                        <button onclick="location.href='#'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
-                    </div>
-                    <div class="year-container">
-                        <em>ICLR 2026 (under review)</em>
+                <div class="paper-header">
+                    <h4 class="paper-title">Stable learning in deployment while mitigating performance degradation in offline-to-online RL</h4>
+                    <div class="paper-badges">
+                        <span class="paper-badge">RLC 2026</span>
+                        <span class="paper-badge paper-badge-muted">Under Review</span>
                     </div>
                 </div>
-                <p align="justify" class="sub1">We study Symmetric Divergences for Behavior Regularized Policy Optimization and propose Symmetric 𝑓-Actor Critic, which avoids
-                per-environment failures encountered by other offline Reinforcement Learning methods.</p>
-            </div>
-        </div>
-
-        <div class="paper-div-with-figure">
-            <div class="paper-figure">
-                <img src="assets/paperfigs/4.png" alt="Paper visualization">
-            </div>
-            <div class="paper-content">
-                <h4 class="paper-title">Relation Specific Transformations for Open World Knowledge Graph Completion</h4>
-                <p class="sub"><u>H. Shah</u>, J. Villmow, A. Ulges</p>
-                <div class="button-year-container">
-                    <div class="button-container">
-                        <button onclick="location.href='papers/2020.textgraphs-1.9.pdf'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
-                        <button onclick="location.href='https://docs.google.com/presentation/d/1HXc7Fb9D1C74XXb2t8UjFBdaiZWCRs5Q5NwbTvxD0Uo/edit?usp=share_link'" class="w3-button w3-border w3-tiny w3-padding-small">Slides</button>
-                        <button onclick="location.href='papers/2020.textgraphs-1.9.OptionalSupplementaryMaterial.pdf'" class="w3-button w3-border w3-tiny w3-padding-small">Appendix</button>
-                        <button onclick="location.href='https://github.com/haseebs/RST-OWE'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
-                    </div>
-                    <div class="year-container">
-                        <em>COLING 2020</em>
-                    </div>
+                <p class="paper-authors">H. Wang, <u>H. Shah</u>, A. White, M. White</p>
+                <div class="paper-actions">
+                    <button onclick="location.href='#'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
                 </div>
-                <p align="justify" class="sub1">We introduced relation specific transformations to substantially improve the performance of Open World Knowledge Graph Completion models. We also proposed an approach for clustering of relations to reduce the training time and memory footprint.</p>
+                <details class="paper-details">
+                    <summary>Description</summary>
+                    <p align="justify" class="sub1">We introduce a new fine-tuning algorithm that gradually allows more exploration based on off-policy estimates of performance.  </p>
+                </details>
             </div>
         </div>
 
         <div class="paper-div-with-figure">
-            <div class="paper-figure">
-                <img src="assets/paperfigs/6.png" alt="Paper visualization">
-            </div>
             <div class="paper-content">
-                <h4 class="paper-title">Distillation Techniques for Pseudo-rehearsal Based Incremental Learning</h4>
-                <p class="sub"><u>H. Shah</u>, K. Javed, F. Shafait.</p>
-                <div class="button-year-container">
-                    <div class="button-container">
-                        <button onclick="location.href='https://arxiv.org/abs/1807.02799'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
-                        <button onclick="location.href='https://github.com/haseebs/Pseudo-rehearsal-Incremental-Learning'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
-                    </div>
-                    <div class="year-container">
-                        <em>Preprint 2018</em>
+                <div class="paper-header">
+                    <h4 class="paper-title">Symmetric Behavior Policy Optimization</h4>
+                    <div class="paper-badges">
+                        <span class="paper-badge">ICML 2026</span>
+                        <span class="paper-badge paper-badge-muted">Under Review</span>
                     </div>
                 </div>
-                <p align="justify" class="sub1">Standard neural networks suffer from catastrophic forgetting when they are trained on incrementally arriving stream of i.i.d. data. To combat this forgetting, one approach is to train GANs on previously arrived data and feed it to the network again. In this paper, we highlighted that this method is biased and proposed an approach to mitigate this bias and reduce the effect of catastrophic forgetting.</p>
+                <p class="paper-authors">L. Zhu, <u>H. Shah</u>, C. Zheng, N. Yukie, M. White</p>
+                <div class="paper-actions">
+                    <button onclick="location.href='#'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
+                </div>
+                <details class="paper-details">
+                    <summary>Description</summary>
+                    <p align="justify" class="sub1">We study Symmetric Divergences for Behavior Regularized Policy Optimization and propose Symmetric 𝑓-Actor Critic, which avoids
+                    per-environment failures encountered by other offline Reinforcement Learning methods.</p>
+                </details>
             </div>
         </div>
 
-        <!-- Public Talks Section -->
-        <div class="w3-row-padding" style="margin-bottom:10px">
-          <h1 style="letter-spacing:1px"> Public Talks </h1>
+        <h1 style="letter-spacing:1px"> Workshops and Preprints</h1>
 
         <div class="paper-div-with-figure">
-            <div class="paper-figure">
-                <img src="assets/paperfigs/7.png" alt="Paper visualization">
-            </div>
             <div class="paper-content">
-                <h4 class="paper-title">Online Feature Decorrelation</h4>
-                <div class="button-year-container">
-                    <div class="button-container">
-                        <button onclick="location.href='https://drive.google.com/file/d/1xk45BM2qEsPtyM4zL2aGzDbk_DA_5Rd_/view?usp=sharing'" class="w3-button w3-border w3-tiny w3-padding-small">Talk</button>
-                        <button onclick="location.href='https://drive.google.com/file/d/1BOBPC7JiTTGfpu5G8kFdDmQ6_cqILSyu/view?usp=sharing'" class="w3-button w3-border w3-tiny w3-padding-small">Slides</button>
-                        <button onclick="location.href='https://github.com/haseebs/online-feature-decorrelation'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
-                    </div>
-                    <div class="year-container">
-                        <em>Tea Time Talks, AMII, 2022</em>
+                <div class="paper-header">
+                    <h4 class="paper-title">Relation Specific Transformations for Open World Knowledge Graph Completion</h4>
+                    <div class="paper-badges">
+                        <span class="paper-badge">COLING 2020</span>
                     </div>
                 </div>
-                <p align="justify" class="sub1">A significant proportion of the representations learned by the current generate & test methods consist of highly redundant features. This talk demonstrates how the feature ranking criteria utilized by these methods are highly ineffective in addressing this problem. In this talk, I present a new approach for decorrelating features in an online setting. I demonstrate that this decorrelator can effectively eliminate redundant features and produce a statistically significant performance improvement in the low-capacity function approximation setting.</p>
+                <p class="paper-authors"><u>H. Shah</u>, J. Villmow, A. Ulges</p>
+                <div class="paper-actions">
+                    <button onclick="location.href='papers/2020.textgraphs-1.9.pdf'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
+                    <button onclick="location.href='https://docs.google.com/presentation/d/1HXc7Fb9D1C74XXb2t8UjFBdaiZWCRs5Q5NwbTvxD0Uo/edit?usp=share_link'" class="w3-button w3-border w3-tiny w3-padding-small">Slides</button>
+                    <button onclick="location.href='papers/2020.textgraphs-1.9.OptionalSupplementaryMaterial.pdf'" class="w3-button w3-border w3-tiny w3-padding-small">Appendix</button>
+                    <button onclick="location.href='https://github.com/haseebs/RST-OWE'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
+                </div>
+                <details class="paper-details">
+                    <summary>Description</summary>
+                    <p align="justify" class="sub1">We introduced relation specific transformations to substantially improve the performance of Open World Knowledge Graph Completion models. We also proposed an approach for clustering of relations to reduce the training time and memory footprint.</p>
+                </details>
+            </div>
+        </div>
+
+        <div class="paper-div-with-figure">
+            <div class="paper-content">
+                <div class="paper-header">
+                    <h4 class="paper-title">Distillation Techniques for Pseudo-rehearsal Based Incremental Learning</h4>
+                    <div class="paper-badges">
+                        <span class="paper-badge">2018</span>
+                        <span class="paper-badge paper-badge-muted">Preprint</span>
+                    </div>
+                </div>
+                <p class="paper-authors"><u>H. Shah</u>, K. Javed, F. Shafait.</p>
+                <div class="paper-actions">
+                    <button onclick="location.href='https://arxiv.org/abs/1807.02799'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
+                    <button onclick="location.href='https://github.com/haseebs/Pseudo-rehearsal-Incremental-Learning'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
+                </div>
+                <details class="paper-details">
+                    <summary>Description</summary>
+                    <p align="justify" class="sub1">Standard neural networks suffer from catastrophic forgetting when they are trained on incrementally arriving stream of i.i.d. data. To combat this forgetting, one approach is to train GANs on previously arrived data and feed it to the network again. In this paper, we highlighted that this method is biased and proposed an approach to mitigate this bias and reduce the effect of catastrophic forgetting.</p>
+                </details>
+            </div>
+        </div>
+
+      </div>
+      <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
+        <h1 style="letter-spacing:1px"> Public Talks </h1>
+
+        <div class="paper-div-with-figure">
+            <div class="paper-content">
+                <div class="paper-header">
+                    <h4 class="paper-title">Online Feature Decorrelation</h4>
+                    <div class="paper-badges">
+                        <span class="paper-badge">AMII 2022</span>
+                        <span class="paper-badge paper-badge-muted">Talk</span>
+                    </div>
+                </div>
+                <div class="paper-actions">
+                    <button onclick="location.href='https://drive.google.com/file/d/1xk45BM2qEsPtyM4zL2aGzDbk_DA_5Rd_/view?usp=sharing'" class="w3-button w3-border w3-tiny w3-padding-small">Talk</button>
+                    <button onclick="location.href='https://drive.google.com/file/d/1BOBPC7JiTTGfpu5G8kFdDmQ6_cqILSyu/view?usp=sharing'" class="w3-button w3-border w3-tiny w3-padding-small">Slides</button>
+                    <button onclick="location.href='https://github.com/haseebs/online-feature-decorrelation'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
+                </div>
+                <details class="paper-details">
+                    <summary>Description</summary>
+                    <p align="justify" class="sub1">A significant proportion of the representations learned by the current generate & test methods consist of highly redundant features. This talk demonstrates how the feature ranking criteria utilized by these methods are highly ineffective in addressing this problem. In this talk, I present a new approach for decorrelating features in an online setting. I demonstrate that this decorrelator can effectively eliminate redundant features and produce a statistically significant performance improvement in the low-capacity function approximation setting.</p>
+                </details>
             </div>
         </div>
       </div>
