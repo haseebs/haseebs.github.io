@@ -268,6 +268,53 @@
       margin-top: 0.45rem;
   }
 
+  .inline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+  }
+
+  .inline-entry {
+      padding: 0 0 0.45rem;
+  }
+
+  .inline-entry:last-child {
+      padding-bottom: 0;
+  }
+
+  .inline-entry-line {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--primary-color);
+      font-weight: 400;
+      line-height: 1.3;
+  }
+
+  .inline-entry-entity {
+      font-weight: 500;
+  }
+
+  .inline-entry-separator {
+      color: rgba(35, 37, 42, 0.4);
+      margin: 0 0.2rem;
+  }
+
+  .inline-entry-date {
+      color: var(--accent-color);
+      font-size: 0.92rem;
+      white-space: normal;
+  }
+
+  .inline-entry-links {
+      margin-top: 0.38rem;
+  }
+
+  .inline-entry-inline-meta {
+      color: #666;
+      font-size: 0.94rem;
+      font-weight: 400;
+  }
+
   /* Buttons */
   .w3-button {
       background: transparent !important;
@@ -795,6 +842,10 @@
               white-space: normal;
           }
 
+          .inline-entry-line {
+              font-size: 0.98rem;
+          }
+
 
       }
 
@@ -860,15 +911,9 @@
   /* Side-by-side on wide screens, stacked on narrow */
   .edu-work {
     display: grid;
-    grid-template-columns: 1fr;   /* stacked by default (mobile) */
-    gap: 24px;
+    grid-template-columns: 1fr;
+    gap: 6px;
   }
-  @media (min-width: 992px) {
-  .edu-work {
-    grid-template-columns: 1fr 1fr;  /* two columns on laptops/desktops */
-    align-items: start;
-  }
-}
 
 .center {
   display: block;
@@ -911,100 +956,52 @@
       <div class="edu-work">
       <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
         <h1 style="letter-spacing:1px"> Work Experience</h1>
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-header">
-              <h4 class="timeline-title">RL Core Technologies</h4>
-              <span class="timeline-date">Jan 2024 - Aug 2024</span>
-            </div>
-            <p class="timeline-role">Machine Learning Intern</p>
-            <p class="timeline-meta">Canada</p>
+        <div class="inline-list">
+          <div class="inline-entry">
+            <p class="inline-entry-line"><span class="inline-entry-entity">RL Core Technologies</span><span class="inline-entry-separator">,</span> Machine Learning Intern<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Canada</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">Jan 2024 - Aug 2024</span></p>
           </div>
 
-          <div class="timeline-item">
-            <div class="timeline-header">
-              <h4 class="timeline-title">University of Alberta</h4>
-              <span class="timeline-date">Feb 2023 - Jan 2024</span>
-            </div>
-            <p class="timeline-role">Research Assistant (Fulltime)</p>
-            <p class="timeline-meta">Canada</p>
+          <div class="inline-entry">
+            <p class="inline-entry-line"><span class="inline-entry-entity">University of Alberta</span><span class="inline-entry-separator">,</span> Research Assistant (Fulltime)<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Canada</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">Feb 2023 - Jan 2024</span></p>
           </div>
 
-          <div class="timeline-item">
-            <div class="timeline-header">
-              <h4 class="timeline-title">LAVIS Lab, Hochschule RheinMain</h4>
-              <span class="timeline-date">Jan 2020 - Dec 2020</span>
-            </div>
-            <p class="timeline-role">Research Assistant</p>
-            <p class="timeline-meta">Remote</p>
+          <div class="inline-entry">
+            <p class="inline-entry-line"><span class="inline-entry-entity">LAVIS Lab, Hochschule RheinMain</span><span class="inline-entry-separator">,</span> Research Assistant<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Remote</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">Jan 2020 - Dec 2020</span></p>
           </div>
 
-          <div class="timeline-item">
-            <div class="timeline-header">
-              <h4 class="timeline-title">DCube Tech.</h4>
-              <span class="timeline-date">Mar 2020 - Jul 2020</span>
-            </div>
-            <p class="timeline-role">Machine Learning Engineer</p>
-            <p class="timeline-meta">Pakistan</p>
+          <div class="inline-entry">
+            <p class="inline-entry-line"><span class="inline-entry-entity">DCube Tech.</span><span class="inline-entry-separator">,</span> Machine Learning Engineer<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Pakistan</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">Mar 2020 - Jul 2020</span></p>
           </div>
 
-          <div class="timeline-item">
-            <div class="timeline-header">
-              <h4 class="timeline-title">LAVIS Lab, Hochschule RheinMain</h4>
-              <span class="timeline-date">Jun 2018 - Aug 2018</span>
-            </div>
-            <p class="timeline-role">DAAD Research Intern</p>
-            <p class="timeline-meta">Germany</p>
+          <div class="inline-entry">
+            <p class="inline-entry-line"><span class="inline-entry-entity">LAVIS Lab, Hochschule RheinMain</span><span class="inline-entry-separator">,</span> DAAD Research Intern<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Germany</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">Jun 2018 - Aug 2018</span></p>
           </div>
 
-          <div class="timeline-item">
-            <div class="timeline-header">
-              <h4 class="timeline-title">TUKL-NUST R&amp;D Center</h4>
-              <span class="timeline-date">Jun 2017 - Dec 2017</span>
-            </div>
-            <p class="timeline-role">Undergraduate Research Intern</p>
-            <p class="timeline-meta">Pakistan</p>
+          <div class="inline-entry">
+            <p class="inline-entry-line"><span class="inline-entry-entity">TUKL-NUST R&amp;D Center</span><span class="inline-entry-separator">,</span> Undergraduate Research Intern<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Pakistan</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">Jun 2017 - Dec 2017</span></p>
           </div>
         </div>
 
       </div>
       <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
         <h1 style="letter-spacing:1px"> Education</h1>
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-header">
-              <h4 class="timeline-title">University of Alberta</h4>
-              <span class="timeline-date">September 2024 - Present</span>
-            </div>
-            <p class="timeline-role">Ph.D. in Computer Science</p>
-            <p class="timeline-meta">Supervisor: Martha White</p>
+        <div class="inline-list">
+          <div class="inline-entry">
+            <p class="inline-entry-line"><span class="inline-entry-entity">University of Alberta</span><span class="inline-entry-separator">,</span> Ph.D. in Computer Science<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Supervisor: Martha White</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">September 2024 - Present</span></p>
           </div>
 
-          <div class="timeline-item">
-            <div class="timeline-header">
-              <h4 class="timeline-title">University of Alberta</h4>
-              <span class="timeline-date">2021 - 2023</span>
-            </div>
-            <p class="timeline-role">M.Sc. in Computer Science</p>
-            <p class="timeline-meta">CGPA: 4.00/4.00</p>
-            <p class="timeline-meta">Supervisor: Martha White</p>
-            <p class="timeline-meta">Thesis: Greedy Pruning for Continually Adapting Networks</p>
-            <div class="timeline-links">
+          <div class="inline-entry">
+            <p class="inline-entry-line"><span class="inline-entry-entity">University of Alberta</span><span class="inline-entry-separator">,</span> M.Sc. in Computer Science<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">CGPA: 4.00/4.00; Supervisor: Martha White</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">2021 - 2023</span></p>
+            <div class="inline-entry-links">
               <button onclick="location.href='https://era.library.ualberta.ca/items/daded82e-9b3f-43e4-9089-65558fcdff98'" class="w3-button w3-border w3-tiny w3-padding-small"> Thesis</button>
               <button onclick="location.href='https://drive.google.com/file/d/1xgUU5XRoDnVxTItC0J6UtuVfZhnPggZH/view?usp=sharing'" class="w3-button w3-border w3-tiny w3-padding-small"> Slides</button>
               <button onclick="location.href='https://github.com/haseebs/continually-adapting-networks'" class="w3-button w3-border w3-tiny w3-padding-small"> Code </button>
             </div>
           </div>
 
-          <div class="timeline-item">
-            <div class="timeline-header">
-              <h4 class="timeline-title">National University of Sciences and Technology</h4>
-              <span class="timeline-date">2015 - 2019</span>
-            </div>
-            <p class="timeline-role">Bachlors of Engineering in Software Engineering</p>
-            <p class="timeline-meta">Supervisor: Faisal Shafait</p>
-            <p class="timeline-meta">Thesis: An Open-World Extension for Knowledge Graph Completion Models</p>
-            <div class="timeline-links">
+          <div class="inline-entry">
+            <p class="inline-entry-line"><span class="inline-entry-entity">National University of Sciences and Technology</span><span class="inline-entry-separator">,</span> B.E. Software Engineering<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Supervisor: Faisal Shafait</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">2015 - 2019</span></p>
+            <div class="inline-entry-links">
               <button onclick="location.href='papers/owe'" class="w3-button w3-border w3-tiny w3-padding-small"> Paper </button>
               <button onclick="location.href='https://github.com/haseebs/OWE'" class="w3-button w3-border w3-tiny w3-padding-small"> Code </button>
             </div>
