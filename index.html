@@ -290,6 +290,13 @@
       line-height: 1.3;
   }
 
+  .inline-entry-head {
+      display: grid;
+      grid-template-columns: clamp(7.1rem, 18vw, 8.8rem) minmax(0, 1fr) auto;
+      align-items: start;
+      column-gap: 0.4rem;
+  }
+
   .inline-entry-entity {
       font-weight: 500;
   }
@@ -303,10 +310,75 @@
       color: var(--accent-color);
       font-size: 0.92rem;
       white-space: normal;
+      line-height: 1.3;
   }
 
   .inline-entry-links {
       margin-top: 0.38rem;
+  }
+
+  .inline-resource-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.2rem;
+      height: 1.2rem;
+      padding: 0;
+      margin-top: 0.02rem;
+      border: 1px solid rgba(220, 38, 38, 0.28);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--accent-color);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+  }
+
+  .inline-resource-toggle::after {
+      content: "";
+      display: block;
+      width: 0.34rem;
+      height: 0.34rem;
+      box-sizing: border-box;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(45deg);
+      transform-origin: center;
+      margin-top: -0.08rem;
+  }
+
+  .inline-resource-toggle[aria-expanded="true"] {
+      background: var(--accent-color);
+      color: white;
+  }
+
+  .inline-resource-toggle[aria-expanded="true"]::after {
+      transform: rotate(225deg);
+      margin-top: 0.08rem;
+  }
+
+  .inline-resource-panel {
+      display: none;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      grid-column: 2 / -1;
+      margin-top: 0.32rem;
+      padding-left: 0;
+      font-size: 0.82rem;
+  }
+
+  .inline-resource-panel.is-open {
+      display: flex;
+  }
+
+  .inline-resource-panel a {
+      color: #666;
+      text-decoration: none;
+  }
+
+  .inline-resource-panel a:hover {
+      color: var(--accent-color);
+      text-decoration: underline;
   }
 
   .inline-entry-inline-meta {
@@ -955,55 +1027,84 @@
 
       <div class="edu-work">
       <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
-        <h1 style="letter-spacing:1px"> Work Experience</h1>
+        <h1 style="letter-spacing:1px"> Education</h1>
         <div class="inline-list">
           <div class="inline-entry">
-            <p class="inline-entry-line"><span class="inline-entry-entity">RL Core Technologies</span><span class="inline-entry-separator">,</span> Machine Learning Intern<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Canada</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">Jan 2024 - Aug 2024</span></p>
+            <div class="inline-entry-head">
+              <div class="inline-entry-date">Sep 2024 - Present</div>
+              <p class="inline-entry-line"><span class="inline-entry-entity">University of Alberta</span><span class="inline-entry-separator">,</span> Ph.D. in Computer Science<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Supervisor: Martha White</span></p>
+            </div>
           </div>
 
           <div class="inline-entry">
-            <p class="inline-entry-line"><span class="inline-entry-entity">University of Alberta</span><span class="inline-entry-separator">,</span> Research Assistant (Fulltime)<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Canada</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">Feb 2023 - Jan 2024</span></p>
+            <div class="inline-entry-head">
+              <div class="inline-entry-date">Jan 2021 - Jan 2023</div>
+              <p class="inline-entry-line"><span class="inline-entry-entity">University of Alberta</span><span class="inline-entry-separator">,</span> M.Sc. in Computer Science<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">CGPA: 4.00/4.00; Supervisor: Martha White</span></p>
+              <button type="button" class="inline-resource-toggle" aria-label="Show resources" aria-expanded="false" aria-controls="msc-resources" onclick="toggleResourcePanel(this, 'msc-resources')"></button>
+            </div>
+            <div id="msc-resources" class="inline-resource-panel">
+              <a href="https://era.library.ualberta.ca/items/daded82e-9b3f-43e4-9089-65558fcdff98">Thesis</a>
+              <a href="https://drive.google.com/file/d/1xgUU5XRoDnVxTItC0J6UtuVfZhnPggZH/view?usp=sharing">Slides</a>
+              <a href="https://github.com/haseebs/continually-adapting-networks">Code</a>
+            </div>
           </div>
 
           <div class="inline-entry">
-            <p class="inline-entry-line"><span class="inline-entry-entity">LAVIS Lab, Hochschule RheinMain</span><span class="inline-entry-separator">,</span> Research Assistant<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Remote</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">Jan 2020 - Dec 2020</span></p>
-          </div>
-
-          <div class="inline-entry">
-            <p class="inline-entry-line"><span class="inline-entry-entity">DCube Tech.</span><span class="inline-entry-separator">,</span> Machine Learning Engineer<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Pakistan</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">Mar 2020 - Jul 2020</span></p>
-          </div>
-
-          <div class="inline-entry">
-            <p class="inline-entry-line"><span class="inline-entry-entity">LAVIS Lab, Hochschule RheinMain</span><span class="inline-entry-separator">,</span> DAAD Research Intern<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Germany</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">Jun 2018 - Aug 2018</span></p>
-          </div>
-
-          <div class="inline-entry">
-            <p class="inline-entry-line"><span class="inline-entry-entity">TUKL-NUST R&amp;D Center</span><span class="inline-entry-separator">,</span> Undergraduate Research Intern<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Pakistan</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">Jun 2017 - Dec 2017</span></p>
+            <div class="inline-entry-head">
+              <div class="inline-entry-date">Sep 2015 - May 2019</div>
+              <p class="inline-entry-line"><span class="inline-entry-entity">National University of Sciences and Technology</span><span class="inline-entry-separator">,</span> B.E. Software Engineering<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Supervisor: Faisal Shafait</span></p>
+              <button type="button" class="inline-resource-toggle" aria-label="Show resources" aria-expanded="false" aria-controls="be-resources" onclick="toggleResourcePanel(this, 'be-resources')"></button>
+            </div>
+            <div id="be-resources" class="inline-resource-panel">
+              <a href="papers/owe">Paper</a>
+              <a href="https://github.com/haseebs/OWE">Code</a>
+            </div>
           </div>
         </div>
 
       </div>
       <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
-        <h1 style="letter-spacing:1px"> Education</h1>
+        <h1 style="letter-spacing:1px"> Work Experience</h1>
         <div class="inline-list">
           <div class="inline-entry">
-            <p class="inline-entry-line"><span class="inline-entry-entity">University of Alberta</span><span class="inline-entry-separator">,</span> Ph.D. in Computer Science<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Supervisor: Martha White</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">September 2024 - Present</span></p>
-          </div>
-
-          <div class="inline-entry">
-            <p class="inline-entry-line"><span class="inline-entry-entity">University of Alberta</span><span class="inline-entry-separator">,</span> M.Sc. in Computer Science<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">CGPA: 4.00/4.00; Supervisor: Martha White</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">2021 - 2023</span></p>
-            <div class="inline-entry-links">
-              <button onclick="location.href='https://era.library.ualberta.ca/items/daded82e-9b3f-43e4-9089-65558fcdff98'" class="w3-button w3-border w3-tiny w3-padding-small"> Thesis</button>
-              <button onclick="location.href='https://drive.google.com/file/d/1xgUU5XRoDnVxTItC0J6UtuVfZhnPggZH/view?usp=sharing'" class="w3-button w3-border w3-tiny w3-padding-small"> Slides</button>
-              <button onclick="location.href='https://github.com/haseebs/continually-adapting-networks'" class="w3-button w3-border w3-tiny w3-padding-small"> Code </button>
+            <div class="inline-entry-head">
+              <div class="inline-entry-date">Jan 2024 - Aug 2024</div>
+              <p class="inline-entry-line"><span class="inline-entry-entity">RL Core Technologies</span><span class="inline-entry-separator">,</span> Machine Learning Intern<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Canada</span></p>
             </div>
           </div>
 
           <div class="inline-entry">
-            <p class="inline-entry-line"><span class="inline-entry-entity">National University of Sciences and Technology</span><span class="inline-entry-separator">,</span> B.E. Software Engineering<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Supervisor: Faisal Shafait</span><span class="inline-entry-separator">,</span> <span class="inline-entry-date">2015 - 2019</span></p>
-            <div class="inline-entry-links">
-              <button onclick="location.href='papers/owe'" class="w3-button w3-border w3-tiny w3-padding-small"> Paper </button>
-              <button onclick="location.href='https://github.com/haseebs/OWE'" class="w3-button w3-border w3-tiny w3-padding-small"> Code </button>
+            <div class="inline-entry-head">
+              <div class="inline-entry-date">Feb 2023 - Jan 2024</div>
+              <p class="inline-entry-line"><span class="inline-entry-entity">University of Alberta</span><span class="inline-entry-separator">,</span> Research Assistant (Fulltime)<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Canada</span></p>
+            </div>
+          </div>
+
+          <div class="inline-entry">
+            <div class="inline-entry-head">
+              <div class="inline-entry-date">Jan 2020 - Dec 2020</div>
+              <p class="inline-entry-line"><span class="inline-entry-entity">LAVIS Lab, Hochschule RheinMain</span><span class="inline-entry-separator">,</span> Research Assistant<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Remote</span></p>
+            </div>
+          </div>
+
+          <div class="inline-entry">
+            <div class="inline-entry-head">
+              <div class="inline-entry-date">Mar 2020 - Jul 2020</div>
+              <p class="inline-entry-line"><span class="inline-entry-entity">DCube Tech.</span><span class="inline-entry-separator">,</span> Machine Learning Engineer<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Pakistan</span></p>
+            </div>
+          </div>
+
+          <div class="inline-entry">
+            <div class="inline-entry-head">
+              <div class="inline-entry-date">Jun 2018 - Aug 2018</div>
+              <p class="inline-entry-line"><span class="inline-entry-entity">LAVIS Lab, Hochschule RheinMain</span><span class="inline-entry-separator">,</span> DAAD Research Intern<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Germany</span></p>
+            </div>
+          </div>
+
+          <div class="inline-entry">
+            <div class="inline-entry-head">
+              <div class="inline-entry-date">Jun 2017 - Dec 2017</div>
+              <p class="inline-entry-line"><span class="inline-entry-entity">TUKL-NUST R&amp;D Center</span><span class="inline-entry-separator">,</span> Undergraduate Research Intern<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Pakistan</span></p>
             </div>
           </div>
         </div>
@@ -1184,6 +1285,16 @@
             </div>
         </div>
       </div>
+
+    <script>
+      function toggleResourcePanel(button, panelId) {
+        var panel = document.getElementById(panelId);
+        var isOpen = button.getAttribute("aria-expanded") === "true";
+
+        button.setAttribute("aria-expanded", String(!isOpen));
+        panel.classList.toggle("is-open", !isOpen);
+      }
+    </script>
 
     </body>
   </html>
