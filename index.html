@@ -218,7 +218,7 @@
   /* ---------- Education / Work (CV list) ---------- */
   .edu-work {
       display: grid;
-      grid-template-columns: 0.85fr 1.15fr;
+      grid-template-columns: 1.1fr 0.9fr;
       column-gap: 3rem;
       margin-bottom: 2.6rem;
   }
@@ -579,6 +579,7 @@
         <div class="cv-sub">B.E. in Software Engineering</div>
         <div class="cv-meta cv-accent">Merit Scholarship for High Achievers (awarded each semester)</div>
         <div class="cv-meta cv-accent">DAAD Summer Research Scholarship, Germany</div>
+        <div class="cv-meta cv-accent">1st Place, ACM Digital Design Competition</div>
         <div class="cv-meta">Supervisor: Faisal Shafait</div>
         <div class="cv-meta">Teaching Assistant: Computer Networks</div>
         <div class="cv-res-line">
@@ -595,7 +596,7 @@
     <div class="cv-list">
       <div class="cv-entry">
         <div class="cv-row1"><span class="cv-org">Advanced Laser Light Source Laboratory, INRS</span><span class="cv-date">Sep 2025 &ndash; Oct 2025</span></div>
-        <div class="cv-sub">Reinforcement Learning Researcher<span class="sep">&middot;</span>Montreal, Canada</div>
+        <div class="cv-sub">RL Researcher<span class="sep">&middot;</span>Montreal, Canada</div>
       </div>
       <div class="cv-entry">
         <div class="cv-row1"><span class="cv-org">RL Core Technologies</span><span class="cv-date">Jan 2024 &ndash; Aug 2024</span></div>
@@ -688,11 +689,15 @@
       </div>
       <div id="bib-qexp" class="bibtex-panel">
         <button type="button" class="bibtex-copy" onclick="copyBibtex(this)">Copy</button>
-        <pre>@inproceedings{zhu2025qexponential,
-  title     = {{q}-Exponential Family for Policy Optimization},
-  author    = {Zhu, Lingwei and Shah, Haseeb and Wang, Han and White, Martha},
-  booktitle = {International Conference on Learning Representations (ICLR)},
-  year      = {2025}
+        <pre>@inproceedings{ICLR2025_6507b115,
+ author = {Zhu, Lingwei and Shah, Haseeb and Wang, Han and Nagai, Yukie and White, Martha},
+ booktitle = {International Conference on Representation Learning},
+ editor = {Y. Yue and A. Garg and N. Peng and F. Sha and R. Yu},
+ pages = {40717--40744},
+ title = {q-exponential family for policy optimization},
+ url = {https://proceedings.iclr.cc/paper_files/paper/2025/file/6507b115562bb0a305f1958ccc87355a-Paper-Conference.pdf},
+ volume = {2025},
+ year = {2025}
 }</pre>
       </div>
       <p class="sub1">We explore the effectiveness of <em>q</em>-exponential policies in policy optimization methods, finding that heavy-tailed policies (<em>q</em> &gt; 1) are generally more effective and can consistently outperform the Gaussian policy.</p>
@@ -714,11 +719,13 @@
       <div id="bib-crtrl" class="bibtex-panel">
         <button type="button" class="bibtex-copy" onclick="copyBibtex(this)">Copy</button>
         <pre>@article{javed2023scalable,
-  title   = {Scalable Real-Time Recurrent Learning Using Columnar-Constructive Networks},
-  author  = {Javed, Khurram and Shah, Haseeb and Sutton, Richard S. and White, Martha},
-  journal = {Journal of Machine Learning Research (JMLR)},
-  volume  = {24},
-  year    = {2023}
+  title={Scalable real-time recurrent learning using columnar-constructive networks},
+  author={Javed, Khurram and Shah, Haseeb and Sutton, Richard S and White, Martha},
+  journal={Journal of Machine Learning Research},
+  volume={24},
+  number={256},
+  pages={1--34},
+  year={2023}
 }</pre>
       </div>
       <p class="sub1">We show that by either decomposing the network into independent modules or learning a recurrent network incrementally, we can make RTRL scale linearly with the number of parameters. Unlike prior scalable gradient estimation algorithms, our algorithms do not add noise or bias to the gradient estimate.</p>
@@ -741,12 +748,15 @@
       </div>
       <div id="bib-gvf" class="bibtex-panel">
         <button type="button" class="bibtex-copy" onclick="copyBibtex(this)">Copy</button>
-        <pre>@article{janjua2023gvfs,
-  title   = {General Value Function Networks in the Real World: Making Predictions Online for Water Treatment},
-  author  = {Janjua, Muhammad Kamran and Shah, Haseeb and White, Martha and Miahi, Erfan and Machado, Marlos C. and White, Adam},
-  journal = {Machine Learning Journal (MLJ)},
-  year    = {2023},
-  doi     = {10.1007/s10994-023-06413-x}
+        <pre>@article{janjua2024gvfs,
+  title={GVFs in the real world: making predictions online for water treatment},
+  author={Janjua, Muhammad Kamran and Shah, Haseeb and White, Martha and Miahi, Erfan and Machado, Marlos C and White, Adam},
+  journal={Machine Learning},
+  volume={113},
+  number={8},
+  pages={5151--5181},
+  year={2024},
+  publisher={Springer}
 }</pre>
       </div>
       <p class="sub1">We propose a framework for making accurate predictions on a real-world water treatment plant based on general value functions. This work is one of the first to motivate the importance of adapting predictions in real-time for non-stationary, high-volume systems in the real world.</p>
@@ -769,16 +779,17 @@
       </div>
       <div id="bib-owe" class="bibtex-panel">
         <button type="button" class="bibtex-copy" onclick="copyBibtex(this)">Copy</button>
-        <pre>@inproceedings{shah2019openworld,
-  title     = {An Open-World Extension to Knowledge Graph Completion Models},
-  author    = {Shah, Haseeb and Villmow, Johannes and Ulges, Adrian and Schwanecke, Ulrich and Shafait, Faisal},
-  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence (AAAI)},
-  volume    = {33},
-  number    = {01},
-  pages     = {3044--3051},
-  year      = {2019},
-  doi       = {10.1609/aaai.v33i01.33013044}
-}</pre>
+        <pre>
+@inproceedings{shah2019open,
+  title={An Open-World Extension to Knowledge Graph Completion Models},
+  author={Shah, Haseeb and Villmow, Johannes and Ulges, Adrian and Schwanecke, Ulrich and Shafait, Faisal},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume={33},
+  pages={3044--3051},
+  year={2019},
+  doi={10.1609/aaai.v33i01.33013044}
+}
+</pre>
       </div>
       <p class="sub1">We propose an extension that enables any existing knowledge graph completion model to predict facts about open-world entities. This approach is more robust, more portable, and has better performance than the published state of the art on most datasets. We also released a new dataset that overcomes the shortcomings of previous ones.</p>
     </div>
@@ -803,11 +814,16 @@
       </div>
       <div id="bib-rst" class="bibtex-panel">
         <button type="button" class="bibtex-copy" onclick="copyBibtex(this)">Copy</button>
-        <pre>@inproceedings{shah2020relation,
-  title     = {Relation Specific Transformations for Open World Knowledge Graph Completion},
-  author    = {Shah, Haseeb and Villmow, Johannes and Ulges, Adrian},
-  booktitle = {Proceedings of the Graph-based Methods for Natural Language Processing (TextGraphs) Workshop at COLING},
-  year      = {2020}
+        <pre>@inproceedings{shah-etal-2020-relation,
+    title = "Relation Specific Transformations for Open World Knowledge Graph Completion",
+    author = "Shah, Haseeb and Villmow, Johannes and Ulges, Adrian",
+    booktitle = "Proceedings of the Graph-based Methods for Natural Language Processing (TextGraphs)",
+    month = dec,
+    year = "2020",
+    address = "Barcelona, Spain (Online)",
+    publisher = "Association for Computational Linguistics",
+    url = "https://www.aclweb.org/anthology/2020.textgraphs-1.9",
+    pages = "79--84",
 }</pre>
       </div>
       <p class="sub1">We introduced relation-specific transformations to substantially improve the performance of open-world knowledge graph completion models. We also proposed an approach for clustering relations to reduce the training time and memory footprint.</p>
@@ -830,10 +846,10 @@
       <div id="bib-distill" class="bibtex-panel">
         <button type="button" class="bibtex-copy" onclick="copyBibtex(this)">Copy</button>
         <pre>@article{shah2018distillation,
-  title   = {Distillation Techniques for Pseudo-rehearsal Based Incremental Learning},
-  author  = {Shah, Haseeb and Javed, Khurram and Shafait, Faisal},
-  journal = {arXiv preprint arXiv:1807.02799},
-  year    = {2018}
+  title={Distillation techniques for pseudo-rehearsal based incremental learning},
+  author={Shah, Haseeb and Javed, Khurram and Shafait, Faisal},
+  journal={arXiv preprint arXiv:1807.02799},
+  year={2018}
 }</pre>
       </div>
       <p class="sub1">Standard neural networks suffer from catastrophic forgetting when trained on an incrementally arriving stream of i.i.d. data. One approach to combat this forgetting is to train GANs on previously seen data and feed it to the network again. In this paper, we highlight that this method is biased and propose an approach to mitigate this bias and reduce the effect of catastrophic forgetting.</p>
