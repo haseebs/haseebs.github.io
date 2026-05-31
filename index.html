@@ -1,1300 +1,924 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
   <title>Haseeb Shah</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Haseeb Shah — Ph.D. student at the RLAI Lab, University of Alberta. Reinforcement learning: policy gradients, general value functions, recurrent learning, and real-world control.">
+
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Raleway:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 
-      <!-- Favicon -->
-      <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='brown'/%3E%3Ctext x='100' y='100' font-family='Arial, sans-serif' font-weight='bold' font-size='90' fill='white' text-anchor='middle' dominant-baseline='central'%3EHS%3C/text%3E%3C/svg%3E">
-
-      <!-- Alternate favicon for browsers that don't support SVG -->
-      <link rel="alternate icon" href="favicon.ico">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23a01b22'/%3E%3Ctext x='100' y='104' font-family='Georgia, serif' font-weight='bold' font-size='96' fill='%23faf8f3' text-anchor='middle' dominant-baseline='central'%3EHS%3C/text%3E%3C/svg%3E">
+  <link rel="alternate icon" href="favicon.ico">
 
   <style>
   :root {
-      --primary-color: #000000;
-      --accent-color: #dc2626;
-      --background-color: #ffffff;
-      --text-color: #333333;
-      --border-color: #e5e7eb;
+      --bg: #faf8f3;            /* warm paper */
+      --bg-soft: #f4efe6;       /* panels / hover */
+      --text: #2b2b29;          /* ink */
+      --muted: #6f6b63;         /* secondary ink */
+      --faint: #908b81;         /* tertiary */
+      --accent: #dc2626;        /* signature red (conferences & general) */
+      --accent-deep: #a01b22;   /* editorial ink-red for rules */
+      --accent-soft: #9e564f;   /* muted red for subtle highlights */
+      --purple: #7e22ce;        /* journal accent */
+      --purple-deep: #6b21a8;   /* deep journal accent for text */
+      --rule: rgba(43, 43, 41, 0.14);
+      --rule-soft: rgba(43, 43, 41, 0.08);
+      --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+      --sans: "Raleway", -apple-system, Helvetica, Arial, sans-serif;
   }
 
-  /* Base styles */
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
   body {
-      background-color: var(--background-color);
-      color: var(--text-color);
-      line-height: 1.6;
-      font-family: "Raleway", Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-family: var(--serif);
+      font-size: 1.08rem;
+      font-optical-sizing: auto;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
   }
 
-  /* Layout */
+  ::selection { background: rgba(220, 38, 38, 0.16); }
+
+  /* ---------- Layout ---------- */
+  .w3-content {
+      max-width: 1040px;
+      padding-right: min(48px, 5%);
+      padding-left: min(48px, 5%);
+  }
+
   .row {
       display: flex;
-      align-items: flex-start;
-  }
-
-  .left {
-      width: 37%;
-      margin-right: 5%;
-  }
-
-  .right {
-      width: 58%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-  }
-
-  /* Typography */
-  .counter {
-    margin-top: 1rem
-  }
-  .myname {
-      color: var(--primary-color);
-      font-size: 2.6rem;
-      margin-top: 0rem;
-      margin-bottom: 0rem;
-      font-weight: 400;
-      letter-spacing: -0.5px;
-      text-align: center;
-  }
-
-  h1 {
-      color: var(--primary-color);
-      font-size: 1.6rem;
-      margin: 1.5rem 0 1rem;
-      letter-spacing: normal;
-  }
-
-  /* Paper sections */
-  .paper-div {
-      position: relative;
-      padding-left: 2rem;
-      margin-bottom: 1rem;
-      background: white;
-      border-radius: 0px;
-      transition: transform 0.2s ease;
-  }
-
-  .paper-div-with-figure {
-      position: relative;
-      padding-left: 2rem;
-      margin-bottom: 1rem;
-      background: white;
-      border-radius: 4px;
-      transition: transform 0.2s ease;
-  }
-
-  .paper-div::before,
-  .paper-div-with-figure::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      width: 3px;
-      background: linear-gradient(
-          to bottom,
-          rgba(195, 67, 69, 0.55) 0%,
-          rgba(195, 67, 69, 0.95) 50%,
-          rgba(195, 67, 69, 0.55) 100%
-      );
-  }
-
-  .paper-title {
-      font-size: 1.1rem;
-      color: var(--primary-color);
-      margin: 0;
-      font-weight: 450;
-      line-height: 1.35;
-  }
-
-  .paper-content {
-      padding-left: 0;
-  }
-
-  .paper-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 0.8rem;
-      margin-bottom: 0.45rem;
-  }
-
-  .paper-badges {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 0.4rem;
-      flex-shrink: 0;
-  }
-
-  .paper-badge {
-      display: inline-flex;
       align-items: center;
-      padding: 0.14rem 0.5rem;
-      border: 1px solid rgba(195, 67, 69, 0.18);
-      border-radius: 999px;
-      background: rgba(195, 67, 69, 0.06);
-      color: var(--accent-color);
-      font-size: 0.78rem;
-      font-weight: 500;
-      line-height: 1.2;
-      white-space: nowrap;
+      gap: 5%;
   }
 
-  .paper-badge-muted {
-      border-color: rgba(35, 37, 42, 0.12);
-      background: rgba(35, 37, 42, 0.05);
-      color: #5c6066;
-  }
+  .left { width: 36%; flex-shrink: 0; }
+  .right { width: 59%; }
 
-  .paper-authors {
-      margin: 0 0 0.65rem;
-      color: #6b7280;
-      font-size: 0.95rem;
-      line-height: 1.55;
-  }
+  section.block { margin-bottom: 2.6rem; }
 
-  .paper-authors u {
-      color: var(--primary-color);
-      font-weight: 500;
-      text-decoration-color: rgba(195, 67, 69, 0.65);
-      text-underline-offset: 0.12rem;
-  }
+  /* ---------- Header / Hero ---------- */
+  header.hero { padding: 56px 16px 28px; }
 
-  .paper-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-      margin: 0 0 0.75rem;
-  }
-
-  .paper-actions .w3-button {
-      margin: 0;
-      padding: 0.28rem 0.7rem;
-      font-size: 0.78rem;
-      border-radius: 999px;
-      background: rgba(35, 37, 42, 0.04) !important;
-      border-color: rgba(35, 37, 42, 0.12) !important;
-      color: #5c6066 !important;
-  }
-
-  .paper-actions .w3-button:first-child {
-      background: var(--accent-color) !important;
-      border-color: var(--accent-color) !important;
-      color: white !important;
-  }
-
-  .paper-actions .w3-button:hover {
-      background: rgba(195, 67, 69, 0.12) !important;
-      border-color: rgba(195, 67, 69, 0.35) !important;
-      color: var(--accent-color) !important;
-  }
-
-  .paper-actions .w3-button:first-child:hover {
-      background: var(--primary-color) !important;
-      border-color: var(--primary-color) !important;
-      color: white !important;
-  }
-
-  .timeline {
-      position: relative;
-      margin-left: 0.4rem;
-      padding-left: 1.5rem;
-  }
-
-  .timeline::before {
-      content: "";
-      position: absolute;
-      top: 0.4rem;
-      bottom: 0.4rem;
-      left: 0;
-      width: 3px;
-      background: linear-gradient(
-          to bottom,
-          rgba(195, 67, 69, 0.55) 0%,
-          rgba(195, 67, 69, 0.95) 50%,
-          rgba(195, 67, 69, 0.55) 100%
-      );
-  }
-
-  .timeline-item {
-      position: relative;
-      margin-bottom: 1.6rem;
-      padding-left: 1.2rem;
-  }
-
-  .timeline-item:last-child {
-      margin-bottom: 0;
-  }
-
-  .timeline-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 1rem;
-      margin-bottom: 0.2rem;
-  }
-
-  .timeline-title {
-      margin: 0;
-      font-size: 1.1rem;
-      color: var(--primary-color);
-      font-weight: 450;
-  }
-
-  .timeline-date {
-      color: var(--accent-color);
-      font-size: 0.95rem;
-      white-space: nowrap;
-  }
-
-  .timeline-role {
-      margin: 0.1rem 0;
-      font-style: italic;
-  }
-
-  .timeline-meta {
-      margin: 0.15rem 0;
-      color: #666;
-  }
-
-  .timeline-links {
-      margin-top: 0.45rem;
-  }
-
-  .inline-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-  }
-
-  .inline-entry {
-      padding: 0 0 0.45rem;
-  }
-
-  .inline-entry:last-child {
-      padding-bottom: 0;
-  }
-
-  .inline-entry-line {
-      margin: 0;
-      font-size: 1rem;
-      color: var(--primary-color);
-      font-weight: 400;
-      line-height: 1.3;
-  }
-
-  .inline-entry-head {
-      display: grid;
-      grid-template-columns: clamp(7.1rem, 18vw, 8.8rem) minmax(0, 1fr) auto;
-      align-items: start;
-      column-gap: 0.4rem;
-  }
-
-  .inline-entry-entity {
-      font-weight: 500;
-  }
-
-  .inline-entry-separator {
-      color: rgba(35, 37, 42, 0.4);
-      margin: 0 0.2rem;
-  }
-
-  .inline-entry-date {
-      color: var(--accent-color);
-      font-size: 0.92rem;
-      white-space: normal;
-      line-height: 1.3;
-  }
-
-  .inline-entry-links {
-      margin-top: 0.38rem;
-  }
-
-  .inline-resource-toggle {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 1.2rem;
-      height: 1.2rem;
-      padding: 0;
-      margin-top: 0.02rem;
-      border: 1px solid rgba(220, 38, 38, 0.28);
-      border-radius: 999px;
-      background: transparent;
-      color: var(--accent-color);
-      cursor: pointer;
-      transition: all 0.2s ease;
-      flex-shrink: 0;
-  }
-
-  .inline-resource-toggle::after {
-      content: "";
+  .container img.picture {
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      object-fit: cover;
+      border-radius: 3px;
+      border: 1px solid var(--rule);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.6),
+                  0 14px 34px -18px rgba(43, 43, 41, 0.5);
       display: block;
-      width: 0.34rem;
-      height: 0.34rem;
-      box-sizing: border-box;
-      border-right: 1.5px solid currentColor;
-      border-bottom: 1.5px solid currentColor;
-      transform: rotate(45deg);
-      transform-origin: center;
-      margin-top: -0.08rem;
   }
 
-  .inline-resource-toggle[aria-expanded="true"] {
-      background: var(--accent-color);
-      color: white;
+  .myname {
+      font-family: var(--serif);
+      color: var(--text);
+      font-size: 3rem;
+      line-height: 1.04;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      margin: 0 0 0.35rem;
   }
 
-  .inline-resource-toggle[aria-expanded="true"]::after {
-      transform: rotate(225deg);
-      margin-top: 0.08rem;
+  .name-rule {
+      width: 64px;
+      height: 3px;
+      background: var(--accent);
+      border: 0;
+      margin: 0 0 1rem;
   }
 
-  .inline-resource-panel {
-      display: none;
-      flex-wrap: wrap;
-      gap: 0.65rem;
-      grid-column: 2 / -1;
-      margin-top: 0.32rem;
-      padding-left: 0;
-      font-size: 0.82rem;
+  .role {
+      font-family: var(--sans);
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin: 0 0 1rem;
   }
 
-  .inline-resource-panel.is-open {
+  .hero-bio {
+      margin: 0 0 1.25rem;
+      color: var(--text);
+      font-size: 1.06rem;
+      line-height: 1.7;
+  }
+
+  /* ---------- Hero actions: socials + CV ---------- */
+  .hero-actions {
       display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-bottom: 0.9rem;
   }
 
-  .inline-resource-panel a {
-      color: #666;
-      text-decoration: none;
-  }
+  .social-bar { display: flex; gap: 0.5rem; }
 
-  .inline-resource-panel a:hover {
-      color: var(--accent-color);
-      text-decoration: underline;
-  }
-
-  .inline-entry-inline-meta {
-      color: #666;
-      font-size: 0.94rem;
-      font-weight: 400;
-  }
-
-  /* Buttons */
-  .w3-button {
-      background: transparent !important;
-      color: var(--accent-color) !important;
-      border: 1px solid var(--accent-color) !important;
-      border-radius: 0px;
-      padding: 4px 12px;
-      margin: 2px;
-      font-size: 0.8rem;
-      transition: all 0.2s ease;
-      font-weight: 400;
-      text-decoration: none;
-  }
-
-  .w3-button:hover {
-      background: var(--accent-color) !important;
-      color: white !important;
-  }
-
-  /* Social icons */
   .fa, .ai {
-      padding: 0;
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       width: 40px;
       height: 40px;
-      margin: 5px;
-      border-radius: 4px;
-      background: transparent !important;
-      color: var(--accent-color) !important;
-      border: 1px solid var(--accent-color) !important;
+      border-radius: 3px;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--rule);
       transition: all 0.2s ease;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
       text-decoration: none;
   }
 
   .fa:hover, .ai:hover {
-      background: var(--accent-color) !important;
-      color: white !important;
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      transform: translateY(-2px);
   }
 
-  /* Profile image */
-  .container img {
-      height: auto;
-      width: 100%;
-      max-width: 370px;
-      object-fit: cover;
-      border-radius: 10px;
-      transition: transform 0.3s ease;
-      margin-top: 0;
-  }
-
-  /* Links */
-  a {
-      color: var(--accent-color);
+  .cv-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      background: transparent;
+      border: 1px solid var(--accent);
+      border-radius: 3px;
+      padding: 0 0.95rem;
+      height: 40px;
       text-decoration: none;
-      transition: color 0.2s ease;
+      transition: all 0.2s ease;
   }
 
-  a:hover {
-      color: var(--primary-color);
-      text-decoration: underline;
+  .cv-button:hover {
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
   }
 
-  /* Spacing and other elements */
-  .w3-content {
-      max-width: 1000px;
-      padding-right: min(30px, 3%);
-      padding-left: min(30px, 3%);
+  .cv-button .fa {
+      width: auto; height: auto; border: 0; background: transparent;
+      color: inherit; font-size: 0.95rem;
   }
+  .cv-button:hover .fa { background: transparent; color: #fff; transform: none; }
 
-  .w3-panel {
-      padding: 24px 16px !important;
-  }
-
-  .sub {
-      margin-top: 0.2rem;
-      margin-bottom: 0.2rem;
-  }
-
-  .sub1 {
-      margin: 0;
-      color: #3f4349;
-      line-height: 1.65;
-  }
-
-  p mark {
-      background-color: rgba(220, 38, 38, 0.1);
-      color: var(--text-color);
-      padding: 2px 6px;
-      border-radius: 4px;
-  }
-
-  /* Responsive design */
-  @media screen and (max-width: 768px) {
-      .row {
-          flex-direction: column;
-      }
-
-      .left, .right {
-          width: 100%;
-          margin-right: 0;
-      }
-
-      .container img {
-          max-width: 250px;
-          margin: 0 auto;
-          display: block;
-      }
-
-      .myname {
-          font-size: 2.2rem;
-      }
-
-      .w3-content {
-          padding: 1rem;
-      }:root {
-          --primary-color: #000000;
-          --accent-color: #dc2626;
-          --background-color: #ffffff;
-          --text-color: #333333;
-          --border-color: #e5e7eb;
-      }
-
-      /* Base styles */
-      body {
-          background-color: var(--background-color);
-          color: var(--text-color);
-          line-height: 1.6;
-          font-family: "Raleway", Arial, sans-serif;
-          font-size: 1.1rem;
-      }
-
-      /* Layout */
-      .row {
-          display: flex;
-          align-items: flex-start;
-      }
-
-      .left {
-          width: 30%;
-          margin-right: 5%;
-      }
-
-      .right {
-          width: 71%;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-      }
-
-      /* Typography */
-      .myname {
-          color: var(--primary-color);
-          font-size: 2.6rem;
-          margin-top: 0rem;
-          margin-bottom: 1rem;
-          font-weight: 400;
-          letter-spacing: -0.5px;
-          text-align: center;
-      }
-
-      h1 {
-          color: var(--primary-color);
-          font-size: 1.6rem;
-          margin: 1.5rem 0 1rem;
-          letter-spacing: normal;
-      }
-
-      /* Paper sections */
-      .paper-div {
-          position: relative;
-          padding-left: 2rem;
-          margin-bottom: 1rem;
-          background: white;
-          border-radius: 0px;
-          transition: transform 0.2s ease;
-      }
-
-      .paper-div-with-figure {
-          position: relative;
-          padding-left: 2rem;
-          margin-bottom: 1rem;
-          background: white;
-          border-radius: 0px;
-          transition: transform 0.2s ease;
-      }
-
-      .paper-div::before,
-      .paper-div-with-figure::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          width: 3px;
-          background: linear-gradient(
-              to bottom,
-              rgba(195, 67, 69, 0.55) 0%,
-              rgba(195, 67, 69, 0.95) 50%,
-              rgba(195, 67, 69, 0.55) 100%
-          );
-      }
-
-      .paper-title {
-          font-size: 1.2rem;
-          color: var(--primary-color);
-          margin: 0;
-          font-weight: 450;
-          line-height: 1.35;
-      }
-
-      .paper-content {
-          padding-left: 0;
-      }
-
-      .paper-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          gap: 0.8rem;
-          margin-bottom: 0.45rem;
-      }
-
-      .paper-badges {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: flex-end;
-          gap: 0.4rem;
-          flex-shrink: 0;
-      }
-
-      .paper-badge {
-          display: inline-flex;
-          align-items: center;
-          padding: 0.14rem 0.5rem;
-          border: 1px solid rgba(195, 67, 69, 0.18);
-          border-radius: 999px;
-          background: rgba(195, 67, 69, 0.06);
-          color: var(--accent-color);
-          font-size: 0.8rem;
-          font-weight: 500;
-          line-height: 1.2;
-          white-space: nowrap;
-      }
-
-      .paper-badge-muted {
-          border-color: rgba(35, 37, 42, 0.12);
-          background: rgba(35, 37, 42, 0.05);
-          color: #5c6066;
-      }
-
-      .paper-authors {
-          margin: 0 0 0.65rem;
-          color: #6b7280;
-          font-size: 0.98rem;
-          line-height: 1.55;
-      }
-
-      .paper-authors u {
-          color: var(--primary-color);
-          font-weight: 500;
-          text-decoration-color: rgba(195, 67, 69, 0.65);
-          text-underline-offset: 0.12rem;
-      }
-
-      .paper-actions {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.45rem;
-          margin: 0 0 0.75rem;
-      }
-
-      .paper-actions .w3-button {
-          margin: 0;
-          padding: 0.28rem 0.72rem;
-          font-size: 0.82rem;
-          border-radius: 999px;
-          background: rgba(35, 37, 42, 0.04) !important;
-          border-color: rgba(35, 37, 42, 0.12) !important;
-          color: #5c6066 !important;
-      }
-
-      .paper-actions .w3-button:first-child {
-          background: var(--accent-color) !important;
-          border-color: var(--accent-color) !important;
-          color: white !important;
-      }
-
-      .paper-actions .w3-button:hover {
-          background: rgba(195, 67, 69, 0.12) !important;
-          border-color: rgba(195, 67, 69, 0.35) !important;
-          color: var(--accent-color) !important;
-      }
-
-      .paper-actions .w3-button:first-child:hover {
-          background: var(--primary-color) !important;
-          border-color: var(--primary-color) !important;
-          color: white !important;
-      }
-
-      .timeline {
-          position: relative;
-          margin-left: 0.4rem;
-          padding-left: 1.5rem;
-      }
-
-      .timeline::before {
-          content: "";
-          position: absolute;
-          top: 0.4rem;
-          bottom: 0.4rem;
-          left: 0;
-          width: 3px;
-          background: linear-gradient(
-              to bottom,
-              rgba(195, 67, 69, 0.55) 0%,
-              rgba(195, 67, 69, 0.95) 50%,
-              rgba(195, 67, 69, 0.55) 100%
-          );
-      }
-
-      .timeline-item {
-          position: relative;
-          margin-bottom: 1.6rem;
-          padding-left: 1.2rem;
-      }
-
-      .timeline-item:last-child {
-          margin-bottom: 0;
-      }
-
-      .timeline-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: baseline;
-          gap: 1rem;
-          margin-bottom: 0.2rem;
-      }
-
-      .timeline-title {
-          margin: 0;
-          font-size: 1.2rem;
-          color: var(--primary-color);
-          font-weight: 450;
-      }
-
-      .timeline-date {
-          color: var(--accent-color);
-          font-size: 0.98rem;
-          white-space: nowrap;
-      }
-
-      .timeline-role {
-          margin: 0.1rem 0;
-          font-style: italic;
-      }
-
-      .timeline-meta {
-          margin: 0.15rem 0;
-          color: #666;
-      }
-
-      .timeline-links {
-          margin-top: 0.45rem;
-      }
-
-
-      /* Buttons */
-      .w3-button {
-          background: transparent !important;
-          color: var(--accent-color) !important;
-          border: 1px solid var(--accent-color) !important;
-          border-radius: 0px;
-          padding: 4px 12px;
-          margin: 2px;
-          font-size: 0.9rem;
-          transition: all 0.2s ease;
-          font-weight: 400;
-          text-decoration: none;
-      }
-
-      .w3-button:hover {
-          background: var(--accent-color) !important;
-          color: white !important;
-      }
-
-      /* Social icons */
-      .fa, .ai {
-          padding: 0;
-          font-size: 1.5rem;
-          width: 40px;
-          height: 40px;
-          margin: 1px;
-          border-radius: 4px;
-          background: var(--primary-color);
-          color: white;
-          transition: all 0.2s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-decoration: none;
-      }
-
-      .fa:hover, .ai:hover {
-          background: var(--accent-color);
-      }
-
-      /* Profile image */
-      .container img {
-          height: auto;
-          width: 100%;
-          max-width: 300px;
-          object-fit: cover;
-          border-radius: 4px;
-          transition: transform 0.3s ease;
-          margin-top: 0;
-      }
-
-      /* Links */
-      a {
-          color: var(--accent-color);
-          text-decoration: none;
-          transition: color 0.2s ease;
-      }
-
-      a:hover {
-          color: var(--primary-color);
-          text-decoration: underline;
-      }
-
-      /* Spacing and other elements */
-      .w3-content {
-          max-width: 1000px;
-          padding-right: min(30px, 3%);
-          padding-left: min(30px, opacity3%);
-      }
-
-      .w3-panel {
-          padding: 24px 16px !important;
-      }
-
-      .sub {
-          margin-top: 0.2rem;
-          margin-bottom: 0.2rem;
-          font-size: 1.05rem;
-      }
-
-      .sub1 {
-          margin-top: 0.5rem;
-          font-size: 1.05rem;
-      }
-
-      p mark {
-          background-color: rgba(220, 38, 38, 0.1);
-          color: var(--text-color);
-          padding: 2px 6px;
-          border-radius: 4px;
-      }
-
-      /* Responsive design */
-      @media screen and (max-width: 768px) {
-          .row {
-              flex-direction: column;
-          }
-
-          .left, .right {
-              width: 100%;
-              margin-right: 0;
-          }
-
-          .container img {
-              max-width: 250px;
-              margin: 0 auto;
-              display: block;
-          }
-
-          .myname {
-              font-size: 2.2rem;
-          }
-
-          .counter {
-            width: 200px
-          }
-
-          .w3-content {
-              padding: 1rem;
-          }
-
-          .paper-div-with-figure {
-              padding-left: 1.5rem;
-          }
-
-          .paper-content {
-              padding-left: 0;
-          }
-
-          .paper-header {
-              flex-direction: column;
-              align-items: flex-start;
-              gap: 0.45rem;
-          }
-
-          .paper-badges {
-              justify-content: flex-start;
-          }
-
-          .timeline {
-              margin-left: 0;
-              padding-left: 1.2rem;
-          }
-
-          .timeline-item {
-              padding-left: 1rem;
-          }
-
-          .timeline-header {
-              flex-direction: column;
-              align-items: flex-start;
-              gap: 0.15rem;
-          }
-
-          .timeline-date {
-              white-space: normal;
-          }
-
-          .inline-entry-line {
-              font-size: 0.98rem;
-          }
-
-
-      }
-
-      /* Transitions */
-      .w3-row-padding {
-          transition: opacity 0.3s ease;
-      }
-
-      html {
-          scroll-behavior: smooth;
-      }
-
-      .paper-content {
-          padding-left: 0;
-      }
-  }
-
-  /* Transitions */
-  .w3-row-padding {
-      transition: opacity 0.3s ease;
-  }
-
-  html {
-      scroll-behavior: smooth;
-  }
-
-  /* Favicon style */
-  .favicon {
-      width: 32px;
-      height: 32px;
-      background: #000000;
+  /* ---------- Section headings ---------- */
+  h1.section-title {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-      font-size: 16px;
-      color: black;
-      font-weight: bold;
+      gap: 1rem;
+      font-family: var(--sans);
+      font-size: 0.84rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--accent-deep);
+      margin: 0 0 1.4rem;
   }
 
-  /* Base text size increases */
-  body {
-      font-size: 1.1rem;  /* Increased from default */
+  h1.section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+  }
+
+  h2.sub-title {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--muted);
+      margin: 2rem 0 1.1rem;
+  }
+
+  /* ---------- Education / Work (CV list) ---------- */
+  .edu-work {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      column-gap: 3rem;
+      margin-bottom: 2.6rem;
+  }
+
+  .cv-list { display: flex; flex-direction: column; }
+
+  .cv-entry { padding: 0.26rem 0; }
+  .cv-list-edu .cv-entry { padding: 0.5rem 0; }
+  .cv-list-edu .cv-entry:first-child { padding-top: 0; }
+
+  .cv-row1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.7rem;
+  }
+
+  .cv-org {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+  }
+
+  .cv-date {
+      font-family: var(--sans);
+      color: var(--accent-deep);
+      font-size: 0.67rem;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+  }
+
+  .cv-sub { color: var(--muted); font-size: 0.83rem; line-height: 1.4; }
+  .cv-sub .sep { color: var(--faint); margin: 0 0.38rem; }
+
+  .cv-meta { color: var(--faint); font-size: 0.8rem; line-height: 1.4; font-style: italic; }
+  .cv-meta.cv-accent { color: var(--accent-soft); }
+
+  .cv-res-line { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 0.2rem; }
+  .cv-res-line a {
+      font-family: var(--sans);
+      font-size: 0.64rem;
+      font-weight: 600;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+  }
+  .cv-res-line a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ---------- Publication entries ---------- */
+  .paper-div-with-figure {
+      position: relative;
+      padding: 0.4rem 0 0.5rem 1.5rem;
+      margin-bottom: 1.6rem;
+  }
+  .paper-div-with-figure:last-child { margin-bottom: 0.4rem; }
+
+  .paper-div-with-figure::before {
+      content: "";
+      position: absolute;
+      top: 0.5rem;
+      bottom: 0.6rem;
+      left: 0;
+      width: 2px;
+      background: var(--accent);
+      opacity: 0.85;
+  }
+
+  .paper-header {
+      position: relative;
+      margin-bottom: 0.3rem;
+      padding-right: 7.5rem;
   }
 
   .paper-title {
-      font-size: 1.2rem;  /* Increased from 1.1rem */
+      font-family: var(--serif);
+      font-size: 1.18rem;
+      color: var(--text);
+      margin: 0;
+      font-weight: 600;
+      line-height: 1.35;
   }
 
-  .sub {
-      font-size: 1.05rem;  /* Increased from default */
+  .paper-badges {
+      position: absolute;
+      top: 0.2rem;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.35rem;
   }
+
+  .paper-badge {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--sans);
+      padding: 0.1rem 0.5rem;
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--accent-deep);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      line-height: 1.4;
+      white-space: nowrap;
+  }
+  /* Workshop / preprint / talk / under-review: muted outline */
+  .paper-badge-muted {
+      border-color: var(--rule);
+      color: var(--muted);
+  }
+  /* Oral: prominent solid red honor */
+  .paper-badge-oral {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 8px -3px rgba(220, 38, 38, 0.7);
+  }
+
+  .paper-authors {
+      margin: 0 0 0.3rem;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.5;
+  }
+  .paper-authors u {
+      color: var(--text);
+      font-weight: 600;
+      text-decoration-color: var(--accent);
+      text-underline-offset: 0.14rem;
+  }
+
+  .paper-venue {
+      margin: 0 0 0.3rem;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.45;
+  }
+  .paper-venue .venue-abbr { font-style: normal; font-weight: 600; color: var(--text); }
+
+  .paper-eq {
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 500;
+      margin-left: 0.55rem;
+      white-space: nowrap;
+  }
+
+  /* Journal entries: purple accent in place of red */
+  .paper-journal::before { background: var(--purple); }
+  .paper-journal .paper-badge:not(.paper-badge-muted) { border-color: rgba(126, 34, 206, 0.4); color: var(--purple-deep); }
+  .paper-journal .paper-authors u { text-decoration-color: var(--purple); }
+  .paper-journal .paper-actions .w3-button:first-child { color: var(--purple-deep) !important; }
+  .paper-journal .paper-actions .w3-button:hover,
+  .paper-journal .paper-actions .cite-toggle:hover {
+      color: var(--purple) !important;
+      border-bottom-color: var(--purple) !important;
+  }
+  .paper-journal .bibtex-panel { border-left-color: var(--purple); }
+
+  .paper-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.2rem 1.1rem;
+      margin: 0.35rem 0 0.55rem;
+  }
+
+  .paper-actions .w3-button,
+  .paper-actions .cite-toggle {
+      margin: 0;
+      padding: 0;
+      background: transparent !important;
+      border: 0 !important;
+      border-radius: 0;
+      font-family: var(--sans);
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted) !important;
+      cursor: pointer;
+      transition: color 0.18s ease;
+      border-bottom: 1px solid transparent !important;
+      line-height: 1.6;
+  }
+  .paper-actions .w3-button:hover,
+  .paper-actions .cite-toggle:hover {
+      color: var(--accent) !important;
+      border-bottom-color: var(--accent) !important;
+  }
+  .paper-actions .w3-button:first-child { color: var(--accent-deep) !important; }
 
   .sub1 {
-      font-size: 1.05rem;  /* Increased from default */
+      margin: 0;
+      color: #45433d;
+      line-height: 1.62;
+      font-size: 1.02rem;
   }
 
-  /* Update button styles */
-  .w3-button {
-      font-size: 0.9rem;  /* Increased from 0.8rem */
+  /* ---------- BibTeX panel ---------- */
+  .bibtex-panel {
+      display: none;
+      position: relative;
+      margin: 0.6rem 0 0.2rem;
+      background: var(--bg-soft);
+      border: 1px solid var(--rule);
+      border-left: 2px solid var(--accent);
+      border-radius: 3px;
+  }
+  .bibtex-panel.is-open { display: block; }
+  .bibtex-panel pre {
+      margin: 0;
+      padding: 0.85rem 1rem;
+      overflow-x: auto;
+      font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+      font-size: 0.78rem;
+      line-height: 1.55;
+      color: #3a3833;
+      white-space: pre;
+  }
+  .bibtex-copy {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      font-family: var(--sans);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      padding: 0.18rem 0.5rem;
+      cursor: pointer;
+      transition: all 0.18s ease;
+  }
+  .bibtex-copy:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ---------- Links ---------- */
+  a { color: var(--accent-deep); text-decoration: none; transition: color 0.18s ease; }
+  a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 0.12rem; }
+
+  .hero-bio a { border-bottom: 1px solid rgba(220,38,38,0.35); }
+  .hero-bio a:hover { text-decoration: none; border-color: var(--accent); }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .reveal.is-visible { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .fa, .ai, .cv-button { transition: none; }
   }
 
-  /* Side-by-side on wide screens, stacked on narrow */
-  .edu-work {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 6px;
+  /* ---------- Responsive ---------- */
+  @media screen and (max-width: 768px) {
+      body { font-size: 1.05rem; }
+
+      .row { flex-direction: column; gap: 1.5rem; text-align: center; }
+      .left, .right { width: 100%; }
+      .container img.picture { max-width: 240px; margin: 0 auto; }
+
+      header.hero { padding: 36px 8px 18px; }
+      .myname { font-size: 2.4rem; }
+      .name-rule { margin-left: auto; margin-right: auto; }
+      .hero-bio { text-align: left; }
+      .hero-actions { justify-content: center; }
+
+      h1.section-title { letter-spacing: 2.5px; }
+
+      .edu-work { grid-template-columns: 1fr; column-gap: 0; }
+      .edu-work .cv-col + .cv-col { margin-top: 2rem; }
+      .cv-row1 { flex-direction: column; align-items: flex-start; gap: 0.05rem; }
+
+      .paper-header { padding-right: 0; }
+      .paper-badges { position: static; flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 0.4rem; margin-top: 0.45rem; }
   }
-
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-</style>
+  </style>
+</head>
 <body>
 
+<div class="w3-content">
 
-
-<!-- !PAGE CONTENT! -->
-<div class="w3-content" style="max-width:1000px; padding-right: min(50px, 5%); padding-left: min(50px, 5%);">
-
-      <!-- Header -->
-      <header class="w3-panel w3-center" style="padding:48px 16px">
-        <div class="row">
-          <div class="container left">
-            <img src="assets/pictures/haseeb_photo_forest.jpg" alt="Photo of Haseeb Shah" class="picture">
-          </div>
-          <div class="right w3-grayscale">
-                <img src="https://count.getloli.com/@haseeb?theme=booru-ve&padding=4" alt=":haseeb" width="200px" class="center w3-padding-8 counter"/>
-                <h1 class='myname'><b>Haseeb Shah</b></h1>
-            <div class="w3-padding-8">
-              <div class="w3-bar">
-                <a href="https://github.com/haseebs" class="w3-bar-item fa fa-github"></a>
-                <a href="https://scholar.google.com/citations?user=NKRLBscAAAAJ" class="w3-bar-item ai ai-google-scholar"></a>
-                <a href="https://www.linkedin.com/in/haseebs" class="w3-bar-item fa fa-linkedin"></a>
-                <a href="https://twitter.com/haseebsz" class="w3-bar-item fa fa-twitter"></a>
-                <a href="https://www.instagram.com/haseeebs" class="w3-bar-item fa fa-instagram"></a>
-              </div>
-            </div>
-            <p align="justify">I am a Ph.D. student at the <a href="http://rlai.ualberta.ca">RLAI lab</a> at University of Alberta advised by <a href="http://webdocs.cs.ualberta.ca/~whitem/">Prof. Martha White</a>. My research focuses on foundational topics in Reinforcement Learning such as policy gradient algorithms, general value functions and recurrent learning as well as applying reinforcement learning to solve real-world problems in physical systems such as automating <a href="https://watertoday.ca/ts-wtech-RL-Core-Technologies-to-imrove-drinking-water-treatment-using-data-driven-ai.asp">drinking water-treatment plants</a> and controlling <a href="https://cds.cern.ch/record/2203631/files/1418884_67-77.pdf">laser wakefield accelerators</a> </p>
-            </div>
-        </div>
-
-      </header>
-
-      <div class="edu-work">
-      <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
-        <h1 style="letter-spacing:1px"> Education</h1>
-        <div class="inline-list">
-          <div class="inline-entry">
-            <div class="inline-entry-head">
-              <div class="inline-entry-date">Sep 2024 - Present</div>
-              <p class="inline-entry-line"><span class="inline-entry-entity">University of Alberta</span><span class="inline-entry-separator">,</span> Ph.D. in Computer Science<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Supervisor: Martha White</span></p>
-            </div>
-          </div>
-
-          <div class="inline-entry">
-            <div class="inline-entry-head">
-              <div class="inline-entry-date">Jan 2021 - Jan 2023</div>
-              <p class="inline-entry-line"><span class="inline-entry-entity">University of Alberta</span><span class="inline-entry-separator">,</span> M.Sc. in Computer Science<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">CGPA: 4.00/4.00; Supervisor: Martha White</span></p>
-              <button type="button" class="inline-resource-toggle" aria-label="Show resources" aria-expanded="false" aria-controls="msc-resources" onclick="toggleResourcePanel(this, 'msc-resources')"></button>
-            </div>
-            <div id="msc-resources" class="inline-resource-panel">
-              <a href="https://era.library.ualberta.ca/items/daded82e-9b3f-43e4-9089-65558fcdff98">Thesis</a>
-              <a href="https://drive.google.com/file/d/1xgUU5XRoDnVxTItC0J6UtuVfZhnPggZH/view?usp=sharing">Slides</a>
-              <a href="https://github.com/haseebs/continually-adapting-networks">Code</a>
-            </div>
-          </div>
-
-          <div class="inline-entry">
-            <div class="inline-entry-head">
-              <div class="inline-entry-date">Sep 2015 - May 2019</div>
-              <p class="inline-entry-line"><span class="inline-entry-entity">National University of Sciences and Technology</span><span class="inline-entry-separator">,</span> B.E. Software Engineering<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Supervisor: Faisal Shafait</span></p>
-              <button type="button" class="inline-resource-toggle" aria-label="Show resources" aria-expanded="false" aria-controls="be-resources" onclick="toggleResourcePanel(this, 'be-resources')"></button>
-            </div>
-            <div id="be-resources" class="inline-resource-panel">
-              <a href="papers/owe">Paper</a>
-              <a href="https://github.com/haseebs/OWE">Code</a>
-            </div>
-          </div>
-        </div>
-
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="row reveal">
+      <div class="container left">
+        <img src="assets/pictures/haseeb_photo_forest.jpg" alt="Photo of Haseeb Shah" class="picture">
       </div>
-      <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
-        <h1 style="letter-spacing:1px"> Work Experience</h1>
-        <div class="inline-list">
-          <div class="inline-entry">
-            <div class="inline-entry-head">
-              <div class="inline-entry-date">Jan 2024 - Aug 2024</div>
-              <p class="inline-entry-line"><span class="inline-entry-entity">RL Core Technologies</span><span class="inline-entry-separator">,</span> Machine Learning Intern<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Canada</span></p>
-            </div>
+      <div class="right">
+        <h1 class="myname">Haseeb Shah</h1>
+        <hr class="name-rule">
+        <p class="role">Ph.D. Student &middot; Reinforcement Learning</p>
+        <p class="hero-bio">
+          I am a Ph.D. student at the <a href="http://rlai.ualberta.ca">RLAI lab</a> at the University of Alberta, advised by
+          <a href="http://webdocs.cs.ualberta.ca/~whitem/">Prof. Martha White</a>. My research focuses on foundational topics in
+          reinforcement learning &mdash; policy gradient algorithms, general value functions, and recurrent learning &mdash; as well
+          as applying reinforcement learning to real-world physical systems, such as automating
+          <a href="https://watertoday.ca/ts-wtech-RL-Core-Technologies-to-imrove-drinking-water-treatment-using-data-driven-ai.asp">drinking water-treatment plants</a>
+          and controlling <a href="https://cds.cern.ch/record/2203631/files/1418884_67-77.pdf">laser wakefield accelerators</a>.
+        </p>
+        <div class="hero-actions">
+          <div class="social-bar">
+            <a href="https://github.com/haseebs" class="fa fa-github" aria-label="GitHub"></a>
+            <a href="https://scholar.google.com/citations?user=NKRLBscAAAAJ" class="ai ai-google-scholar" aria-label="Google Scholar"></a>
+            <a href="https://www.linkedin.com/in/haseebs" class="fa fa-linkedin" aria-label="LinkedIn"></a>
+            <a href="https://twitter.com/haseebsz" class="fa fa-twitter" aria-label="Twitter"></a>
+            <a href="https://www.instagram.com/haseeebs" class="fa fa-instagram" aria-label="Instagram"></a>
           </div>
-
-          <div class="inline-entry">
-            <div class="inline-entry-head">
-              <div class="inline-entry-date">Feb 2023 - Jan 2024</div>
-              <p class="inline-entry-line"><span class="inline-entry-entity">University of Alberta</span><span class="inline-entry-separator">,</span> Research Assistant (Fulltime)<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Canada</span></p>
-            </div>
-          </div>
-
-          <div class="inline-entry">
-            <div class="inline-entry-head">
-              <div class="inline-entry-date">Jan 2020 - Dec 2020</div>
-              <p class="inline-entry-line"><span class="inline-entry-entity">LAVIS Lab, Hochschule RheinMain</span><span class="inline-entry-separator">,</span> Research Assistant<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Remote</span></p>
-            </div>
-          </div>
-
-          <div class="inline-entry">
-            <div class="inline-entry-head">
-              <div class="inline-entry-date">Mar 2020 - Jul 2020</div>
-              <p class="inline-entry-line"><span class="inline-entry-entity">DCube Tech.</span><span class="inline-entry-separator">,</span> Machine Learning Engineer<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Pakistan</span></p>
-            </div>
-          </div>
-
-          <div class="inline-entry">
-            <div class="inline-entry-head">
-              <div class="inline-entry-date">Jun 2018 - Aug 2018</div>
-              <p class="inline-entry-line"><span class="inline-entry-entity">LAVIS Lab, Hochschule RheinMain</span><span class="inline-entry-separator">,</span> DAAD Research Intern<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Germany</span></p>
-            </div>
-          </div>
-
-          <div class="inline-entry">
-            <div class="inline-entry-head">
-              <div class="inline-entry-date">Jun 2017 - Dec 2017</div>
-              <p class="inline-entry-line"><span class="inline-entry-entity">TUKL-NUST R&amp;D Center</span><span class="inline-entry-separator">,</span> Undergraduate Research Intern<span class="inline-entry-separator">,</span> <span class="inline-entry-inline-meta">Pakistan</span></p>
-            </div>
-          </div>
+          <a href="assets/Haseeb_Shah_CV.pdf" class="cv-button"><i class="fa fa-file-text-o"></i> Curriculum Vitae</a>
         </div>
-
       </div>
+    </div>
+  </header>
+
+  <!-- ============ EDUCATION + WORK ============ -->
+  <div class="edu-work reveal">
+  <div class="cv-col">
+    <h1 class="section-title">Education</h1>
+    <div class="cv-list cv-list-edu">
+      <div class="cv-entry">
+        <div class="cv-row1"><span class="cv-org">University of Alberta</span><span class="cv-date">Sep 2024 &ndash; Present</span></div>
+        <div class="cv-sub">Ph.D. in Computer Science</div>
+        <div class="cv-meta cv-accent">Ph.D. Recruitment Scholarship</div>
+        <div class="cv-meta">Supervisor: Martha White</div>
+        <div class="cv-meta">Teaching Assistant: AI Everywhere</div>
       </div>
-      <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
-        <h1 style="letter-spacing:1px"> Under Review </h1>
 
-        <div class="paper-div-with-figure">
-            <div class="paper-content">
-                <div class="paper-header">
-                    <h4 class="paper-title">Stable learning in deployment while mitigating performance degradation in offline-to-online RL</h4>
-                    <div class="paper-badges">
-                        <span class="paper-badge">RLC 2026</span>
-                        <span class="paper-badge paper-badge-muted">Under Review</span>
-                    </div>
-                </div>
-                <p class="paper-authors">H. Wang, <u>H. Shah</u>, A. White, M. White</p>
-                <div class="paper-actions">
-                    <button onclick="location.href='#'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
-                </div>
-                <p align="justify" class="sub1">We introduce a new fine-tuning algorithm that gradually allows more exploration based on off-policy estimates of performance.  </p>
-            </div>
-        </div>
-
-        <div class="paper-div-with-figure">
-            <div class="paper-content">
-                <div class="paper-header">
-                    <h4 class="paper-title">Symmetric Behavior Policy Optimization</h4>
-                    <div class="paper-badges">
-                        <span class="paper-badge">ICML 2026</span>
-                        <span class="paper-badge paper-badge-muted">Under Review</span>
-                    </div>
-                </div>
-                <p class="paper-authors">L. Zhu, <u>H. Shah</u>, C. Zheng, N. Yukie, M. White</p>
-                <div class="paper-actions">
-                    <button onclick="location.href='#'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
-                </div>
-                <p align="justify" class="sub1">We study Symmetric Divergences for Behavior Regularized Policy Optimization and propose Symmetric 𝑓-Actor Critic, which avoids
-                per-environment failures encountered by other offline Reinforcement Learning methods.</p>
-            </div>
-        </div>
-
-      </div>
-      <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
-        <h1 style="letter-spacing:1px"> Publications </h1>
-
-
-        <div class="paper-div-with-figure">
-            <div class="paper-content">
-                <div class="paper-header">
-                    <h4 class="paper-title"><em>q</em>-Exponential Family for Policy Optimization</h4>
-                    <div class="paper-badges">
-                        <span class="paper-badge">ICLR 2025</span>
-                        <span class="paper-badge paper-badge-muted">Equal contribution</span>
-                    </div>
-                </div>
-                <p class="paper-authors">L. Zhu*, <u>H. Shah*</u>, H. Wang*, M. White</p>
-                <div class="paper-actions">
-                    <button onclick="location.href='https://openreview.net/pdf?id=OyyE1FDdrQ'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
-                </div>
-                <p align="justify" class="sub1"> We explore the effectiveness of <em>q</em>-exponential policies in policy optimization methods, finding that heavy-tailed policies (<em>q</em> > 1) are generally more effective and can consistently outperform the Gaussian policy.</p>
-            </div>
-        </div>
-
-        <!-- Publications Section -->
-        <div class="paper-div-with-figure">
-            <div class="paper-content">
-                <div class="paper-header">
-                    <h4 class="paper-title">Scalable Real-Time Recurrent Learning Using Columnar-Constructive Networks</h4>
-                    <div class="paper-badges">
-                        <span class="paper-badge">JMLR 2023</span>
-                    </div>
-                </div>
-                <p class="paper-authors">K. Javed, <u>H. Shah</u>, R. Sutton, M. White</p>
-                <div class="paper-actions">
-                    <button onclick="location.href='https://www.jmlr.org/papers/volume24/23-0367/23-0367.pdf'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
-                </div>
-                <p align="justify" class="sub1">We show that by either decomposing the network into independent modules or learning a recurrent network incrementally, we can make RTRL scale linearly with the number of parameters. Unlike prior scalable gradient estimation algorithms, our algorithms do not add noise or bias to the gradient estimate.</p>
-            </div>
-        </div>
-
-        <div class="paper-div-with-figure">
-            <div class="paper-content">
-                <div class="paper-header">
-                    <h4 class="paper-title">GVFs in the Real World: Making Predictions Online for Water Treatment</h4>
-                    <div class="paper-badges">
-                        <span class="paper-badge">MLJ 2023</span>
-                    </div>
-                </div>
-                <p class="paper-authors">K. Janjua, <u>H. Shah</u>, M. White, E. Miahi, M. C. Machado, A. White</p>
-                <div class="paper-actions">
-                    <button onclick="location.href='https://link.springer.com/article/10.1007/s10994-023-06413-x'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
-                    <button onclick="location.href='https://drive.google.com/file/d/1n5aDsu-kBv16JmJEHraVBRaRa3VxPo0/view?usp=sharing'" class="w3-button w3-border w3-tiny w3-padding-small">Poster</button>
-                    <button onclick="location.href='https://github.com/haseebs/gvf-real-world'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
-                </div>
-                <p align="justify" class="sub1">We propose a framework for making accurate predictions on a real world water treatment plant based on the General Value Functions. This work is one of the first to motivate the importance of adapting predictions in real-time, for non-stationary high-volume systems in the real world.</p>
-            </div>
-        </div>
-
-        <div class="paper-div-with-figure">
-            <div class="paper-content">
-                <div class="paper-header">
-                    <h4 class="paper-title">An Open-World Extension for Knowledge Graph Completion Models</h4>
-                    <div class="paper-badges">
-                        <span class="paper-badge">AAAI 2019</span>
-                        <span class="paper-badge paper-badge-muted">Oral</span>
-                    </div>
-                </div>
-                <p class="paper-authors"><u>H. Shah</u>, J. Villmow, A. Ulges, U. Schwanecke, F. Shafait</p>
-                <div class="paper-actions">
-                    <button onclick="location.href='https://dl.acm.org/doi/pdf/10.1609/aaai.v33i01.33013044'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
-                    <button onclick="location.href='https://github.com/haseebs/OWE'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
-                </div>
-                <p align="justify" class="sub1">We propose an extension that enables any existing Knowledge Graph Completion model to predict facts about the open-world entities. This approach is more robust, more portable and has better performance than the published state of the art on most datasets. We also released a new dataset that overcomes the shortcomings of previous ones.</p>
-            </div>
-        </div>
-
-        <h1 style="letter-spacing:1px"> Workshops and Preprints</h1>
-
-        <div class="paper-div-with-figure">
-            <div class="paper-content">
-                <div class="paper-header">
-                    <h4 class="paper-title">Relation Specific Transformations for Open World Knowledge Graph Completion</h4>
-                    <div class="paper-badges">
-                        <span class="paper-badge">COLING 2020</span>
-                    </div>
-                </div>
-                <p class="paper-authors"><u>H. Shah</u>, J. Villmow, A. Ulges</p>
-                <div class="paper-actions">
-                    <button onclick="location.href='papers/2020.textgraphs-1.9.pdf'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
-                    <button onclick="location.href='https://docs.google.com/presentation/d/1HXc7Fb9D1C74XXb2t8UjFBdaiZWCRs5Q5NwbTvxD0Uo/edit?usp=share_link'" class="w3-button w3-border w3-tiny w3-padding-small">Slides</button>
-                    <button onclick="location.href='papers/2020.textgraphs-1.9.OptionalSupplementaryMaterial.pdf'" class="w3-button w3-border w3-tiny w3-padding-small">Appendix</button>
-                    <button onclick="location.href='https://github.com/haseebs/RST-OWE'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
-                </div>
-                <p align="justify" class="sub1">We introduced relation specific transformations to substantially improve the performance of Open World Knowledge Graph Completion models. We also proposed an approach for clustering of relations to reduce the training time and memory footprint.</p>
-            </div>
-        </div>
-
-        <div class="paper-div-with-figure">
-            <div class="paper-content">
-                <div class="paper-header">
-                    <h4 class="paper-title">Distillation Techniques for Pseudo-rehearsal Based Incremental Learning</h4>
-                    <div class="paper-badges">
-                        <span class="paper-badge">2018</span>
-                        <span class="paper-badge paper-badge-muted">Preprint</span>
-                    </div>
-                </div>
-                <p class="paper-authors"><u>H. Shah</u>, K. Javed, F. Shafait.</p>
-                <div class="paper-actions">
-                    <button onclick="location.href='https://arxiv.org/abs/1807.02799'" class="w3-button w3-border w3-tiny w3-padding-small">Paper</button>
-                    <button onclick="location.href='https://github.com/haseebs/Pseudo-rehearsal-Incremental-Learning'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
-                </div>
-                <p align="justify" class="sub1">Standard neural networks suffer from catastrophic forgetting when they are trained on incrementally arriving stream of i.i.d. data. To combat this forgetting, one approach is to train GANs on previously arrived data and feed it to the network again. In this paper, we highlighted that this method is biased and proposed an approach to mitigate this bias and reduce the effect of catastrophic forgetting.</p>
-            </div>
-        </div>
-
-      </div>
-      <div class="w3-row-padding w3-grayscale" style="margin-bottom:10px">
-        <h1 style="letter-spacing:1px"> Public Talks </h1>
-
-        <div class="paper-div-with-figure">
-            <div class="paper-content">
-                <div class="paper-header">
-                    <h4 class="paper-title">Online Feature Decorrelation</h4>
-                    <div class="paper-badges">
-                        <span class="paper-badge">AMII 2022</span>
-                        <span class="paper-badge paper-badge-muted">Talk</span>
-                    </div>
-                </div>
-                <div class="paper-actions">
-                    <button onclick="location.href='https://drive.google.com/file/d/1xk45BM2qEsPtyM4zL2aGzDbk_DA_5Rd_/view?usp=sharing'" class="w3-button w3-border w3-tiny w3-padding-small">Talk</button>
-                    <button onclick="location.href='https://drive.google.com/file/d/1BOBPC7JiTTGfpu5G8kFdDmQ6_cqILSyu/view?usp=sharing'" class="w3-button w3-border w3-tiny w3-padding-small">Slides</button>
-                    <button onclick="location.href='https://github.com/haseebs/online-feature-decorrelation'" class="w3-button w3-border w3-tiny w3-padding-small">Code</button>
-                </div>
-                <p align="justify" class="sub1">A significant proportion of the representations learned by the current generate & test methods consist of highly redundant features. This talk demonstrates how the feature ranking criteria utilized by these methods are highly ineffective in addressing this problem. In this talk, I present a new approach for decorrelating features in an online setting. I demonstrate that this decorrelator can effectively eliminate redundant features and produce a statistically significant performance improvement in the low-capacity function approximation setting.</p>
-            </div>
+      <div class="cv-entry">
+        <div class="cv-row1"><span class="cv-org">University of Alberta</span><span class="cv-date">Jan 2021 &ndash; Jan 2023</span></div>
+        <div class="cv-sub">M.Sc. in Computer Science</div>
+        <div class="cv-meta cv-accent">CGPA 4.00/4.00</div>
+        <div class="cv-meta">Supervisor: Martha White</div>
+        <div class="cv-meta">Teaching Assistant: Intermediate Machine Learning, Introduction to CS</div>
+        <div class="cv-res-line">
+          <a href="https://era.library.ualberta.ca/items/daded82e-9b3f-43e4-9089-65558fcdff98">Thesis</a>
+          <a href="https://drive.google.com/file/d/1xgUU5XRoDnVxTItC0J6UtuVfZhnPggZH/view?usp=sharing">Slides</a>
+          <a href="https://github.com/haseebs/continually-adapting-networks">Code</a>
         </div>
       </div>
 
-    <script>
-      function toggleResourcePanel(button, panelId) {
-        var panel = document.getElementById(panelId);
-        var isOpen = button.getAttribute("aria-expanded") === "true";
+      <div class="cv-entry">
+        <div class="cv-row1"><span class="cv-org">National University of Sciences and Technology</span><span class="cv-date">Sep 2015 &ndash; May 2019</span></div>
+        <div class="cv-sub">B.E. in Software Engineering</div>
+        <div class="cv-meta cv-accent">Merit Scholarship for High Achievers (awarded each semester)</div>
+        <div class="cv-meta cv-accent">DAAD Summer Research Scholarship, Germany</div>
+        <div class="cv-meta">Supervisor: Faisal Shafait</div>
+        <div class="cv-meta">Teaching Assistant: Computer Networks</div>
+        <div class="cv-res-line">
+          <a href="papers/owe">Paper</a>
+          <a href="https://github.com/haseebs/OWE">Code</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        button.setAttribute("aria-expanded", String(!isOpen));
-        panel.classList.toggle("is-open", !isOpen);
-      }
-    </script>
+  <!-- ============ WORK ============ -->
+  <div class="cv-col">
+    <h1 class="section-title">Experience</h1>
+    <div class="cv-list">
+      <div class="cv-entry">
+        <div class="cv-row1"><span class="cv-org">Advanced Laser Light Source Laboratory, INRS</span><span class="cv-date">Sep 2025 &ndash; Oct 2025</span></div>
+        <div class="cv-sub">Reinforcement Learning Researcher<span class="sep">&middot;</span>Montreal, Canada</div>
+      </div>
+      <div class="cv-entry">
+        <div class="cv-row1"><span class="cv-org">RL Core Technologies</span><span class="cv-date">Jan 2024 &ndash; Aug 2024</span></div>
+        <div class="cv-sub">Machine Learning Intern<span class="sep">&middot;</span>Canada</div>
+      </div>
+      <div class="cv-entry">
+        <div class="cv-row1"><span class="cv-org">University of Alberta</span><span class="cv-date">Feb 2023 &ndash; Jan 2024</span></div>
+        <div class="cv-sub">Research Assistant (Full-time)<span class="sep">&middot;</span>Canada</div>
+      </div>
+      <div class="cv-entry">
+        <div class="cv-row1"><span class="cv-org">LAVIS Lab, Hochschule RheinMain</span><span class="cv-date">Jan 2020 &ndash; Dec 2020</span></div>
+        <div class="cv-sub">Research Assistant<span class="sep">&middot;</span>Remote</div>
+      </div>
+      <div class="cv-entry">
+        <div class="cv-row1"><span class="cv-org">DCube Tech.</span><span class="cv-date">May 2020 &ndash; Aug 2020</span></div>
+        <div class="cv-sub">Machine Learning Engineer<span class="sep">&middot;</span>Pakistan</div>
+      </div>
+      <div class="cv-entry">
+        <div class="cv-row1"><span class="cv-org">LAVIS Lab, Hochschule RheinMain</span><span class="cv-date">Jun 2018 &ndash; Sep 2018</span></div>
+        <div class="cv-sub">DAAD Research Intern<span class="sep">&middot;</span>Germany</div>
+      </div>
+      <div class="cv-entry">
+        <div class="cv-row1"><span class="cv-org">TUKL-NUST R&amp;D Center</span><span class="cv-date">Jun 2017 &ndash; Dec 2017</span></div>
+        <div class="cv-sub">Undergraduate Research Intern<span class="sep">&middot;</span>Pakistan</div>
+      </div>
+    </div>
+  </div>
+  </div>
 
-    </body>
-  </html>
+  <!-- ============ UNDER REVIEW ============ -->
+  <section class="block reveal">
+    <h1 class="section-title">Under Review</h1>
+
+    <div class="paper-div-with-figure paper-journal">
+      <div class="paper-header">
+        <h4 class="paper-title">Deconstructing Actor-Critic: A Large-Scale Empirical Study of Design Components for Practitioners</h4>
+        <div class="paper-badges">
+          <span class="paper-badge">PNAS</span>
+          <span class="paper-badge paper-badge-muted">Under Review</span>
+        </div>
+      </div>
+      <p class="paper-authors"><u>H. Shah</u>, L. Zhu, A. White, M. White</p>
+      <p class="paper-venue">Submitted to the Proceedings of the National Academy of Sciences <span class="venue-abbr">(PNAS)</span></p>
+      <p class="sub1">We run and analyze over 33,000 experiments on a task derived from a real-world system to identify how actor-critic components affect performance and stability in deployment, highlighting that many existing defaults are relatively more unstable.</p>
+    </div>
+
+    <div class="paper-div-with-figure">
+      <div class="paper-header">
+        <h4 class="paper-title">Stable Deployment in Offline-to-Online RL: Mitigating Degradation during Continual Fine-Tuning</h4>
+        <div class="paper-badges">
+          <span class="paper-badge">RLC 2026</span>
+          <span class="paper-badge paper-badge-muted">Under Review</span>
+        </div>
+      </div>
+      <p class="paper-authors">H. Wang, <u>H. Shah</u>, A. White, M. White</p>
+      <p class="paper-venue">Submitted to the Continual RL Workshop at the Reinforcement Learning Conference <span class="venue-abbr">(RLC)</span>, 2026</p>
+      <p class="sub1">We introduce a new offline-to-online fine-tuning algorithm that gradually allows more exploration based on off-policy estimates of performance. We also propose new metrics to properly measure performance degradation.</p>
+    </div>
+
+    <div class="paper-div-with-figure">
+      <div class="paper-header">
+        <h4 class="paper-title">Symmetric Behavior Regularized Policy Optimization</h4>
+        <div class="paper-badges">
+          <span class="paper-badge">NeurIPS 2026</span>
+          <span class="paper-badge paper-badge-muted">Under Review</span>
+        </div>
+      </div>
+      <p class="paper-authors">L. Zhu, <u>H. Shah</u>, C. Zheng, N. Yukie, M. White</p>
+      <p class="paper-venue">Submitted to the Conference on Neural Information Processing Systems <span class="venue-abbr">(NeurIPS)</span>, 2026</p>
+      <p class="sub1">We study symmetric divergences for behavior-regularized policy optimization and propose Symmetric <em>f</em>-Actor Critic, which avoids the per-environment failures encountered by other offline reinforcement learning methods.</p>
+    </div>
+  </section>
+
+  <!-- ============ PUBLICATIONS ============ -->
+  <section class="block reveal">
+    <h1 class="section-title">Publications</h1>
+
+    <div class="paper-div-with-figure">
+      <div class="paper-header">
+        <h4 class="paper-title"><em>q</em>-Exponential Family for Policy Optimization</h4>
+        <div class="paper-badges">
+          <span class="paper-badge">ICLR 2025</span>
+        </div>
+      </div>
+      <p class="paper-authors">L. Zhu*, <u>H. Shah*</u>, H. Wang*, M. White<span class="paper-eq">* Equal contribution</span></p>
+      <p class="paper-venue">In Proceedings of the International Conference on Learning Representations <span class="venue-abbr">(ICLR)</span>, 2025</p>
+      <div class="paper-actions">
+        <button onclick="location.href='https://openreview.net/pdf?id=OyyE1FDdrQ'" class="w3-button">Paper</button>
+        <button type="button" class="cite-toggle" aria-expanded="false" aria-controls="bib-qexp" onclick="togglePanel(this, 'bib-qexp')">Cite</button>
+      </div>
+      <div id="bib-qexp" class="bibtex-panel">
+        <button type="button" class="bibtex-copy" onclick="copyBibtex(this)">Copy</button>
+        <pre>@inproceedings{zhu2025qexponential,
+  title     = {{q}-Exponential Family for Policy Optimization},
+  author    = {Zhu, Lingwei and Shah, Haseeb and Wang, Han and White, Martha},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2025}
+}</pre>
+      </div>
+      <p class="sub1">We explore the effectiveness of <em>q</em>-exponential policies in policy optimization methods, finding that heavy-tailed policies (<em>q</em> &gt; 1) are generally more effective and can consistently outperform the Gaussian policy.</p>
+    </div>
+
+    <div class="paper-div-with-figure paper-journal">
+      <div class="paper-header">
+        <h4 class="paper-title">Scalable Real-Time Recurrent Learning Using Columnar-Constructive Networks</h4>
+        <div class="paper-badges">
+          <span class="paper-badge">JMLR 2023</span>
+        </div>
+      </div>
+      <p class="paper-authors">K. Javed, <u>H. Shah</u>, R. Sutton, M. White</p>
+      <p class="paper-venue">Journal of Machine Learning Research <span class="venue-abbr">(JMLR)</span>, 2023</p>
+      <div class="paper-actions">
+        <button onclick="location.href='https://www.jmlr.org/papers/volume24/23-0367/23-0367.pdf'" class="w3-button">Paper</button>
+        <button type="button" class="cite-toggle" aria-expanded="false" aria-controls="bib-crtrl" onclick="togglePanel(this, 'bib-crtrl')">Cite</button>
+      </div>
+      <div id="bib-crtrl" class="bibtex-panel">
+        <button type="button" class="bibtex-copy" onclick="copyBibtex(this)">Copy</button>
+        <pre>@article{javed2023scalable,
+  title   = {Scalable Real-Time Recurrent Learning Using Columnar-Constructive Networks},
+  author  = {Javed, Khurram and Shah, Haseeb and Sutton, Richard S. and White, Martha},
+  journal = {Journal of Machine Learning Research (JMLR)},
+  volume  = {24},
+  year    = {2023}
+}</pre>
+      </div>
+      <p class="sub1">We show that by either decomposing the network into independent modules or learning a recurrent network incrementally, we can make RTRL scale linearly with the number of parameters. Unlike prior scalable gradient estimation algorithms, our algorithms do not add noise or bias to the gradient estimate.</p>
+    </div>
+
+    <div class="paper-div-with-figure paper-journal">
+      <div class="paper-header">
+        <h4 class="paper-title">GVFs in the Real World: Making Predictions Online for Water Treatment</h4>
+        <div class="paper-badges">
+          <span class="paper-badge">MLJ 2023</span>
+        </div>
+      </div>
+      <p class="paper-authors">K. Janjua, <u>H. Shah</u>, M. White, E. Miahi, M. C. Machado, A. White</p>
+      <p class="paper-venue">Machine Learning <span class="venue-abbr">(MLJ)</span>, 2023</p>
+      <div class="paper-actions">
+        <button onclick="location.href='https://link.springer.com/article/10.1007/s10994-023-06413-x'" class="w3-button">Paper</button>
+        <button onclick="location.href='https://drive.google.com/file/d/1n5aDsu-kBv16JmJEHraVBRaRa3VxPo0/view?usp=sharing'" class="w3-button">Poster</button>
+        <button onclick="location.href='https://github.com/haseebs/gvf-real-world'" class="w3-button">Code</button>
+        <button type="button" class="cite-toggle" aria-expanded="false" aria-controls="bib-gvf" onclick="togglePanel(this, 'bib-gvf')">Cite</button>
+      </div>
+      <div id="bib-gvf" class="bibtex-panel">
+        <button type="button" class="bibtex-copy" onclick="copyBibtex(this)">Copy</button>
+        <pre>@article{janjua2023gvfs,
+  title   = {General Value Function Networks in the Real World: Making Predictions Online for Water Treatment},
+  author  = {Janjua, Muhammad Kamran and Shah, Haseeb and White, Martha and Miahi, Erfan and Machado, Marlos C. and White, Adam},
+  journal = {Machine Learning Journal (MLJ)},
+  year    = {2023},
+  doi     = {10.1007/s10994-023-06413-x}
+}</pre>
+      </div>
+      <p class="sub1">We propose a framework for making accurate predictions on a real-world water treatment plant based on general value functions. This work is one of the first to motivate the importance of adapting predictions in real-time for non-stationary, high-volume systems in the real world.</p>
+    </div>
+
+    <div class="paper-div-with-figure">
+      <div class="paper-header">
+        <h4 class="paper-title">An Open-World Extension for Knowledge Graph Completion Models</h4>
+        <div class="paper-badges">
+          <span class="paper-badge">AAAI 2019</span>
+          <span class="paper-badge paper-badge-oral">&#9733; Oral</span>
+        </div>
+      </div>
+      <p class="paper-authors"><u>H. Shah</u>, J. Villmow, A. Ulges, U. Schwanecke, F. Shafait</p>
+      <p class="paper-venue">In Proceedings of the AAAI Conference on Artificial Intelligence <span class="venue-abbr">(AAAI)</span>, 2019</p>
+      <div class="paper-actions">
+        <button onclick="location.href='https://dl.acm.org/doi/pdf/10.1609/aaai.v33i01.33013044'" class="w3-button">Paper</button>
+        <button onclick="location.href='https://github.com/haseebs/OWE'" class="w3-button">Code</button>
+        <button type="button" class="cite-toggle" aria-expanded="false" aria-controls="bib-owe" onclick="togglePanel(this, 'bib-owe')">Cite</button>
+      </div>
+      <div id="bib-owe" class="bibtex-panel">
+        <button type="button" class="bibtex-copy" onclick="copyBibtex(this)">Copy</button>
+        <pre>@inproceedings{shah2019openworld,
+  title     = {An Open-World Extension to Knowledge Graph Completion Models},
+  author    = {Shah, Haseeb and Villmow, Johannes and Ulges, Adrian and Schwanecke, Ulrich and Shafait, Faisal},
+  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence (AAAI)},
+  volume    = {33},
+  number    = {01},
+  pages     = {3044--3051},
+  year      = {2019},
+  doi       = {10.1609/aaai.v33i01.33013044}
+}</pre>
+      </div>
+      <p class="sub1">We propose an extension that enables any existing knowledge graph completion model to predict facts about open-world entities. This approach is more robust, more portable, and has better performance than the published state of the art on most datasets. We also released a new dataset that overcomes the shortcomings of previous ones.</p>
+    </div>
+
+    <h2 class="sub-title">Workshops &amp; Preprints</h2>
+
+    <div class="paper-div-with-figure">
+      <div class="paper-header">
+        <h4 class="paper-title">Relation Specific Transformations for Open World Knowledge Graph Completion</h4>
+        <div class="paper-badges">
+          <span class="paper-badge paper-badge-muted">COLING 2020</span>
+        </div>
+      </div>
+      <p class="paper-authors"><u>H. Shah</u>, J. Villmow, A. Ulges</p>
+      <p class="paper-venue">TextGraphs Workshop at COLING, 2020</p>
+      <div class="paper-actions">
+        <button onclick="location.href='papers/2020.textgraphs-1.9.pdf'" class="w3-button">Paper</button>
+        <button onclick="location.href='https://docs.google.com/presentation/d/1HXc7Fb9D1C74XXb2t8UjFBdaiZWCRs5Q5NwbTvxD0Uo/edit?usp=share_link'" class="w3-button">Slides</button>
+        <button onclick="location.href='papers/2020.textgraphs-1.9.OptionalSupplementaryMaterial.pdf'" class="w3-button">Appendix</button>
+        <button onclick="location.href='https://github.com/haseebs/RST-OWE'" class="w3-button">Code</button>
+        <button type="button" class="cite-toggle" aria-expanded="false" aria-controls="bib-rst" onclick="togglePanel(this, 'bib-rst')">Cite</button>
+      </div>
+      <div id="bib-rst" class="bibtex-panel">
+        <button type="button" class="bibtex-copy" onclick="copyBibtex(this)">Copy</button>
+        <pre>@inproceedings{shah2020relation,
+  title     = {Relation Specific Transformations for Open World Knowledge Graph Completion},
+  author    = {Shah, Haseeb and Villmow, Johannes and Ulges, Adrian},
+  booktitle = {Proceedings of the Graph-based Methods for Natural Language Processing (TextGraphs) Workshop at COLING},
+  year      = {2020}
+}</pre>
+      </div>
+      <p class="sub1">We introduced relation-specific transformations to substantially improve the performance of open-world knowledge graph completion models. We also proposed an approach for clustering relations to reduce the training time and memory footprint.</p>
+    </div>
+
+    <div class="paper-div-with-figure">
+      <div class="paper-header">
+        <h4 class="paper-title">Distillation Techniques for Pseudo-rehearsal Based Incremental Learning</h4>
+        <div class="paper-badges">
+          <span class="paper-badge paper-badge-muted">arXiv 2018</span>
+        </div>
+      </div>
+      <p class="paper-authors"><u>H. Shah</u>, K. Javed, F. Shafait</p>
+      <p class="paper-venue">arXiv preprint arXiv:1807.02799, 2018</p>
+      <div class="paper-actions">
+        <button onclick="location.href='https://arxiv.org/abs/1807.02799'" class="w3-button">Paper</button>
+        <button onclick="location.href='https://github.com/haseebs/Pseudo-rehearsal-Incremental-Learning'" class="w3-button">Code</button>
+        <button type="button" class="cite-toggle" aria-expanded="false" aria-controls="bib-distill" onclick="togglePanel(this, 'bib-distill')">Cite</button>
+      </div>
+      <div id="bib-distill" class="bibtex-panel">
+        <button type="button" class="bibtex-copy" onclick="copyBibtex(this)">Copy</button>
+        <pre>@article{shah2018distillation,
+  title   = {Distillation Techniques for Pseudo-rehearsal Based Incremental Learning},
+  author  = {Shah, Haseeb and Javed, Khurram and Shafait, Faisal},
+  journal = {arXiv preprint arXiv:1807.02799},
+  year    = {2018}
+}</pre>
+      </div>
+      <p class="sub1">Standard neural networks suffer from catastrophic forgetting when trained on an incrementally arriving stream of i.i.d. data. One approach to combat this forgetting is to train GANs on previously seen data and feed it to the network again. In this paper, we highlight that this method is biased and propose an approach to mitigate this bias and reduce the effect of catastrophic forgetting.</p>
+    </div>
+  </section>
+
+  <!-- ============ PUBLIC TALKS ============ -->
+  <section class="block reveal">
+    <h1 class="section-title">Public Talks</h1>
+
+    <div class="paper-div-with-figure">
+      <div class="paper-header">
+        <h4 class="paper-title">Online Feature Decorrelation</h4>
+        <div class="paper-badges">
+          <span class="paper-badge paper-badge-muted">AMII 2022</span>
+          <span class="paper-badge paper-badge-muted">Talk</span>
+        </div>
+      </div>
+      <div class="paper-actions">
+        <button onclick="location.href='https://drive.google.com/file/d/1xk45BM2qEsPtyM4zL2aGzDbk_DA_5Rd_/view?usp=sharing'" class="w3-button">Talk</button>
+        <button onclick="location.href='https://drive.google.com/file/d/1BOBPC7JiTTGfpu5G8kFdDmQ6_cqILSyu/view?usp=sharing'" class="w3-button">Slides</button>
+        <button onclick="location.href='https://github.com/haseebs/online-feature-decorrelation'" class="w3-button">Code</button>
+      </div>
+      <p class="sub1">A significant proportion of the representations learned by current generate-and-test methods consist of highly redundant features. This talk demonstrates how the feature ranking criteria used by these methods are ineffective at addressing this problem, and presents a new approach for decorrelating features in an online setting. I show that this decorrelator can effectively eliminate redundant features and produce a statistically significant performance improvement in the low-capacity function approximation setting.</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // Generalized collapse/expand toggle for resource and BibTeX panels
+  function togglePanel(button, panelId) {
+    var panel = document.getElementById(panelId);
+    if (!panel) return;
+    var isOpen = button.getAttribute("aria-expanded") === "true";
+    button.setAttribute("aria-expanded", String(!isOpen));
+    panel.classList.toggle("is-open", !isOpen);
+  }
+
+  // Copy BibTeX to clipboard with brief feedback
+  function copyBibtex(button) {
+    var panel = button.closest(".bibtex-panel");
+    var text = panel ? panel.querySelector("pre").innerText : "";
+    var done = function () {
+      var original = button.textContent;
+      button.textContent = "Copied!";
+      setTimeout(function () { button.textContent = original; }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopy(text, done); });
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+
+  function fallbackCopy(text, done) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  // Scroll-reveal (respects prefers-reduced-motion)
+  (function () {
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var items = document.querySelectorAll(".reveal");
+    if (reduce || !("IntersectionObserver" in window)) {
+      items.forEach(function (el) { el.classList.add("is-visible"); });
+      return;
+    }
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
+    items.forEach(function (el) { observer.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
