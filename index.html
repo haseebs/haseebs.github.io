@@ -48,9 +48,30 @@
       font-optical-sizing: auto;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+      font-variant-numeric: oldstyle-nums;
+      font-feature-settings: "onum" 1, "liga" 1, "kern" 1;
+  }
+
+  /* Uppercase Raleway utilities keep lining figures so chips/dates stay aligned */
+  .role, .section-title, .cv-date, .paper-badge,
+  .paper-actions .w3-button, .cite-toggle, .cv-res-line a, .cv-button, .bibtex-panel pre {
+      font-variant-numeric: lining-nums;
+      font-feature-settings: "lnum" 1;
   }
 
   ::selection { background: rgba(220, 38, 38, 0.16); }
+
+  /* Subtle paper grain overlay */
+  body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.04;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
 
   /* ---------- Layout ---------- */
   .w3-content {
@@ -187,7 +208,7 @@
   .cv-button:hover .fa { background: transparent; color: #fff; transform: none; }
 
   /* ---------- Section headings ---------- */
-  h1.section-title {
+  .section-title {
       display: flex;
       align-items: center;
       gap: 1rem;
@@ -200,21 +221,22 @@
       margin: 0 0 1.4rem;
   }
 
-  h1.section-title::after {
+  .section-title.section-title--mid { margin-top: 2.4rem; }
+
+  .section-title::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      flex-shrink: 0;
+      background: var(--accent);
+      transform: rotate(45deg);
+  }
+
+  .section-title::after {
       content: "";
       flex: 1;
       height: 1px;
       background: var(--rule);
-  }
-
-  h2.sub-title {
-      font-family: var(--sans);
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 2.5px;
-      color: var(--muted);
-      margin: 2rem 0 1.1rem;
   }
 
   /* ---------- Education / Work (CV list) ---------- */
@@ -500,7 +522,7 @@
       .hero-bio { text-align: left; }
       .hero-actions { justify-content: center; }
 
-      h1.section-title { letter-spacing: 2.5px; }
+      .section-title { letter-spacing: 2.5px; }
 
       .edu-work { grid-template-columns: 1fr; column-gap: 0; }
       .edu-work .cv-col + .cv-col { margin-top: 2rem; }
@@ -529,7 +551,7 @@
           I am a Ph.D. student at the <a href="http://rlai.ualberta.ca">RLAI lab</a> at the University of Alberta, advised by
           <a href="http://webdocs.cs.ualberta.ca/~whitem/">Prof. Martha White</a>. My research focuses on foundational topics in
           reinforcement learning &mdash; policy gradient algorithms, general value functions, and recurrent learning &mdash; as well
-          as applying reinforcement learning to real-world physical systems, such as automating
+          as developing reinforcement learning algorithms for real-world physical systems, such as automating
           <a href="https://watertoday.ca/ts-wtech-RL-Core-Technologies-to-imrove-drinking-water-treatment-using-data-driven-ai.asp">drinking water-treatment plants</a>
           and controlling <a href="https://cds.cern.ch/record/2203631/files/1418884_67-77.pdf">laser wakefield accelerators</a>.
         </p>
@@ -793,7 +815,7 @@
       <p class="sub1">We propose an extension that enables any existing knowledge graph completion model to predict facts about open-world entities. This approach is more robust, more portable, and has better performance than the published state of the art on most datasets. We also released a new dataset that overcomes the shortcomings of previous ones.</p>
     </div>
 
-    <h2 class="sub-title">Workshops &amp; Preprints</h2>
+    <h2 class="section-title section-title--mid">Workshops &amp; Preprints</h2>
 
     <div class="paper-div-with-figure">
       <div class="paper-header">
