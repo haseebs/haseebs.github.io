@@ -239,6 +239,25 @@
       background: var(--rule);
   }
 
+  /* Venue color key (echoes the colored left-edge rule on each entry) */
+  .venue-key {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.9rem;
+      font-size: 0.62rem;
+      letter-spacing: 1px;
+      color: var(--muted);
+  }
+  .venue-key-item { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .vk-bar {
+      width: 2px;
+      height: 0.95em;
+      border-radius: 1px;
+      flex-shrink: 0;
+  }
+  .vk-conf { background: var(--accent); }
+  .vk-jrnl { background: var(--purple); }
+
   /* ---------- Education / Work (CV list) ---------- */
   .edu-work {
       display: grid;
@@ -522,7 +541,8 @@
       .hero-bio { text-align: left; }
       .hero-actions { justify-content: center; }
 
-      .section-title { letter-spacing: 2.5px; }
+      .section-title { letter-spacing: 2.5px; flex-wrap: wrap; }
+      .venue-key { letter-spacing: 0.5px; gap: 0.7rem; }
 
       .edu-work { grid-template-columns: 1fr; column-gap: 0; }
       .edu-work .cv-col + .cv-col { margin-top: 2rem; }
@@ -651,7 +671,10 @@
 
   <!-- ============ UNDER REVIEW ============ -->
   <section class="block">
-    <h1 class="section-title">Under Review</h1>
+    <h1 class="section-title">Under Review<span class="venue-key">
+        <span class="venue-key-item"><i class="vk-bar vk-conf"></i>Conference</span>
+        <span class="venue-key-item"><i class="vk-bar vk-jrnl"></i>Journal</span>
+      </span></h1>
 
     <div class="paper-div-with-figure paper-journal">
       <div class="paper-header">
