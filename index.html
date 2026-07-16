@@ -53,7 +53,7 @@
   }
 
   /* Uppercase Raleway utilities keep lining figures so chips/dates stay aligned */
-  .role, .section-title, .cv-date, .paper-badge,
+  .role, .section-title, .cv-date, .paper-badge, .news-date,
   .paper-actions .w3-button, .cite-toggle, .cv-res-line a, .cv-button, .bibtex-panel pre {
       font-variant-numeric: lining-nums;
       font-feature-settings: "lnum" 1;
@@ -317,6 +317,21 @@
   }
   .cv-res-line a:hover { color: var(--accent); border-color: var(--accent); }
 
+  /* ---------- News ---------- */
+  .news-list { display: flex; flex-direction: column; gap: 0.45rem; }
+  .news-item { display: grid; grid-template-columns: 5.8rem 1fr; column-gap: 1.1rem; align-items: baseline; }
+  .news-date {
+      font-family: var(--sans);
+      color: var(--accent-deep);
+      font-size: 0.67rem;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      white-space: nowrap;
+  }
+  .news-text { font-size: 1rem; line-height: 1.55; }
+  .news-text em { font-style: italic; }
+
   /* ---------- Publication entries ---------- */
   .paper-div-with-figure {
       position: relative;
@@ -544,6 +559,8 @@
       .section-title { letter-spacing: 2.5px; flex-wrap: wrap; }
       .venue-key { letter-spacing: 0.5px; gap: 0.7rem; }
 
+      .news-item { grid-template-columns: 1fr; row-gap: 0.1rem; }
+
       .edu-work { grid-template-columns: 1fr; column-gap: 0; }
       .edu-work .cv-col + .cv-col { margin-top: 2rem; }
       .cv-row1 { flex-direction: column; align-items: flex-start; gap: 0.05rem; }
@@ -588,6 +605,18 @@
       </div>
     </div>
   </header>
+
+  <!-- ============ NEWS ============ -->
+  <section class="block">
+    <h1 class="section-title">News</h1>
+    <div class="news-list">
+      <div class="news-item"><span class="news-date">July 2026</span><span class="news-text">Extended preprint for <a href="https://arxiv.org/abs/2607.13274">Deconstructing Actor-Critic: A Large-Scale Empirical Study of Design Components</a> is available.</span></div>
+      <div class="news-item"><span class="news-date">June 2026</span><span class="news-text">Two papers (<a href="https://openreview.net/forum?id=pzD9jhpxOM">1</a>, <a href="https://openreview.net/forum?id=wmbtxVitHW">2</a>) accepted at the <a href="https://sites.google.com/view/continual-learning">RLC Continual RL workshop</a>.</span></div>
+      <div class="news-item"><span class="news-date">Jan 2025</span><span class="news-text"><a href="https://openreview.net/pdf?id=OyyE1FDdrQ"><em>q</em>-Exponential Family for Policy Optimization</a> was accepted at ICLR 2025.</span></div>
+      <div class="news-item"><span class="news-date">Oct 2024</span><span class="news-text">Visited the <a href="https://alls.inrs.ca/en/">Advanced Laser Light Source Laboratory</a> in Montreal to apply RL to laser wakefield accelerators.</span></div>
+      <div class="news-item"><span class="news-date">Sep 2024</span><span class="news-text">Began my Ph.D. at the <a href="http://rlai.ualberta.ca">RLAI lab</a>, University of Alberta, advised by Martha White.</span></div>
+    </div>
+  </section>
 
   <!-- ============ EDUCATION + WORK ============ -->
   <div class="edu-work">
@@ -680,26 +709,28 @@
       <div class="paper-header">
         <h4 class="paper-title">Deconstructing Actor-Critic: A Large-Scale Empirical Study of Design Components</h4>
         <div class="paper-badges">
-          <span class="paper-badge">Science Advances</span>
           <span class="paper-badge paper-badge-muted">Under Review</span>
         </div>
       </div>
       <p class="paper-authors"><u>H. Shah</u>, L. Zhu, A. White, M. White</p>
-      <p class="paper-venue">Submitted to Science Advances</p>
-      <p class="sub1">We run and analyze over 33,000 experiments on a task derived from a real-world system to identify how actor-critic components affect performance and stability in deployment, highlighting that many existing defaults are relatively more unstable.</p>
-    </div>
-
-    <div class="paper-div-with-figure">
-      <div class="paper-header">
-        <h4 class="paper-title">Stable Deployment in Offline-to-Online RL: Mitigating Degradation during Continual Fine-Tuning</h4>
-        <div class="paper-badges">
-          <span class="paper-badge">RLC 2026</span>
-          <span class="paper-badge paper-badge-muted">Under Review</span>
-        </div>
+      <p class="paper-venue">Under Review</p>
+      <div class="paper-actions">
+        <button onclick="location.href='https://arxiv.org/abs/2607.13274'" class="w3-button">Paper</button>
+        <button type="button" class="cite-toggle" aria-expanded="false" aria-controls="bib-dac" onclick="togglePanel(this, 'bib-dac')">Cite</button>
       </div>
-      <p class="paper-authors">H. Wang, <u>H. Shah</u>, A. White, M. White</p>
-      <p class="paper-venue">Submitted to the Continual RL Workshop at the Reinforcement Learning Conference <span class="venue-abbr">(RLC)</span>, 2026</p>
-      <p class="sub1">We introduce a new offline-to-online fine-tuning algorithm that gradually allows more exploration based on off-policy estimates of performance. We also propose new metrics to properly measure performance degradation.</p>
+      <div id="bib-dac" class="bibtex-panel">
+        <button type="button" class="bibtex-copy" onclick="copyBibtex(this)">Copy</button>
+        <pre>@misc{shah2026deconstructingactorcriticlargescaleempirical,
+      title={Deconstructing Actor-Critic: A Large-scale Empirical Study of Design Components for Practitioners}, 
+      author={Haseeb Shah and Lingwei Zhu and Adam White and Martha White},
+      year={2026},
+      eprint={2607.13274},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2607.13274}, 
+}</pre>
+      </div>
+      <p class="sub1">We run and analyze over 33,000 experiments on a task derived from a real-world system to identify how actor-critic components affect performance and stability in deployment, highlighting that many existing defaults are relatively more unstable.</p>
     </div>
 
     <div class="paper-div-with-figure">
@@ -841,6 +872,21 @@
     </div>
 
     <h2 class="section-title section-title--mid">Workshops &amp; Preprints</h2>
+
+    <div class="paper-div-with-figure">
+      <div class="paper-header">
+        <h4 class="paper-title">Stable Deployment in Offline-to-Online RL: Mitigating Degradation during Continual Fine-Tuning</h4>
+        <div class="paper-badges">
+          <span class="paper-badge paper-badge-muted">RLC 2026</span>
+        </div>
+      </div>
+      <p class="paper-authors">H. Wang, <u>H. Shah</u>, A. White, M. White</p>
+      <p class="paper-venue">Continual RL Workshop at the Reinforcement Learning Conference <span class="venue-abbr">(RLC)</span>, 2026</p>
+      <div class="paper-actions">
+        <button onclick="location.href='https://openreview.net/forum?id=pzD9jhpxOM'" class="w3-button">Paper</button>
+      </div>
+      <p class="sub1">We introduce a new offline-to-online fine-tuning algorithm that gradually allows more exploration based on off-policy estimates of performance. We also propose new metrics to properly measure performance degradation.</p>
+    </div>
 
     <div class="paper-div-with-figure">
       <div class="paper-header">
