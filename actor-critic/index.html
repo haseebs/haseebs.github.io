@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Deconstructing Actor-Critic</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A large-scale empirical study of actor-critic design components: over 33,000 experiments on a control task derived from a real water treatment plant, analyzing how component choices affect variability across runs and sensitivity to hyperparameters.">
+  <meta name="theme-color" content="#f7efe0">
+
+  <!-- Social cards -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Deconstructing Actor-Critic: A Large-scale Empirical Study of Design Components for Practitioners">
+  <meta property="og:description" content="Using a control task derived from a real water treatment plant, we analyze over 33,000 experiments to determine how actor-critic components affect variability across runs and sensitivity to hyperparameters.">
+  <meta property="og:url" content="https://haseeb.sh/actor-critic">
+  <meta property="og:image" content="https://haseeb.sh/actor-critic/figs/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Raleway:wght@400;500;600&display=swap">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23a01b22'/%3E%3Ctext x='100' y='104' font-family='Georgia, serif' font-weight='bold' font-size='96' fill='%23faf8f3' text-anchor='middle' dominant-baseline='central'%3EHS%3C/text%3E%3C/svg%3E">
+  <style>
+  :root {
+      --bg:#f7efe0; --bg-soft:#eee4d0; --text:#2e2920; --muted:#6f6450; --faint:#9b8f76;
+      --accent:#7e22ce; --accent-deep:#6b21a8;
+      --rule:rgba(66,52,28,0.16); --rule-soft:rgba(66,52,28,0.08);
+      --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+      --sans:"Raleway", -apple-system, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  body {
+      background:var(--bg); color:var(--text); line-height:1.65; font-family:var(--serif);
+      font-size:1.05rem; -webkit-font-smoothing:antialiased;
+      font-variant-numeric:oldstyle-nums; font-feature-settings:"onum" 1,"liga" 1,"kern" 1;
+  }
+  ::selection { background:rgba(126,34,206,0.14); }
+  body::after {
+      content:""; position:fixed; inset:0; pointer-events:none; z-index:9999; opacity:0.04;
+      mix-blend-mode:multiply;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  a { color:var(--accent-deep); text-decoration:none; border-bottom:1px solid var(--rule); }
+  a:hover { color:var(--accent); border-color:var(--accent); }
+  sub { font-size:0.68em; }
+  .btn {
+      display:inline-flex; align-items:center; justify-content:center; gap:0.4rem;
+      font-family:var(--sans); font-size:0.72rem; font-weight:600; letter-spacing:1.2px;
+      text-transform:uppercase; color:var(--accent-deep); background:transparent;
+      border:1px solid var(--accent); border-radius:3px; padding:0 0.95rem; height:42px;
+      text-decoration:none; cursor:pointer; transition:all 0.2s ease; font-variant-numeric:lining-nums;
+  }
+  .btn:hover { background:var(--accent); color:#fff; }
+  .btn-muted { border-color:var(--rule); color:var(--muted); }
+  .btn-muted:hover { background:var(--muted); border-color:var(--muted); color:#fff; }
+  .bibtex-panel { position:relative; border-left:2px solid var(--accent); background:var(--bg-soft); padding:0.9rem 1rem; border-radius:0 3px 3px 0; }
+  .bibtex-panel pre { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.72rem; line-height:1.55; white-space:pre-wrap; word-break:break-word; font-variant-numeric:lining-nums; }
+  .bibtex-copy { position:absolute; top:0.55rem; right:0.55rem; font-family:var(--sans); font-size:0.62rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted); background:var(--bg); border:1px solid var(--rule); border-radius:2px; padding:0.25rem 0.55rem; cursor:pointer; }
+  .bibtex-copy:hover { color:var(--accent); border-color:var(--accent); }
+  figure.plate img { width:100%; height:auto; display:block; }
+  figure.plate figcaption { margin-top:0.75rem; padding-top:0.6rem; border-top:1px solid var(--rule-soft); font-size:0.83rem; line-height:1.55; color:var(--muted); }
+  figure.plate figcaption b { color:var(--text); font-weight:600; }
+  .figzoom { display:block; border:0; }
+  .figzoom:hover { border:0; }
+  .swipe-hint { display:none; }
+  @media (max-width:640px) {
+      .swipe-hint { display:inline-block; margin-left:0.45rem; font-family:var(--sans); font-size:0.58rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--faint); white-space:nowrap; }
+  }
+  .evidence { margin-top:0.85rem; font-family:var(--sans); font-size:0.63rem; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; color:var(--faint); font-variant-numeric:lining-nums; }
+  .evidence a { color:var(--muted); }
+
+  .topbar { display:flex; justify-content:space-between; padding:1.1rem 0 0; }
+  .home-link { font-family:var(--sans); font-size:0.68rem; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); border-bottom:0; }
+  .home-link:hover { color:var(--accent); }
+  header.hero { text-align:center; padding:3.2rem 0 1rem; max-width:860px; margin:0 auto; }
+  .badges { display:flex; justify-content:center; gap:0.45rem; margin-bottom:1.2rem; }
+  .badge { font-family:var(--sans); padding:0.12rem 0.5rem; border:1px solid var(--rule); border-radius:2px; color:var(--muted); font-size:0.64rem; font-weight:600; letter-spacing:0.9px; text-transform:uppercase; font-variant-numeric:lining-nums; }
+  .badge-red { border-color:rgba(126,34,206,0.35); color:var(--accent-deep); }
+  h1.paper-title { font-size:clamp(2rem,6vw,3.2rem); line-height:1.1; font-weight:600; letter-spacing:-0.8px; margin-bottom:1rem; }
+  .title-rule { width:64px; height:3px; background:var(--accent); border:0; margin:0 auto 1.2rem; }
+  .subtitle { font-size:1.12rem; margin-bottom:1.2rem; }
+  .authors { font-size:1rem; margin-bottom:0.2rem; }
+  .authors .me { font-weight:600; }
+  .authors sup { font-size:0.66em; color:var(--muted); }
+  .affils { font-size:0.83rem; color:var(--muted); font-style:italic; margin-bottom:1.4rem; }
+  .actions { display:flex; justify-content:center; flex-wrap:wrap; gap:0.55rem; }
+  .vsec { display:flex; align-items:center; gap:1rem; font-family:var(--sans); font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:3px; color:var(--accent-deep); margin:2.6rem 0 1.2rem; font-variant-numeric:lining-nums; }
+  .vsec::before { content:""; width:7px; height:7px; flex-shrink:0; background:var(--accent); transform:rotate(45deg); }
+  .vsec::after { content:""; flex:1; height:1px; background:var(--rule); }
+  p.body-para { margin-bottom:1rem; }
+  footer { margin-top:2.6rem; padding-top:1.2rem; border-top:1px solid var(--rule); font-size:0.85rem; color:var(--muted); }
+
+  .shell { max-width:1060px; margin:0 auto; padding:0 clamp(18px,4vw,44px) 4rem; }
+  figure.plate { margin:1.4rem 0; }
+  .chips { display:flex; gap:0.45rem; overflow-x:auto; padding:0.15rem 0 0.9rem; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  .chips::-webkit-scrollbar { display:none; }
+  .chip { flex-shrink:0; font-family:var(--sans); font-size:0.66rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted); background:transparent; border:1px solid var(--rule); border-radius:999px; padding:0.48rem 0.9rem; cursor:pointer; transition:all 0.15s ease; font-variant-numeric:lining-nums; }
+  .chip:hover { border-color:var(--accent); color:var(--accent-deep); }
+  .chip.is-active { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:0.9rem; }
+  .card { position:relative; text-align:left; border:1px solid var(--rule); border-left:3px solid var(--accent); border-radius:0 3px 3px 0; background:transparent; padding:1rem 1.1rem 1.05rem; cursor:pointer; font-family:var(--serif); color:var(--text); transition:box-shadow 0.15s ease, transform 0.15s ease; display:block; width:100%; }
+  .card:hover { box-shadow:0 14px 30px -22px rgba(43,43,41,0.55); transform:translateY(-1px); }
+  .card.supp { border-left-color:var(--faint); }
+  .card.is-hidden { display:none; }
+  .cnum { display:block; font-family:var(--sans); font-size:0.62rem; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--accent-deep); margin-bottom:0.35rem; font-variant-numeric:lining-nums; }
+  .card.supp .cnum { color:var(--muted); }
+  .card .st { font-style:italic; font-size:1.01rem; line-height:1.5; font-weight:500; }
+  .card .openhint { position:absolute; right:0.9rem; bottom:0.7rem; font-family:var(--sans); font-size:0.95rem; color:var(--faint); }
+  .card:hover .openhint { color:var(--accent); }
+  .overlay { position:fixed; inset:0; background:rgba(46,41,32,0.45); display:none; z-index:10000; overflow-y:auto; padding:4vh 4vw; }
+  .overlay.is-open { display:block; }
+  .modal { max-width:860px; margin:0 auto; background:var(--bg); border:1px solid var(--rule); border-top:3px solid var(--accent); border-radius:3px; padding:clamp(1.2rem,3vw,2.2rem); position:relative; box-shadow:0 30px 80px -30px rgba(30,25,15,0.6); }
+  .modal.supp { border-top-color:var(--faint); }
+  .modal-close { position:absolute; top:0.8rem; right:0.9rem; font-family:var(--sans); font-size:1.05rem; background:transparent; border:1px solid var(--rule); border-radius:3px; width:38px; height:38px; color:var(--muted); cursor:pointer; }
+  .modal-close:hover { color:#fff; background:var(--accent); border-color:var(--accent); }
+  .modal .cnum { display:block; font-family:var(--sans); font-size:0.62rem; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--accent-deep); margin-bottom:0.35rem; font-variant-numeric:lining-nums; }
+  .modal .st { font-style:italic; font-size:1.2rem; line-height:1.45; font-weight:500; margin:0.3rem 3rem 0.9rem 0; }
+  .modal p.cp { margin:0.8rem 0 0; font-size:0.97rem; }
+  .modal-nav { display:flex; justify-content:space-between; margin-top:1.4rem; padding-top:0.9rem; border-top:1px solid var(--rule-soft); }
+  .modal-nav button { font-family:var(--sans); font-size:0.66rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted); background:transparent; border:0; border-bottom:1px solid var(--rule); cursor:pointer; padding:0.2rem 0; }
+  .modal-nav button:hover { color:var(--accent); border-color:var(--accent); }
+  .modal-nav button:disabled { opacity:0.3; cursor:default; }
+  @media (max-width:700px) { .grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topbar"><a class="home-link" href="https://haseeb.sh">&larr; haseeb.sh</a></div>
+  <header class="hero">
+    <div class="badges"><span class="badge">Under Review</span><span class="badge badge-red">2026</span></div>
+    <h1 class="paper-title">Deconstructing Actor&#8209;Critic</h1>
+    <hr class="title-rule">
+    <p class="subtitle">A large-scale empirical study of design components for practitioners.</p>
+    <p class="authors"><span class="me">Haseeb Shah</span><sup>a,b,*</sup> &middot; Lingwei Zhu<sup>c,*</sup> &middot; Adam White<sup>a,b,d</sup> &middot; Martha White<sup>a,b,d</sup></p>
+    <p class="affils"><sup>a</sup>University of Alberta &middot; <sup>b</sup>Amii &middot; <sup>c</sup>Great Bay University &middot; <sup>d</sup>Canada CIFAR AI Chair &middot; <sup>*</sup>Equal contribution</p>
+    <div class="actions">
+      <a class="btn" href="https://arxiv.org/pdf/2607.13274">arXiv</a>
+      <a class="btn btn-muted" href="https://github.com/haseebs/deconstruct-ac">Code</a>
+      <a class="btn btn-muted" href="#cite">Cite</a>
+    </div>
+  </header>
+
+  <section>
+    <h2 class="vsec">Abstract</h2>
+    <p class="body-para">Reinforcement learning is increasingly being considered for controlling real-world systems, from fusion plasma
+      and autonomous vehicles to drug discovery and drinking water treatment, where reliability is essential and tuning
+      budgets are limited. Actor-critic algorithms share a set of design decisions, such as how the policy is updated,
+      how it represents the distribution over actions, how its gradient is estimated, and how often it is updated
+      relative to the value estimator. Using a control task derived from a real water treatment plant, we analyze over
+      33,000 experiments to determine how these components affect variability across runs and sensitivity to
+      hyperparameters. Common defaults, such as Gaussian action distributions with pathwise gradient estimators, are
+      among the least reliable configurations, whereas bounded distributions with adaptive update schedules remain
+      robust across a wide range of settings. These findings offer empirical guidance to practitioners across
+      scientific and engineering domains for understanding and making component-level decisions when adapting
+      actor-critic methods to new real-world control settings.</p>
+  </section>
+
+  <section>
+    <h2 class="vsec">Problem setting</h2>
+    <p class="body-para">To isolate the effects of individual components, we study a simplified, stateless PID tuning setting. Tuning PID
+      controllers is a common task in engineered systems, where small changes in parameters can have large effects on
+      overall stability and efficiency. The environment is constructed from data from a real water treatment system:
+      the agent outputs PID gains for the backwashing pump controller, a classical PID loop drives the pump, and the
+      reward summarizes the tracking quality over the rollout. Each rollout begins from a fixed state, reducing the
+      problem to a continuous-action bandit and stripping away confounding factors such as long-horizon credit
+      assignment and temporal state dependence.</p>
+    <figure class="plate">
+      <a class="figzoom hero" href="figs/herodiagram.webp" target="_blank" rel="noopener"><img src="figs/herodiagram.webp" alt="Schematic of the RL system on a water treatment controller, the six components studied, policy parameterizations, and mass-covering vs mode-seeking KL objectives." width="1800" height="919"></a>
+      <figcaption><b>Schematic of a reinforcement learning system on a water treatment controller.</b>
+      (A)&nbsp;Deployment setting and agent internals. (B)&nbsp;We vary six components of the learning agent across
+      33,000+ experiments. (C)&nbsp;Some of the policy parameterizations available to the actor. (D)&nbsp;The
+      mass-covering vs. mode-seeking KL objectives. <span class="swipe-hint">Tap to enlarge</span></figcaption>
+    </figure>
+    <p class="body-para">We evaluate both the performance and stability of the component choices. Performance is the mean reward across
+      seeds (higher is better); stability refers to the run-to-run variability, measured by the coefficient of
+      variation across seeds (lower is better). A reliable method should do well on both metrics. We study PPO, SAC,
+      DDPG, MPO, GreedyAC, vanilla actor-critic, and REINFORCE, with Gaussian, squashed Gaussian,
+      Student's&nbsp;<i>t</i>, and beta policy parameterizations.</p>
+  </section>
+
+  <section>
+    <h2 class="vsec">Conclusions</h2>
+    <p class="body-para">We present the summarized conclusions from the study below; conclusions 9&#8211;12 are presented in the supplement, along with the detailed run-to-run and hyperparameter variability analysis. Select a conclusion to read its supporting evidence, or filter by the component it concerns.</p>
+    <div class="chips">
+      <button class="chip is-active" data-filter="all">All</button>
+      <button class="chip" data-filter="policy">Policy parameterization</button>
+      <button class="chip" data-filter="updates">Update ratios</button>
+      <button class="chip" data-filter="gradients">Gradient estimator</button>
+      <button class="chip" data-filter="critic">Critic</button>
+      <button class="chip" data-filter="objective">Actor objective</button>
+    </div>
+    <div class="grid">
+      <button type="button" class="card" data-tags="critic objective" onclick="openModal(0)">
+      <span class="cnum">Conclusion 1</span>
+      <span class="st">Mixing immediate reward with value estimates (&lambda;&nbsp;&gt;&nbsp;0) improves stability and performance.</span>
+      <span class="openhint">+</span>
+    </button>
+<button type="button" class="card" data-tags="critic" onclick="openModal(1)">
+      <span class="cnum">Conclusion 2</span>
+      <span class="st">Critic inaccuracy is a major contributor to instability.</span>
+      <span class="openhint">+</span>
+    </button>
+<button type="button" class="card" data-tags="policy" onclick="openModal(2)">
+      <span class="cnum">Conclusion 3</span>
+      <span class="st">Beta policies achieve the best performance&#8211;stability tradeoff.</span>
+      <span class="openhint">+</span>
+    </button>
+<button type="button" class="card" data-tags="policy updates" onclick="openModal(3)">
+      <span class="cnum">Conclusion 4</span>
+      <span class="st">Bounded-support policy parameterizations are slower to converge compared to unbounded-support ones.</span>
+      <span class="openhint">+</span>
+    </button>
+<button type="button" class="card" data-tags="updates" onclick="openModal(4)">
+      <span class="cnum">Conclusion 5</span>
+      <span class="st">Actor update-to-data ratio (UTD) is a safer tuning knob compared to the actor learning rate.</span>
+      <span class="openhint">+</span>
+    </button>
+<button type="button" class="card" data-tags="updates policy" onclick="openModal(5)">
+      <span class="cnum">Conclusion 6</span>
+      <span class="st">Higher actor update-to-data ratio improves beta policies but destabilizes Gaussian policies.</span>
+      <span class="openhint">+</span>
+    </button>
+<button type="button" class="card" data-tags="gradients policy" onclick="openModal(6)">
+      <span class="cnum">Conclusion 7</span>
+      <span class="st">Pathwise gradient estimators are often unreliable with clipped or squashed policies.</span>
+      <span class="openhint">+</span>
+    </button>
+<button type="button" class="card" data-tags="critic updates" onclick="openModal(7)">
+      <span class="cnum">Conclusion 8</span>
+      <span class="st">Adaptive critic updating is more reliable than a fixed critic update-to-data ratio.</span>
+      <span class="openhint">+</span>
+    </button>
+<button type="button" class="card supp" data-tags="objective" onclick="openModal(8)">
+      <span class="cnum">Conclusion 9 &middot; Supplement</span>
+      <span class="st">Mirror descent adds complexity without consistent empirical gains.</span>
+      <span class="openhint">+</span>
+    </button>
+<button type="button" class="card supp" data-tags="policy critic" onclick="openModal(9)">
+      <span class="cnum">Conclusion 10 &middot; Supplement</span>
+      <span class="st">Beta policy is more robust to higher learning rates when the critic's contribution is minimized.</span>
+      <span class="openhint">+</span>
+    </button>
+<button type="button" class="card supp" data-tags="updates" onclick="openModal(10)">
+      <span class="cnum">Conclusion 11 &middot; Supplement</span>
+      <span class="st">Actor UTD reshapes learning-rate sensitivity.</span>
+      <span class="openhint">+</span>
+    </button>
+<button type="button" class="card supp" data-tags="objective" onclick="openModal(11)">
+      <span class="cnum">Conclusion 12 &middot; Supplement</span>
+      <span class="st">Averaging over more candidate actions stabilizes policy updates.</span>
+      <span class="openhint">+</span>
+    </button>
+
+    </div>
+  </section>
+
+  <section id="cite">
+    <h2 class="vsec">Citation</h2>
+    <div class="bibtex-panel">
+      <button type="button" class="bibtex-copy" onclick="copyBibtex(this)">Copy</button>
+      <pre>@misc{deconstructingac2026,
+      title={Deconstructing Actor-Critic: A Large-scale Empirical Study of Design Components for Practitioners},
+      author={Haseeb Shah and Lingwei Zhu and Adam White and Martha White},
+      year={2026},
+      eprint={2607.13274},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2607.13274},
+}</pre>
+    </div>
+  </section>
+  <footer><p>Correspondence: <span id="em"></span> &middot; <a href="https://haseeb.sh">haseeb.sh</a></p></footer>
+</div>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal">
+    <button type="button" class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+    <div id="modal-content"></div>
+    <div class="modal-nav">
+      <button type="button" id="prev" onclick="step(-1)">&larr; Previous</button>
+      <button type="button" id="next" onclick="step(1)">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<template id="m0"><div>
+      <span class="cnum">Conclusion 1</span>
+      <div class="st">Mixing immediate reward with value estimates (&lambda;&nbsp;&gt;&nbsp;0) improves stability and performance.</div>
+      <p class="cp">AC(&lambda;) interpolates between the critic's action-value estimate (&lambda;=0) and the observed reward
+        (&lambda;=1) in the policy gradient. In our experiments, relying entirely on the critic (&lambda;=0) led to
+        high run-to-run variability across all policy parameterizations, with beta policies being particularly
+        affected. This is likely due to value misspecification, introducing bias into the policy update.</p>
+<p class="cp">Introducing even a moderate reward mixing (&lambda;=0.3) recovers most of the performance gap while
+        significantly reducing variability, with the best effect consistently observed at &lambda;=0.9. Completely
+        removing the critic contribution (&lambda;=1) tends to either reduce performance or increase variability for
+        Gaussian and Student's&nbsp;<i>t</i> policies.</p>
+<figure class="plate">
+          <a class="figzoom" href="figs/113_acl_mixrq.webp" target="_blank" rel="noopener"><img src="figs/113_acl_mixrq.webp" alt="Effect of lambda on performance and variability across policy parameterizations" loading="lazy" width="1167" height="1000"></a>
+          <figcaption><b>The effect of &lambda; on performance and run-to-run variability</b> across policy
+          parameterizations.</figcaption>
+        </figure><p class="evidence">Evidence: reward-mixing sweep above &middot; extended AC(&lambda;) breakdown in the supplement &middot; <a href="https://arxiv.org/abs/2607.13274">paper</a></p>
+    </div></template>
+<template id="m1"><div>
+      <span class="cnum">Conclusion 2</span>
+      <div class="st">Critic inaccuracy is a major contributor to instability.</div>
+      <p class="cp">Inaccurate critics increase run-to-run variability: some runs achieve good performance, whereas others fail,
+        thereby reducing stability. Several lines of evidence support this conclusion. First, increasing &lambda; in
+        AC(&lambda;) reduces the critic's contribution to the policy gradient, and higher &lambda; values decrease
+        variability across all policy parameterizations. Second, increasing the critic size increases the critic's
+        representational capacity, reducing critic error as long as the critic is trained sufficiently to exploit this
+        added capacity. Because our adaptive critic update trains the critic until its batch error falls below a fixed
+        threshold, the larger network actually realizes this lower error; consistent with this, larger critic networks
+        reduce variability across the entire learning-rate range.</p>
+<p class="cp">Finally, PPO in our non-contextual bandit setting does not require learning an action-value critic and,
+        correspondingly, its configurations are among the most favorable in the performance-stability trade-off.</p>
+<figure class="plate">
+          <a class="figzoom" href="figs/115_acl_critic_size.webp" target="_blank" rel="noopener"><img src="figs/115_acl_critic_size.webp" alt="Larger critics consistently reduce coefficient of variation across learning rates and policies" loading="lazy" width="1200" height="1045"></a>
+          <figcaption><b>Increasing the critic size reduces run-to-run variability.</b> For each policy
+          parameterization and learning rate, AC(&lambda;) with a small critic (2 hidden layers of 64 units) is
+          compared to a large critic (2 hidden layers of 256 units). Larger critics consistently reduce the coefficient
+          of variation across the entire learning-rate range.</figcaption>
+        </figure><p class="evidence">Evidence: critic-size sweep above, &lambda; sweep, and the PPO frontier points &middot; <a href="https://arxiv.org/abs/2607.13274">paper &sect;Results</a></p>
+    </div></template>
+<template id="m2"><div>
+      <span class="cnum">Conclusion 3</span>
+      <div class="st">Beta policies achieve the best performance&#8211;stability tradeoff.</div>
+      <p class="cp">We aggregate results over the top-10 hyperparameters for each algorithm. The best region of the
+        performance-stability frontier, with high mean reward and low variability across runs and hyperparameters,
+        consists entirely of beta configurations, with five different algorithms clustering tightly around near-optimal
+        performance. Except for AC(&lambda;), no non-beta policy parameterization dominates any beta configuration;
+        the AC(&lambda;) variants that perform worse are likely due to not sweeping the actor UTD ratio in that
+        setting.</p>
+<p class="cp">Some Student's&nbsp;<i>t</i> and Gaussian configurations also lie on the frontier, but only in intermediate
+        regions where they achieve lower mean reward but competitive variability. In contrast, the squashed Gaussian,
+        which is the widely-used default in SAC implementations, performs poorly.</p>
+<figure class="plate">
+          <a class="figzoom" href="figs/217_pareto.webp" target="_blank" rel="noopener"><img src="figs/217_pareto.webp" alt="Performance-stability Pareto frontier across algorithms and policy parameterizations" loading="lazy" width="1201" height="1035"></a>
+          <figcaption><b>Performance&#8211;stability frontier across algorithms and policy parameterizations.</b>
+          Marker shape indicates the algorithm, and color indicates the policy parameterization. The dashed Pareto
+          frontier connects configurations for which no other point achieves both higher mean reward and lower mean
+          CV.</figcaption>
+        </figure><p class="evidence">Evidence: performance&#8211;stability frontier above &middot; per-algorithm sweeps in the supplement &middot; <a href="https://arxiv.org/abs/2607.13274">paper</a></p>
+    </div></template>
+<template id="m3"><div>
+      <span class="cnum">Conclusion 4</span>
+      <div class="st">Bounded-support policy parameterizations are slower to converge compared to unbounded-support ones.</div>
+      <p class="cp">We group the squashed and beta policy parameterizations as bounded-support, and the clipped Gaussian and
+        Student's&nbsp;<i>t</i> as unbounded-support. The effect depends on how strongly the action-space constraints
+        are enforced by the parameterization. With the default actor UTD ratio of 1, the beta policy consistently
+        learns the slowest among all algorithms, often requiring 2&#8211;3x more steps than Gaussian, followed by
+        squashed and then clipped policies. The clipped policies are based on unbounded densities and can therefore be
+        optimized in a relatively unconstrained parameter space. The squashed policies enforce bounds through a smooth
+        non-linear transformation, which introduces additional curvature and sensitivity near the boundaries. In
+        contrast, the beta policy enforces bounds through its density, and its parameters couple together to control
+        the location, shape, and skewness of the distribution simultaneously, making optimization more difficult.</p>
+<p class="cp">Once we increase the actor UTD ratio, the differences in convergence speed among the parameterizations
+        largely disappear. However, if the critic is not sufficiently accurate, a high actor UTD could amplify the
+        critic's errors and steer the policy towards poor solutions.</p>
+<figure class="plate">
+          <a class="figzoom wide" href="figs/225_convergence_twocolumn_colorwhiskers.webp" target="_blank" rel="noopener"><img src="figs/225_convergence_twocolumn_colorwhiskers.webp" alt="Steps to convergence: bounded policies slower at UTD 1, comparable at UTD 10" loading="lazy" width="1283" height="380"></a>
+          <figcaption><b>Bounded-support policies converge slower than unbounded-support across algorithms.</b>
+          Left: at UTD<sub>actor</sub>&nbsp;=&nbsp;1, policies with bounded support converge slower in most cases.
+          Right: at UTD<sub>actor</sub>&nbsp;=&nbsp;10, this ordering largely collapses and all policies converge at
+          comparable rates. <span class="swipe-hint">Tap to enlarge</span></figcaption>
+        </figure><p class="evidence">Evidence: convergence analysis above &middot; <a href="https://arxiv.org/abs/2607.13274">paper &sect;Results</a></p>
+    </div></template>
+<template id="m4"><div>
+      <span class="cnum">Conclusion 5</span>
+      <div class="st">Actor update-to-data ratio (UTD) is a safer tuning knob compared to the actor learning rate.</div>
+      <p class="cp">Scaling the actor learning rate &eta;<sub>actor</sub> by <i>k</i> and the actor UTD ratio by <i>k</i> are
+        both ways to control how much the parameters are updated. We find scaling either has a very similar effect for
+        the beta policy across the three critic learning rates we examined. For a Gaussian policy, however, the
+        behavior is different at high critic learning rates: increasing the actor learning rate produces a
+        significantly stronger performance collapse compared to increasing the actor UTD ratio.</p>
+<p class="cp">This suggests that the Gaussian policy's instability stems from simultaneous fast updates to both the critic
+        and actor networks, rather than from actor parameter movements alone, and indicates that the actor UTD ratio is
+        the safer tuning knob.</p>
+<figure class="plate">
+          <a class="figzoom wide" href="figs/228_lr_utd.webp" target="_blank" rel="noopener"><img src="figs/228_lr_utd.webp" alt="Scaling actor LR vs actor UTD across critic learning rates for Gaussian and beta policies" loading="lazy" width="1285" height="385"></a>
+          <figcaption><b>Actor update-to-data ratio is a safer tuning knob compared to the actor learning rate.</b>
+          Solid lines scale the actor learning rate by <i>k</i>; dashed lines scale the actor UTD ratio by <i>k</i>,
+          across three critic learning rates. For Gaussian policies at high &eta;<sub>critic</sub> (left), scaling the
+          learning rate causes collapse at <i>k</i>&nbsp;&ge;&nbsp;10 while scaling UTD remains relatively stable.
+          <span class="swipe-hint">Tap to enlarge</span></figcaption>
+        </figure><p class="evidence">Evidence: LR-vs-UTD scaling comparison above &middot; <a href="https://arxiv.org/abs/2607.13274">paper &sect;Results</a></p>
+    </div></template>
+<template id="m5"><div>
+      <span class="cnum">Conclusion 6</span>
+      <div class="st">Higher actor update-to-data ratio improves beta policies but destabilizes Gaussian policies.</div>
+      <p class="cp">UTD<sub>actor</sub> has different effects depending on the policy parameterization. For beta policies,
+        increasing UTD<sub>actor</sub> from 1 to 30 significantly improves the mean reward and lowers run-to-run
+        variability consistently across PPO, SAC and GreedyAC. In contrast, for Gaussian policies, the mean reward
+        changes minimally while the variability increases significantly, rising by a factor of four for SAC and roughly
+        doubling for GreedyAC and PPO.</p>
+<p class="cp">With the best hyperparameter configurations, the beta policy achieves higher mean reward and lower mean
+        variability than the Gaussian policy across all three learning algorithms.</p>
+<figure class="plate">
+          <a class="figzoom wide" href="figs/229_actor_utd_pnas.webp" target="_blank" rel="noopener"><img src="figs/229_actor_utd_pnas.webp" alt="Mean reward and variability versus actor UTD for Gaussian and beta policies across GreedyAC, SAC, PPO" loading="lazy" width="1276" height="375"></a>
+          <figcaption><b>Higher actor update-to-data ratio improves beta policies but destabilizes Gaussian
+          policies.</b> Left and middle: mean rewards obtained by GreedyAC, SAC and PPO as UTD<sub>actor</sub> changes.
+          Right: mean variability, where lower is better; variability increases for Gaussian and decreases for the beta
+          policy. <span class="swipe-hint">Tap to enlarge</span></figcaption>
+        </figure><p class="evidence">Evidence: actor UTD sweep above &middot; <a href="https://arxiv.org/abs/2607.13274">paper &sect;Results</a></p>
+    </div></template>
+<template id="m6"><div>
+      <span class="cnum">Conclusion 7</span>
+      <div class="st">Pathwise gradient estimators are often unreliable with clipped or squashed policies.</div>
+      <p class="cp">Most continuous-control codebases use the pathwise (PW) gradient estimator by default, often without
+        exposing it as a tunable choice. Whether this is a good default, however, depends on the policy
+        parameterization. PW gradients flow through the sampled action, so any transformation that distorts this path,
+        such as clipping or squashing, can negatively affect the gradient signal. In contrast, likelihood ratio (LR)
+        gradients are unaffected by this issue, since they do not differentiate through the sampled action.</p>
+<p class="cp">We observe three regimes. Clipped policies (Gaussian and Student's&nbsp;<i>t</i>) suffer a significant drop
+        in performance at higher entropies under PW but remain robust under LR &mdash; likely because the high entropy
+        pushes more sampled actions to the clipping boundary, where they contribute zero PW gradient. Squashed policies
+        achieve similar mean rewards under both estimators, but lower run-to-run variability under LR. Finally, the
+        beta policy is essentially insensitive to the choice of estimator in both mean performance and variability,
+        likely because its bounds are encoded in the density rather than controlled by a transformation. The practical
+        implication is to treat PW as a choice rather than a default whenever the policy involves clipping or
+        squashing, and to consider LR in those settings.</p>
+<figure class="plate">
+          <a class="figzoom wide" href="figs/204_sac_reparam_vs_no.webp" target="_blank" rel="noopener"><img src="figs/204_sac_reparam_vs_no.webp" alt="Pathwise vs likelihood-ratio gradient estimators across policies and entropy levels in SAC" loading="lazy" width="1456" height="384"></a>
+          <figcaption><b>Pathwise gradient estimators are often unreliable with clipped and squashed policy
+          parameterizations.</b> Left: difference in mean reward between the LR and PW estimators in SAC; points above
+          the dashed line achieve higher mean performance with LR. Middle and right: coefficient of variation under the
+          LR and PW estimators, respectively. <span class="swipe-hint">Tap to enlarge</span></figcaption>
+        </figure><p class="evidence">Evidence: estimator comparison above &middot; per-policy SAC sweeps in the supplement &middot; <a href="https://arxiv.org/abs/2607.13274">paper</a></p>
+    </div></template>
+<template id="m7"><div>
+      <span class="cnum">Conclusion 8</span>
+      <div class="st">Adaptive critic updating is more reliable than a fixed critic update-to-data ratio.</div>
+      <p class="cp">Comparing the adaptive critic UTD ratio, which trains the critic until its batch error falls below a
+        threshold &omega;, with the commonly used fixed critic UTD strategy, we observe that adaptive updating largely
+        avoids the failure modes of fixed critic UTD ratios. The worst case is UTD<sub>critic</sub>&nbsp;=&nbsp;1,
+        which produces 11x higher run-to-run variability for Gaussian policies and 5x for beta under
+        UTD<sub>actor</sub>&nbsp;=&nbsp;10, as well as lower mean reward across configurations. Higher fixed ratios of
+        10 or 100 perform comparably; however, they require the practitioner to either know or tune the appropriate
+        value in advance.</p>
+<p class="cp">Overall, adaptive updating replaces the more sensitive UTD<sub>critic</sub> hyperparameter with an
+        easier-to-interpret error threshold &omega;, which can be set based on the magnitude of the critic loss. In
+        principle, a threshold defined relative to a normalized reward scale should transfer across environments more
+        naturally than a raw update count, whose appropriate value depends on batch size, the critic's representational
+        capacity, and the complexity of the environment.</p>
+<figure class="plate">
+          <a class="figzoom wide" href="figs/231_critic_utd.webp" target="_blank" rel="noopener"><img src="figs/231_critic_utd.webp" alt="Fixed vs adaptive critic UTD: reward gap and variability across policies and actor UTD" loading="lazy" width="1211" height="364"></a>
+          <figcaption><b>Adaptive critic updating is more reliable than a fixed critic update-to-data ratio.</b>
+          Left: reward gap between fixed and adaptive critic UTD; values below the dashed line favor adaptive. Middle
+          and right: coefficient of variation for UTD<sub>actor</sub>&nbsp;=&nbsp;1 and 10, with adaptive shown as the
+          leftmost pair of bars. <span class="swipe-hint">Tap to enlarge</span></figcaption>
+        </figure><p class="evidence">Evidence: fixed-vs-adaptive comparison above &middot; algorithm in paper &sect;Materials &amp; Methods &middot; <a href="https://arxiv.org/abs/2607.13274">paper</a></p>
+    </div></template>
+<template id="m8"><div>
+      <span class="cnum">Conclusion 9 &middot; Supplement</span>
+      <div class="st">Mirror descent adds complexity without consistent empirical gains.</div>
+      <p class="cp">Increasing the mirror descent period generally resulted in similar or significantly worse performance.
+        Increasing the mirror descent step size resulted in worse mean rewards at smaller entropies but higher at the
+        largest tested entropy; however, the mean reward at that entropy is still significantly lower than at the
+        smaller entropies. The worst case drops by roughly 5x compared to the gradient descent baseline.</p>
+<p class="cp">Overall, the best performance is achieved at the smallest values of the mirror descent step size and period
+        &mdash; the stronger the mirror descent, the lower the resulting performance.</p>
+<figure class="plate">
+          <a class="figzoom wide" href="figs/100_md_sac_difference.webp" target="_blank" rel="noopener"><img src="figs/100_md_sac_difference.webp" alt="Mirror descent vs gradient descent performance difference across entropies, periods and step sizes" loading="lazy" width="1220" height="363"></a>
+          <figcaption><b>Mirror descent does not consistently improve Soft Actor-Critic.</b> Values above the zero line
+          represent higher average rewards under mirror descent; values below represent performance worse than the
+          gradient descent baseline. At the two lower entropies, all mirror descent configurations perform worse.
+          <span class="swipe-hint">Tap to enlarge</span></figcaption>
+        </figure><p class="evidence">Evidence: mirror-descent sweep above &middot; full entropy breakdown in the <a href="https://arxiv.org/abs/2607.13274">supplement</a></p>
+    </div></template>
+<template id="m9"><div>
+      <span class="cnum">Conclusion 10 &middot; Supplement</span>
+      <div class="st">Beta policy is more robust to higher learning rates when the critic's contribution is minimized.</div>
+      <p class="cp">PPO and AC(&lambda;&nbsp;&gt;&nbsp;0.9) show improved robustness to higher learning rates when coupled with
+        the beta policy. In the bandit setting, PPO has no critic, and we observe that the beta policy at lower actor
+        UTD ratios can perform just as well as at higher ratios when the learning rate is tuned. In all the other
+        settings, the beta policy struggled to learn unless the actor UTD ratio was increased.</p>
+<p class="evidence">Evidence: PPO batch-size and AC(&lambda;) sweeps in the <a href="https://arxiv.org/abs/2607.13274">supplement</a></p>
+    </div></template>
+<template id="m10"><div>
+      <span class="cnum">Conclusion 11 &middot; Supplement</span>
+      <div class="st">Actor UTD reshapes learning-rate sensitivity.</div>
+      <p class="cp">The relationship between learning rate and mean performance is typically similar to an upside-down parabola:
+        the best setting in the middle, with poorer performance at the higher and lower extremes. We observe that
+        increasing the actor UTD ratio can alter the shape of this parabola, and in some cases, reduce the sensitivity
+        to the learning rate hyperparameter. This implies that in certain settings, an arbitrarily chosen learning rate
+        from a reasonable range is more likely to perform well. We observe this reduction in sensitivity with all the
+        policy losses used to analyze UTD<sub>actor</sub>: SAC with both gradient estimators, PPO, GreedyAC, and
+        MPO.</p>
+<p class="cp">However, the run-to-run variability depends on the policy parameterization. As &eta;<sub>actor</sub> is
+        increased, the Gaussian, Student's&nbsp;<i>t</i>, and squashed policies generally exhibit higher variabilities,
+        while the variability of the beta policy is reduced. Due to this, the reduced learning-rate sensitivity is
+        useful only with the beta policy parameterization.</p>
+<p class="evidence">Evidence: per-algorithm learning-rate sweeps (SAC, PPO, GreedyAC, MPO) in the <a href="https://arxiv.org/abs/2607.13274">supplement</a></p>
+    </div></template>
+<template id="m11"><div>
+      <span class="cnum">Conclusion 12 &middot; Supplement</span>
+      <div class="st">Averaging over more candidate actions stabilizes policy updates.</div>
+      <p class="cp">Across multiple policy losses, we observe that increasing the number of samples used to compute the policy
+        gradient increases the performance and/or reduces overall run-to-run variability. In PPO, increasing the
+        on-policy batch size increases mean performance, particularly at higher entropies; we do not observe an
+        improvement in variability for PPO because it is already small. In GreedyAC, increasing the number of proposal
+        actions improves the performance and reduces variability.</p>
+<p class="cp">Although the improvements are monotonic within our tested ranges, we surmise that there can be diminishing
+        returns or adverse effects if these hyperparameters are increased further.</p>
+<p class="evidence">Evidence: PPO batch-size and GreedyAC proposal-action sweeps in the <a href="https://arxiv.org/abs/2607.13274">supplement</a></p>
+    </div></template>
+
+
+<script>
+function copyBibtex(btn) {
+  var pre = btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(function () {
+    var old = btn.textContent; btn.textContent = 'Copied';
+    setTimeout(function () { btn.textContent = old; }, 1400);
+  });
+}
+(function () {
+  var u = 'hshah1', d = 'ualberta' + '.' + 'ca';
+  var el = document.getElementById('em');
+  if (el) { var a = document.createElement('a'); a.href = 'mailto:' + u + '@' + d; a.textContent = u + '@' + d; el.appendChild(a); }
+})();
+
+var current = 0, N = 12;
+var SUPP = [8, 9, 10, 11];
+function openModal(i) {
+  current = i;
+  document.getElementById('modal-content').innerHTML = document.getElementById('m' + i).innerHTML;
+  document.getElementById('modal').classList.toggle('supp', SUPP.indexOf(i) !== -1);
+  document.getElementById('prev').disabled = (i === 0);
+  document.getElementById('next').disabled = (i === N - 1);
+  document.getElementById('overlay').classList.add('is-open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('overlay').classList.remove('is-open');
+  document.body.style.overflow = '';
+}
+function step(d) { var n = current + d; if (n >= 0 && n < N) openModal(n); }
+document.addEventListener('keydown', function (e) {
+  if (!document.getElementById('overlay').classList.contains('is-open')) return;
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowLeft') step(-1);
+  if (e.key === 'ArrowRight') step(1);
+});
+var chips = document.querySelectorAll('.chip');
+chips.forEach(function (chip) {
+  chip.addEventListener('click', function () {
+    chips.forEach(function (c) { c.classList.remove('is-active'); });
+    chip.classList.add('is-active');
+    var f = chip.getAttribute('data-filter');
+    document.querySelectorAll('.card').forEach(function (card) {
+      var show = f === 'all' || card.getAttribute('data-tags').split(' ').indexOf(f) !== -1;
+      card.classList.toggle('is-hidden', !show);
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -440,7 +440,8 @@
   .paper-journal::before { background: var(--purple); }
   .paper-journal .paper-badge:not(.paper-badge-muted) { border-color: rgba(126, 34, 206, 0.4); color: var(--purple-deep); }
   .paper-journal .paper-authors u { text-decoration-color: var(--purple); }
-  .paper-journal .paper-actions .w3-button:first-child { color: var(--purple-deep) !important; }
+  .paper-journal .paper-actions .w3-button:first-child,
+  .paper-journal .paper-actions .w3-button.btn-website { color: var(--purple-deep) !important; }
   .paper-journal .paper-actions .w3-button:hover,
   .paper-journal .paper-actions .cite-toggle:hover {
       color: var(--purple) !important;
@@ -610,7 +611,7 @@
   <section class="block">
     <h1 class="section-title">News</h1>
     <div class="news-list">
-      <div class="news-item"><span class="news-date">July 2026</span><span class="news-text">Extended preprint for <a href="https://arxiv.org/abs/2607.13274">Deconstructing Actor-Critic: A Large-Scale Empirical Study of Design Components</a> is available.</span></div>
+      <div class="news-item"><span class="news-date">July 2026</span><span class="news-text">Extended preprint and <a href="/actor-critic">website</a> for <a href="https://arxiv.org/abs/2607.13274">Deconstructing Actor-Critic: A Large-Scale Empirical Study of Design Components</a> is available.</span></div>
       <div class="news-item"><span class="news-date">June 2026</span><span class="news-text">Two papers (<a href="https://openreview.net/forum?id=pzD9jhpxOM">1</a>, <a href="https://openreview.net/forum?id=wmbtxVitHW">2</a>) accepted at the <a href="https://sites.google.com/view/continual-learning">RLC Continual RL workshop</a>.</span></div>
       <div class="news-item"><span class="news-date">Jan 2025</span><span class="news-text"><a href="https://openreview.net/pdf?id=OyyE1FDdrQ"><em>q</em>-Exponential Family for Policy Optimization</a> was accepted at ICLR 2025.</span></div>
       <div class="news-item"><span class="news-date">Oct 2024</span><span class="news-text">Visited the <a href="https://alls.inrs.ca/en/">Advanced Laser Light Source Laboratory</a> in Montreal to apply RL to laser wakefield accelerators.</span></div>
@@ -716,6 +717,7 @@
       <p class="paper-venue">Under Review</p>
       <div class="paper-actions">
         <button onclick="location.href='https://arxiv.org/abs/2607.13274'" class="w3-button">Paper</button>
+        <button onclick="location.href='/actor-critic'" class="w3-button btn-website">Website</button>
         <button type="button" class="cite-toggle" aria-expanded="false" aria-controls="bib-dac" onclick="togglePanel(this, 'bib-dac')">Cite</button>
       </div>
       <div id="bib-dac" class="bibtex-panel">
