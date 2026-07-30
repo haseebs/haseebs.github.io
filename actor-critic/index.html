@@ -62,6 +62,11 @@
   .figzoom { display:block; border:0; }
   .figzoom:hover { border:0; }
   .swipe-hint { display:none; }
+  .cap-short { display:none; }
+  @media (max-width:640px) {
+      .cap-full { display:none; }
+      .cap-short { display:inline; }
+  }
   @media (max-width:640px) {
       .swipe-hint { display:inline-block; margin-left:0.45rem; font-family:var(--sans); font-size:0.58rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--faint); white-space:nowrap; }
   }
@@ -185,7 +190,10 @@
     <figure class="plate">
       <a class="figzoom hero" href="figs/herodiagram.webp" target="_blank" rel="noopener"><img src="figs/herodiagram.webp" alt="Schematic of the RL system on a water treatment controller, the six components studied, policy parameterizations, and mass-covering vs mode-seeking KL objectives." width="1800" height="919"></a>
       <figcaption><b>Schematic of a reinforcement learning system on a water treatment controller.</b>
-      <b>(A)</b> Deployment setting and agent internals. The actor is a probability distribution over PID gain
+      <span class="cap-short">(A) Deployment setting and agent internals. (B) We vary six components of the learning agent across
+      33,000+ experiments. (C) Some of the policy parameterizations available to the actor. (D) The
+      mass-covering vs. mode-seeking KL objectives. </span>
+      <span class="cap-full"><b>(A)</b> Deployment setting and agent internals. The actor is a probability distribution over PID gain
       parameters (<i>p<sub>t</sub></i>, <i>i<sub>t</sub></i>, <i>d<sub>t</sub></i>), parameterized here by the mean
       &mu; and standard deviation &sigma;. An RL agent containing this actor &pi;<sub>&theta;</sub>, a critic
       <i>q<sub>w</sub></i> and a replay buffer <i>B</i> of past data, outputs PID gains and writes them to a classical
@@ -207,7 +215,7 @@
       visualize the difference between the two here. The visualization shows the outcome from optimizing a Gaussian
       policy &pi; to approximate a bimodal Boltzmann target &mu;. 1. Minimizing the mass-covering KL results in a
       learned &pi; that is spread over both modes. 2. Minimizing mode-seeking KL instead commits the learned
-      &pi; to a single mode. <span class="swipe-hint">Tap to enlarge</span></figcaption>
+      &pi; to a single mode.</span> <span class="swipe-hint">Tap to enlarge</span></figcaption>
     </figure>
   </section>
 
