@@ -189,33 +189,10 @@
       assignment and temporal state dependence.</p>
     <figure class="plate">
       <a class="figzoom hero" href="figs/herodiagram.webp" target="_blank" rel="noopener"><img src="figs/herodiagram.webp" alt="Schematic of the RL system on a water treatment controller, the six components studied, policy parameterizations, and mass-covering vs mode-seeking KL objectives." width="1800" height="919"></a>
-      <figcaption><b>Schematic of a reinforcement learning system on a water treatment controller.</b>
-      <span class="cap-short">(A) Deployment setting and agent internals. (B) We vary six components of the learning agent across
+            <figcaption><b>Schematic of a reinforcement learning system on a water treatment controller.</b>
+      (A) Deployment setting and agent internals. (B) We vary six components of the learning agent across
       33,000+ experiments. (C) Some of the policy parameterizations available to the actor. (D) The
-      mass-covering vs. mode-seeking KL objectives. </span>
-      <span class="cap-full"><b>(A)</b> Deployment setting and agent internals. The actor is a probability distribution over PID gain
-      parameters (<i>p<sub>t</sub></i>, <i>i<sub>t</sub></i>, <i>d<sub>t</sub></i>), parameterized here by the mean
-      &mu; and standard deviation &sigma;. An RL agent containing this actor &pi;<sub>&theta;</sub>, a critic
-      <i>q<sub>w</sub></i> and a replay buffer <i>B</i> of past data, outputs PID gains and writes them to a classical
-      PID controller. This PID controller drives the backwashing pump in a water treatment system by controlling the
-      pump speed <i>s<sub>j</sub></i> over <i>j</i> &isin; {1, &hellip;, <i>J</i>} discrete internal
-      timesteps for <i>J</i> = 55, where each step represents 1 second of water flow through the pump. The
-      goal is to achieve a water flow rate <i>f<sub>j</sub></i> equal to the setpoint <i>f</i><sub>ideal</sub>. The
-      tracking error <i>f<sub>j</sub></i> &minus; <i>f</i><sub>ideal</sub> is fed back into the PID
-      controller, forming a closed feedback loop. Finally, the reward <i>r<sub>t</sub></i> is constructed by
-      summarizing the tracking quality over <i>J</i> steps and the pair (<i>a<sub>t</sub></i> = (<i>p<sub>t</sub></i>,
-      <i>i<sub>t</sub></i>, <i>d<sub>t</sub></i>), <i>r<sub>t</sub></i>) stored in the agent's buffer. The actor and
-      critic sample from this buffer to do their updates, described in more detail in the paper.
-      <b>(B)</b> We run over 33,000 experiments and analyze variations within six different components of the learning
-      agent to study the reliability of the system.
-      <b>(C)</b> A visualization of some of the policy parameterizations available to the actor. The
-      Student's <i>t</i> policy can achieve heavier tails compared to the Gaussian, while the beta policy is
-      naturally bounded.
-      <b>(D)</b> We later investigate the impact of using the mass-covering KL vs the mode-seeking KL, and so
-      visualize the difference between the two here. The visualization shows the outcome from optimizing a Gaussian
-      policy &pi; to approximate a bimodal Boltzmann target &mu;. 1. Minimizing the mass-covering KL results in a
-      learned &pi; that is spread over both modes. 2. Minimizing mode-seeking KL instead commits the learned
-      &pi; to a single mode.</span> <span class="swipe-hint">Tap to enlarge</span></figcaption>
+      mass-covering vs. mode-seeking KL objectives. <span class="swipe-hint">Tap to enlarge</span></figcaption>
     </figure>
   </section>
 
