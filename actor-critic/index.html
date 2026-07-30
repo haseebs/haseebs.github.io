@@ -68,6 +68,25 @@
   .evidence { margin-top:0.85rem; font-family:var(--sans); font-size:0.63rem; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; color:var(--faint); font-variant-numeric:lining-nums; }
   .evidence a { color:var(--muted); }
 
+  /* Footnote popup: hover on desktop, tap on touch devices */
+  .fn { position:relative; display:inline; }
+  .fn-mark {
+      font-family:var(--sans); font-size:0.62em; font-weight:600; color:var(--accent-deep);
+      background:transparent; border:1px solid var(--rule); border-radius:2px;
+      padding:0 0.3em; margin-left:0.18em; cursor:pointer; vertical-align:super; line-height:1.5;
+      font-variant-numeric:lining-nums;
+  }
+  .fn-mark:hover, .fn.is-open .fn-mark { color:#fff; background:var(--accent); border-color:var(--accent); }
+  .fn-pop {
+      display:none; position:absolute; bottom:calc(100% + 10px); left:50%; transform:translateX(-50%);
+      width:min(340px, 84vw); background:#fffdf8; border:1px solid var(--rule);
+      border-top:2px solid var(--accent); border-radius:3px; padding:0.7rem 0.85rem;
+      font-size:0.82rem; line-height:1.55; color:var(--muted); font-style:normal;
+      box-shadow:0 18px 40px -18px rgba(30,25,15,0.45); z-index:50; text-align:left;
+  }
+  @media (hover:hover) { .fn:hover .fn-pop { display:block; } }
+  .fn.is-open .fn-pop { display:block; }
+
   .topbar { display:flex; justify-content:space-between; padding:1.1rem 0 0; }
   .home-link { font-family:var(--sans); font-size:0.68rem; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); border-bottom:0; }
   .home-link:hover { color:var(--accent); }
@@ -128,7 +147,7 @@
   <div class="topbar"><a class="home-link" href="https://haseeb.sh">&larr; haseeb.sh</a></div>
   <header class="hero">
     <div class="badges"><span class="badge">Under Review</span><span class="badge badge-red">2026</span></div>
-    <h1 class="paper-title">Deconstructing Actor&#8209;Critic</h1>
+    <h1 class="paper-title">Deconstructing Actor-Critic</h1>
     <p class="title2">A Large-scale Empirical Study of Design Components for Practitioners</p>
     <p class="authors"><span class="me">Haseeb Shah</span><sup>a,b,*</sup> &middot; Lingwei Zhu<sup>c,*</sup> &middot; Adam White<sup>a,b,d</sup> &middot; Martha White<sup>a,b,d</sup></p>
     <p class="affils"><sup>a</sup>University of Alberta &middot; <sup>b</sup>Amii &middot; <sup>c</sup>Great Bay University &middot; <sup>d</sup>Canada CIFAR AI Chair &middot; <sup>*</sup>Equal contribution</p>
@@ -156,7 +175,7 @@
 
   <section>
     <h2 class="vsec">Problem setting</h2>
-    <p class="body-para">To isolate the effects of individual components, we study a simplified, stateless PID tuning setting. Tuning PID
+    <p class="body-para">To isolate the effects of individual components, we study a simplified PID tuning setting. Tuning PID
       controllers is a common task in engineered systems, where small changes in parameters can have large effects on
       overall stability and efficiency. The environment is constructed from data from a real water treatment system:
       the agent outputs PID gains for the backwashing pump controller, a classical PID loop drives the pump, and the
@@ -166,20 +185,20 @@
     <figure class="plate">
       <a class="figzoom hero" href="figs/herodiagram.webp" target="_blank" rel="noopener"><img src="figs/herodiagram.webp" alt="Schematic of the RL system on a water treatment controller, the six components studied, policy parameterizations, and mass-covering vs mode-seeking KL objectives." width="1800" height="919"></a>
       <figcaption><b>Schematic of a reinforcement learning system on a water treatment controller.</b>
-      (A)&nbsp;Deployment setting and agent internals. (B)&nbsp;We vary six components of the learning agent across
-      33,000+ experiments. (C)&nbsp;Some of the policy parameterizations available to the actor. (D)&nbsp;The
+      (A) Deployment setting and agent internals. (B) We vary six components of the learning agent across
+      33,000+ experiments. (C) Some of the policy parameterizations available to the actor. (D) The
       mass-covering vs. mode-seeking KL objectives. <span class="swipe-hint">Tap to enlarge</span></figcaption>
     </figure>
-    <p class="body-para">We evaluate both the performance and stability of the component choices. Performance is the mean reward across
-      seeds (higher is better); stability refers to the run-to-run variability, measured by the coefficient of
-      variation across seeds (lower is better). A reliable method should do well on both metrics. We study PPO, SAC,
-      DDPG, MPO, GreedyAC, vanilla actor-critic, and REINFORCE, with Gaussian, squashed Gaussian,
-      Student's&nbsp;<i>t</i>, and beta policy parameterizations.</p>
   </section>
 
   <section>
     <h2 class="vsec">Conclusions</h2>
-    <p class="body-para">We present the summarized conclusions from the study below; conclusions 9&#8211;12 are presented in the supplement, along with the detailed run-to-run and hyperparameter variability analysis. Select a conclusion to read its supporting evidence, or filter by the component it concerns.</p>
+    <p class="body-para">We evaluate both the performance and stability of the component choices across hyperparameters. Performance is the mean reward across
+      seeds (higher is better); stability refers to the run-to-run variability, measured by the <a href="https://en.wikipedia.org/wiki/Coefficient_of_variation">coefficient of
+      variation</a>
+      across seeds (lower is better). A reliable method should do well on both metrics. We study PPO, SAC,
+      DDPG, MPO, GreedyAC, vanilla actor-critic, and REINFORCE, with Gaussian, squashed Gaussian,
+      Student's <i>t</i>, and beta policy parameterizations. Select a conclusion below to read more details.</p>
     <div class="chips">
       <button class="chip is-active" data-filter="all">All</button>
       <button class="chip" data-filter="policy">Policy parameterization</button>
@@ -191,7 +210,7 @@
     <div class="grid">
       <button type="button" class="card" data-tags="critic objective" onclick="openModal(0)">
       <span class="cnum">Conclusion 1</span>
-      <span class="st">Mixing immediate reward with value estimates (&lambda;&nbsp;&gt;&nbsp;0) improves stability and performance.</span>
+      <span class="st">Mixing immediate reward with value estimates (&lambda; &gt; 0) improves stability and performance.</span>
       <span class="openhint">+</span>
     </button>
 <button type="button" class="card" data-tags="critic" onclick="openModal(1)">
@@ -201,7 +220,7 @@
     </button>
 <button type="button" class="card" data-tags="policy" onclick="openModal(2)">
       <span class="cnum">Conclusion 3</span>
-      <span class="st">Beta policies achieve the best performance&#8211;stability tradeoff.</span>
+      <span class="st">Beta policies achieve the best performance-stability tradeoff.</span>
       <span class="openhint">+</span>
     </button>
 <button type="button" class="card" data-tags="policy updates" onclick="openModal(3)">
@@ -284,7 +303,7 @@
 
 <template id="m0"><div>
       <span class="cnum">Conclusion 1</span>
-      <div class="st">Mixing immediate reward with value estimates (&lambda;&nbsp;&gt;&nbsp;0) improves stability and performance.</div>
+      <div class="st">Mixing immediate reward with value estimates (&lambda; &gt; 0) improves stability and performance.</div>
       <p class="cp">AC(&lambda;) interpolates between the critic's action-value estimate (&lambda;=0) and the observed reward (&lambda;=1) in the policy gradient. In our experiments, relying entirely on the critic (&lambda;=0) led to high run-to-run variability across all policy parameterizations, with beta policies being particularly affected. This is likely due to value misspecification, introducing bias into the policy update.</p>
       <p class="cp">Introducing even a moderate reward mixing (&lambda;=0.3) recovers most of the performance gap while significantly reducing variability, with the best effect consistently observed at &lambda;=0.9. Completely removing the critic contribution (&lambda;=1) tends to either reduce performance or increase variability for Gaussian and Student's <i>t</i> policies. See the figure below for the effect of &lambda; on performance and variability and the supplement for a more detailed breakdown across different hyperparameter and environmental noise configurations.</p>
       <figure class="plate"><a class="figzoom" href="figs/113_acl_mixrq.webp" target="_blank" rel="noopener"><img src="figs/113_acl_mixrq.webp" alt="Effect of lambda on performance and variability across policy parameterizations" loading="lazy" width="1167" height="1000"></a><figcaption><b>Mixing immediate reward with value estimates improves stability and performance.</b> For each policy parameterization, we fix all the hyperparameters to their default values and vary the value-reward mixing coefficient &lambda; &isin; {0, 0.3, 0.9, 1} in AC(&lambda;). The actor update weights the gradient &nabla;&thinsp;ln&thinsp;&pi;<sub>&theta;</sub>(A<sub>t</sub>) by &lambda;R<sub>t</sub> + (1&minus;&lambda;)&thinsp;q<sub>w</sub>(A<sub>t</sub>) &minus; v, interpolating between the critic's action-value estimate (&lambda;=0) and the observed reward (&lambda;=1). Solid lines show mean reward (higher is better, left axis) averaged over 10 seeds while the dashed lines show coefficient of variation (CV = &sigma;/|&mu;|, lower is better, right axis). The curves are drawn using a shape-preserving cubic interpolation without altering pointwise values. Intermediate values of &lambda; achieve the best combined performance and variability across all policy parameterizations.</figcaption></figure>
@@ -300,11 +319,11 @@
     </div></template>
 <template id="m2"><div>
       <span class="cnum">Conclusion 3</span>
-      <div class="st">Beta policies achieve the best performance&#8211;stability tradeoff.</div>
+      <div class="st">Beta policies achieve the best performance-stability tradeoff.</div>
       <p class="cp">We aggregate results over the top-10 hyperparameters for each algorithm, including allowing different UTD per algorithm. In the figure below we observe two patterns. Firstly, the best region of the performance-stability frontier consists entirely of beta configurations, with five different algorithms clustering tightly around near-optimal performance. This region denotes configurations that have high mean reward and low variability across runs and hyperparameters. Secondly, except for AC(&lambda;), no non-beta policy parameterization dominates any beta configuration. The variants of AC(&lambda;) that perform worse are likely due to not sweeping over the actor UTD ratio in that setting.</p>
       <p class="cp">Some Student's <i>t</i> and Gaussian configurations also lie on the frontier, but only in intermediate regions where they achieve lower mean reward but competitive variability. In contrast, squashed Gaussian, which is the widely-used default in SAC implementations, performs poorly. For a more detailed breakdown, see SAC with the PW estimator, SAC with the LR estimator, PPO, AC(&lambda;) and GreedyAC in the supplement.</p>
       <figure class="plate"><a class="figzoom" href="figs/217_pareto.webp" target="_blank" rel="noopener"><img src="figs/217_pareto.webp" alt="Performance-stability Pareto frontier across algorithms and policy parameterizations" loading="lazy" width="1201" height="1035"></a><figcaption><b>Performance-stability frontier across algorithms and policy parameterizations.</b> For each {algorithm, policy} combination, we select the top-10 hyperparameter configurations by mean reward and aggregate over their 100 runs (10 configurations &times; 10 seeds). The x-axis shows the mean reward (higher is better) averaged across these runs. The y-axis shows the mean coefficient of variation (lower is better), computed by taking the CV across seeds within each configuration and then averaging across 10 configurations (CV<sub>mean</sub> = (1/N)&thinsp;&Sigma;<sub>i</sub>&thinsp;CV<sub>i</sub> with N=10). This separates within-configuration variability (run-to-run noise at fixed hyperparameters) from cross-configuration variability (sensitivity to hyperparameter choice). Error bars are 95% bootstrap confidence intervals (n=2000 resamples). Marker shape indicates the algorithm, and color indicates the policy parameterization. The dashed Pareto frontier is computed directly from the plotted aggregate points. The best region of the frontier, with high mean reward and low variability, consists entirely of beta configurations, with five of the six algorithms clustering together. Student's <i>t</i> and Gaussian appear on the frontier only at intermediate performance levels, while squashed policies are strictly dominated by multiple other configurations. Additionally, unlike other algorithms, which are spread apart, PPO configurations are relatively similar in performance across multiple policies.</figcaption></figure>
-      <p class="evidence">Evidence: performance&#8211;stability frontier above &middot; per-algorithm sweeps in the supplement &middot; <a href="https://arxiv.org/abs/2607.13274">paper</a></p>
+      <p class="evidence">Evidence: performance-stability frontier above &middot; per-algorithm sweeps in the supplement &middot; <a href="https://arxiv.org/abs/2607.13274">paper</a></p>
     </div></template>
 <template id="m3"><div>
       <span class="cnum">Conclusion 4</span>
@@ -355,7 +374,7 @@
 <template id="m9"><div>
       <span class="cnum">Conclusion 10 &middot; Supplement</span>
       <div class="st">Beta policy is more robust to higher learning rates when the critic's contribution is minimized.</div>
-      <p class="cp">PPO and AC(&lambda;&nbsp;&gt;&nbsp;0.9) show improved robustness to higher learning rates when coupled with the beta policy (see the supplement). In the bandit setting, PPO has no critic, and we observe that the beta policy at lower actor UTD ratios can perform just as well as at higher ratios when the learning rate is tuned. In all the other settings, the beta policy struggled to learn unless the actor UTD ratio was increased.</p>
+      <p class="cp">PPO and AC(&lambda; &gt; 0.9) show improved robustness to higher learning rates when coupled with the beta policy (see the supplement). In the bandit setting, PPO has no critic, and we observe that the beta policy at lower actor UTD ratios can perform just as well as at higher ratios when the learning rate is tuned. In all the other settings, the beta policy struggled to learn unless the actor UTD ratio was increased.</p>
       <p class="evidence">Evidence: PPO batch-size and AC(&lambda;) sweeps in the <a href="https://arxiv.org/abs/2607.13274">supplement</a></p>
     </div></template>
 <template id="m10"><div>
@@ -408,6 +427,18 @@ document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') closeModal();
   if (e.key === 'ArrowLeft') step(-1);
   if (e.key === 'ArrowRight') step(1);
+});
+function toggleFn(btn, ev) {
+  ev.stopPropagation();
+  var fn = btn.parentElement;
+  var open = fn.classList.toggle('is-open');
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+document.addEventListener('click', function () {
+  document.querySelectorAll('.fn.is-open').forEach(function (f) {
+    f.classList.remove('is-open');
+    f.querySelector('.fn-mark').setAttribute('aria-expanded', 'false');
+  });
 });
 var chips = document.querySelectorAll('.chip');
 chips.forEach(function (chip) {
