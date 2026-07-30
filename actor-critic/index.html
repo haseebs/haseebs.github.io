@@ -285,222 +285,91 @@
 <template id="m0"><div>
       <span class="cnum">Conclusion 1</span>
       <div class="st">Mixing immediate reward with value estimates (&lambda;&nbsp;&gt;&nbsp;0) improves stability and performance.</div>
-      <p class="cp">AC(&lambda;) interpolates between the critic's action-value estimate (&lambda;=0) and the observed reward
-        (&lambda;=1) in the policy gradient. In our experiments, relying entirely on the critic (&lambda;=0) led to
-        high run-to-run variability across all policy parameterizations, with beta policies being particularly
-        affected. This is likely due to value misspecification, introducing bias into the policy update.</p>
-<p class="cp">Introducing even a moderate reward mixing (&lambda;=0.3) recovers most of the performance gap while
-        significantly reducing variability, with the best effect consistently observed at &lambda;=0.9. Completely
-        removing the critic contribution (&lambda;=1) tends to either reduce performance or increase variability for
-        Gaussian and Student's&nbsp;<i>t</i> policies.</p>
-<figure class="plate">
-          <a class="figzoom" href="figs/113_acl_mixrq.webp" target="_blank" rel="noopener"><img src="figs/113_acl_mixrq.webp" alt="Effect of lambda on performance and variability across policy parameterizations" loading="lazy" width="1167" height="1000"></a>
-          <figcaption><b>The effect of &lambda; on performance and run-to-run variability</b> across policy
-          parameterizations.</figcaption>
-        </figure><p class="evidence">Evidence: reward-mixing sweep above &middot; extended AC(&lambda;) breakdown in the supplement &middot; <a href="https://arxiv.org/abs/2607.13274">paper</a></p>
+      <p class="cp">AC(&lambda;) interpolates between the critic's action-value estimate (&lambda;=0) and the observed reward (&lambda;=1) in the policy gradient. In our experiments, relying entirely on the critic (&lambda;=0) led to high run-to-run variability across all policy parameterizations, with beta policies being particularly affected. This is likely due to value misspecification, introducing bias into the policy update.</p>
+      <p class="cp">Introducing even a moderate reward mixing (&lambda;=0.3) recovers most of the performance gap while significantly reducing variability, with the best effect consistently observed at &lambda;=0.9. Completely removing the critic contribution (&lambda;=1) tends to either reduce performance or increase variability for Gaussian and Student's <i>t</i> policies. See the figure below for the effect of &lambda; on performance and variability and the supplement for a more detailed breakdown across different hyperparameter and environmental noise configurations.</p>
+      <figure class="plate"><a class="figzoom" href="figs/113_acl_mixrq.webp" target="_blank" rel="noopener"><img src="figs/113_acl_mixrq.webp" alt="Effect of lambda on performance and variability across policy parameterizations" loading="lazy" width="1167" height="1000"></a><figcaption><b>Mixing immediate reward with value estimates improves stability and performance.</b> For each policy parameterization, we fix all the hyperparameters to their default values and vary the value-reward mixing coefficient &lambda; &isin; {0, 0.3, 0.9, 1} in AC(&lambda;). The actor update weights the gradient &nabla;&thinsp;ln&thinsp;&pi;<sub>&theta;</sub>(A<sub>t</sub>) by &lambda;R<sub>t</sub> + (1&minus;&lambda;)&thinsp;q<sub>w</sub>(A<sub>t</sub>) &minus; v, interpolating between the critic's action-value estimate (&lambda;=0) and the observed reward (&lambda;=1). Solid lines show mean reward (higher is better, left axis) averaged over 10 seeds while the dashed lines show coefficient of variation (CV = &sigma;/|&mu;|, lower is better, right axis). The curves are drawn using a shape-preserving cubic interpolation without altering pointwise values. Intermediate values of &lambda; achieve the best combined performance and variability across all policy parameterizations.</figcaption></figure>
+      <p class="evidence">Evidence: reward-mixing sweep above &middot; extended AC(&lambda;) breakdown in the supplement &middot; <a href="https://arxiv.org/abs/2607.13274">paper</a></p>
     </div></template>
 <template id="m1"><div>
       <span class="cnum">Conclusion 2</span>
       <div class="st">Critic inaccuracy is a major contributor to instability.</div>
-      <p class="cp">Inaccurate critics increase run-to-run variability: some runs achieve good performance, whereas others fail,
-        thereby reducing stability. Several lines of evidence support this conclusion. First, increasing &lambda; in
-        AC(&lambda;) reduces the critic's contribution to the policy gradient, and higher &lambda; values decrease
-        variability across all policy parameterizations. Second, increasing the critic size increases the critic's
-        representational capacity, reducing critic error as long as the critic is trained sufficiently to exploit this
-        added capacity. Because our adaptive critic update trains the critic until its batch error falls below a fixed
-        threshold, the larger network actually realizes this lower error; consistent with this, larger critic networks
-        reduce variability across the entire learning-rate range.</p>
-<p class="cp">Finally, PPO in our non-contextual bandit setting does not require learning an action-value critic and,
-        correspondingly, its configurations are among the most favorable in the performance-stability trade-off.</p>
-<figure class="plate">
-          <a class="figzoom" href="figs/115_acl_critic_size.webp" target="_blank" rel="noopener"><img src="figs/115_acl_critic_size.webp" alt="Larger critics consistently reduce coefficient of variation across learning rates and policies" loading="lazy" width="1200" height="1045"></a>
-          <figcaption><b>Increasing the critic size reduces run-to-run variability.</b> For each policy
-          parameterization and learning rate, AC(&lambda;) with a small critic (2 hidden layers of 64 units) is
-          compared to a large critic (2 hidden layers of 256 units). Larger critics consistently reduce the coefficient
-          of variation across the entire learning-rate range.</figcaption>
-        </figure><p class="evidence">Evidence: critic-size sweep above, &lambda; sweep, and the PPO frontier points &middot; <a href="https://arxiv.org/abs/2607.13274">paper &sect;Results</a></p>
+      <p class="cp">Inaccurate critics increase run-to-run variability: some runs achieve good performance, whereas others fail, thereby reducing stability. There are several lines of evidence supporting this conclusion. Firstly, increasing &lambda; in AC(&lambda;) reduces the critic's contribution to the policy gradient. The figure in Conclusion 1 shows that higher &lambda; values decrease variability across all policy parameterizations. Secondly, increasing the critic size increases the critic's representational capacity, reducing critic error as long as the critic is trained sufficiently to exploit this added capacity. Because our adaptive critic update trains the critic until its batch error falls below a fixed threshold, the larger network actually realizes this lower error. Consistent with this, the figure below shows that larger critic networks reduce variability across all policy parameterizations in AC(&lambda;).</p>
+      <p class="cp">Finally, note that PPO in our non-contextual bandit setting does not require learning an action-value critic and, correspondingly, its configurations are among the most favorable in the performance-stability trade-off. Three of the four PPO configurations are Pareto efficient in the frontier of Conclusion 3 while the remaining one lies close to the Pareto frontier.</p>
+      <figure class="plate"><a class="figzoom" href="figs/115_acl_critic_size.webp" target="_blank" rel="noopener"><img src="figs/115_acl_critic_size.webp" alt="Larger critics consistently reduce coefficient of variation across learning rates and policies" loading="lazy" width="1200" height="1045"></a><figcaption><b>Increasing the critic size reduces run-to-run variability.</b> For each policy parameterization and learning rate, we compare AC(&lambda;) with a small critic (2 hidden layers of 64 units) and a large critic (2 hidden layers of 256 units), with all the hyperparameters fixed at their default values and &lambda;=0. The bar height represents the coefficient of variation (CV) across N=10 seeds, where lower values indicate more stable runs. Larger critics consistently reduce CV across the entire learning-rate range for all policy parameterizations.</figcaption></figure>
+      <p class="evidence">Evidence: critic-size sweep above, &lambda; sweep, and the PPO frontier points &middot; <a href="https://arxiv.org/abs/2607.13274">paper &sect;Results</a></p>
     </div></template>
 <template id="m2"><div>
       <span class="cnum">Conclusion 3</span>
       <div class="st">Beta policies achieve the best performance&#8211;stability tradeoff.</div>
-      <p class="cp">We aggregate results over the top-10 hyperparameters for each algorithm. The best region of the
-        performance-stability frontier, with high mean reward and low variability across runs and hyperparameters,
-        consists entirely of beta configurations, with five different algorithms clustering tightly around near-optimal
-        performance. Except for AC(&lambda;), no non-beta policy parameterization dominates any beta configuration;
-        the AC(&lambda;) variants that perform worse are likely due to not sweeping the actor UTD ratio in that
-        setting.</p>
-<p class="cp">Some Student's&nbsp;<i>t</i> and Gaussian configurations also lie on the frontier, but only in intermediate
-        regions where they achieve lower mean reward but competitive variability. In contrast, the squashed Gaussian,
-        which is the widely-used default in SAC implementations, performs poorly.</p>
-<figure class="plate">
-          <a class="figzoom" href="figs/217_pareto.webp" target="_blank" rel="noopener"><img src="figs/217_pareto.webp" alt="Performance-stability Pareto frontier across algorithms and policy parameterizations" loading="lazy" width="1201" height="1035"></a>
-          <figcaption><b>Performance&#8211;stability frontier across algorithms and policy parameterizations.</b>
-          Marker shape indicates the algorithm, and color indicates the policy parameterization. The dashed Pareto
-          frontier connects configurations for which no other point achieves both higher mean reward and lower mean
-          CV.</figcaption>
-        </figure><p class="evidence">Evidence: performance&#8211;stability frontier above &middot; per-algorithm sweeps in the supplement &middot; <a href="https://arxiv.org/abs/2607.13274">paper</a></p>
+      <p class="cp">We aggregate results over the top-10 hyperparameters for each algorithm, including allowing different UTD per algorithm. In the figure below we observe two patterns. Firstly, the best region of the performance-stability frontier consists entirely of beta configurations, with five different algorithms clustering tightly around near-optimal performance. This region denotes configurations that have high mean reward and low variability across runs and hyperparameters. Secondly, except for AC(&lambda;), no non-beta policy parameterization dominates any beta configuration. The variants of AC(&lambda;) that perform worse are likely due to not sweeping over the actor UTD ratio in that setting.</p>
+      <p class="cp">Some Student's <i>t</i> and Gaussian configurations also lie on the frontier, but only in intermediate regions where they achieve lower mean reward but competitive variability. In contrast, squashed Gaussian, which is the widely-used default in SAC implementations, performs poorly. For a more detailed breakdown, see SAC with the PW estimator, SAC with the LR estimator, PPO, AC(&lambda;) and GreedyAC in the supplement.</p>
+      <figure class="plate"><a class="figzoom" href="figs/217_pareto.webp" target="_blank" rel="noopener"><img src="figs/217_pareto.webp" alt="Performance-stability Pareto frontier across algorithms and policy parameterizations" loading="lazy" width="1201" height="1035"></a><figcaption><b>Performance-stability frontier across algorithms and policy parameterizations.</b> For each {algorithm, policy} combination, we select the top-10 hyperparameter configurations by mean reward and aggregate over their 100 runs (10 configurations &times; 10 seeds). The x-axis shows the mean reward (higher is better) averaged across these runs. The y-axis shows the mean coefficient of variation (lower is better), computed by taking the CV across seeds within each configuration and then averaging across 10 configurations (CV<sub>mean</sub> = (1/N)&thinsp;&Sigma;<sub>i</sub>&thinsp;CV<sub>i</sub> with N=10). This separates within-configuration variability (run-to-run noise at fixed hyperparameters) from cross-configuration variability (sensitivity to hyperparameter choice). Error bars are 95% bootstrap confidence intervals (n=2000 resamples). Marker shape indicates the algorithm, and color indicates the policy parameterization. The dashed Pareto frontier connects configurations for which no other plotted point achieves both higher mean reward and lower mean CV, and is computed directly from the plotted aggregate points. The best region of the frontier, with high mean reward and low variability, consists entirely of beta configurations, with five of the six algorithms clustering together. Student's <i>t</i> and Gaussian appear on the frontier only at intermediate performance levels, while squashed policies are strictly dominated by multiple other configurations. Additionally, unlike other algorithms, which are spread apart, PPO configurations are relatively similar in performance across multiple policies.</figcaption></figure>
+      <p class="evidence">Evidence: performance&#8211;stability frontier above &middot; per-algorithm sweeps in the supplement &middot; <a href="https://arxiv.org/abs/2607.13274">paper</a></p>
     </div></template>
 <template id="m3"><div>
       <span class="cnum">Conclusion 4</span>
       <div class="st">Bounded-support policy parameterizations are slower to converge compared to unbounded-support ones.</div>
-      <p class="cp">We group the squashed and beta policy parameterizations as bounded-support, and the clipped Gaussian and
-        Student's&nbsp;<i>t</i> as unbounded-support. The effect depends on how strongly the action-space constraints
-        are enforced by the parameterization. With the default actor UTD ratio of 1, the beta policy consistently
-        learns the slowest among all algorithms, often requiring 2&#8211;3x more steps than Gaussian, followed by
-        squashed and then clipped policies. The clipped policies are based on unbounded densities and can therefore be
-        optimized in a relatively unconstrained parameter space. The squashed policies enforce bounds through a smooth
-        non-linear transformation, which introduces additional curvature and sensitivity near the boundaries. In
-        contrast, the beta policy enforces bounds through its density, and its parameters couple together to control
-        the location, shape, and skewness of the distribution simultaneously, making optimization more difficult.</p>
-<p class="cp">Once we increase the actor UTD ratio, the differences in convergence speed among the parameterizations
-        largely disappear. However, if the critic is not sufficiently accurate, a high actor UTD could amplify the
-        critic's errors and steer the policy towards poor solutions.</p>
-<figure class="plate">
-          <a class="figzoom wide" href="figs/225_convergence_twocolumn_colorwhiskers.webp" target="_blank" rel="noopener"><img src="figs/225_convergence_twocolumn_colorwhiskers.webp" alt="Steps to convergence: bounded policies slower at UTD 1, comparable at UTD 10" loading="lazy" width="1283" height="380"></a>
-          <figcaption><b>Bounded-support policies converge slower than unbounded-support across algorithms.</b>
-          Left: at UTD<sub>actor</sub>&nbsp;=&nbsp;1, policies with bounded support converge slower in most cases.
-          Right: at UTD<sub>actor</sub>&nbsp;=&nbsp;10, this ordering largely collapses and all policies converge at
-          comparable rates. <span class="swipe-hint">Tap to enlarge</span></figcaption>
-        </figure><p class="evidence">Evidence: convergence analysis above &middot; <a href="https://arxiv.org/abs/2607.13274">paper &sect;Results</a></p>
+      <p class="cp">We group the squashed and beta policy parameterizations as bounded-support, and the clipped Gaussian and Student's <i>t</i> as unbounded-support. From the figure below, we observe that the effect depends on how strongly the action-space constraints are enforced by the policy parameterization. With the default actor UTD ratio of 1, the beta policy consistently learns the slowest among all algorithms, followed by squashed policies and then clipped policies. The clipped policies are based on unbounded densities and therefore can be optimized in a relatively unconstrained parameter space. The squashed policies enforce bounds through a smooth non-linear transformation, which introduces additional curvature and sensitivity near the boundaries. In contrast, the beta policy enforces bounds through its density, and its parameters couple together to control the location, shape, and skewness of the distribution simultaneously, making optimization more difficult.</p>
+      <p class="cp">Once we increase the actor UTD ratio (figure below, right), the differences in convergence speed among the various policy parameterizations largely disappear. However, if the critic is not sufficiently accurate, a high actor UTD could amplify the critic's errors and steer the policy towards poor solutions.</p>
+      <figure class="plate"><a class="figzoom wide" href="figs/225_convergence_twocolumn_colorwhiskers.webp" target="_blank" rel="noopener"><img src="figs/225_convergence_twocolumn_colorwhiskers.webp" alt="Steps to convergence: bounded policies slower at UTD 1, comparable at UTD 10" loading="lazy" width="1283" height="380"></a><figcaption><b>Bounded-support policies converge slower than unbounded-support across algorithms.</b> For each {algorithm, policy} combination, we report the number of steps until convergence, defined as the first step at which the return reaches within 90% of the policy's own final 5% average performance. Note that this is a within-policy convergence metric, as the convergence does not guarantee reaching some predefined global threshold. Results are aggregated by pooling all runs from the top-10 hyperparameter configurations for each combination, then computing the mean (height of the lighter bar) and 95% bootstrap confidence intervals (dark bars, n=2000 resamples). <b>Left:</b> at default actor UTD (UTD<sub>actor</sub> = 1), the policies with bounded support converge slower than unbounded support in most cases, with the beta policy often requiring 2-3x more steps than Gaussian. <b>Right:</b> at UTD<sub>actor</sub> = 10, this ordering largely collapses and all policies converge at comparable rates. <span class="swipe-hint">Tap to enlarge</span></figcaption></figure>
+      <p class="evidence">Evidence: convergence analysis above &middot; <a href="https://arxiv.org/abs/2607.13274">paper &sect;Results</a></p>
     </div></template>
 <template id="m4"><div>
       <span class="cnum">Conclusion 5</span>
       <div class="st">Actor update-to-data ratio (UTD) is a safer tuning knob compared to the actor learning rate.</div>
-      <p class="cp">Scaling the actor learning rate &eta;<sub>actor</sub> by <i>k</i> and the actor UTD ratio by <i>k</i> are
-        both ways to control how much the parameters are updated. We find scaling either has a very similar effect for
-        the beta policy across the three critic learning rates we examined. For a Gaussian policy, however, the
-        behavior is different at high critic learning rates: increasing the actor learning rate produces a
-        significantly stronger performance collapse compared to increasing the actor UTD ratio.</p>
-<p class="cp">This suggests that the Gaussian policy's instability stems from simultaneous fast updates to both the critic
-        and actor networks, rather than from actor parameter movements alone, and indicates that the actor UTD ratio is
-        the safer tuning knob.</p>
-<figure class="plate">
-          <a class="figzoom wide" href="figs/228_lr_utd.webp" target="_blank" rel="noopener"><img src="figs/228_lr_utd.webp" alt="Scaling actor LR vs actor UTD across critic learning rates for Gaussian and beta policies" loading="lazy" width="1285" height="385"></a>
-          <figcaption><b>Actor update-to-data ratio is a safer tuning knob compared to the actor learning rate.</b>
-          Solid lines scale the actor learning rate by <i>k</i>; dashed lines scale the actor UTD ratio by <i>k</i>,
-          across three critic learning rates. For Gaussian policies at high &eta;<sub>critic</sub> (left), scaling the
-          learning rate causes collapse at <i>k</i>&nbsp;&ge;&nbsp;10 while scaling UTD remains relatively stable.
-          <span class="swipe-hint">Tap to enlarge</span></figcaption>
-        </figure><p class="evidence">Evidence: LR-vs-UTD scaling comparison above &middot; <a href="https://arxiv.org/abs/2607.13274">paper &sect;Results</a></p>
+      <p class="cp">Scaling the actor learning rate &eta;<sub>actor</sub> by <i>k</i> and the actor UTD<sub>actor</sub> by <i>k</i> are both ways to control how much the parameters are updated. We find scaling either has a very similar effect for the beta policy across the three critic learning rates &eta;<sub>critic</sub> depicted in the figure below.</p>
+      <p class="cp">For a Gaussian policy, however, the behavior is different at high critic learning rates: increasing the actor learning rate produces a significantly stronger performance collapse compared to increasing the actor UTD ratio. This suggests that the Gaussian policy's instability stems from simultaneous fast updates to both the critic and actor networks, rather than from actor parameter movements alone. This indicates that the actor UTD ratio is a safer tuning knob.</p>
+      <figure class="plate"><a class="figzoom wide" href="figs/228_lr_utd.webp" target="_blank" rel="noopener"><img src="figs/228_lr_utd.webp" alt="Scaling actor LR vs actor UTD across critic learning rates for Gaussian and beta policies" loading="lazy" width="1285" height="385"></a><figcaption><b>Actor update-to-data ratio is a safer tuning knob compared to the actor learning rate.</b> For each policy (Gaussian, beta), we compare two strategies for scaling the actor update magnitude by a factor k &isin; {1, 3, 10, 30}, i.e. scaling the actor learning rate &eta;<sub>actor</sub> &times; k (solid lines) or scaling the actor UTD ratio UTD<sub>actor</sub> &times; k (dashed lines), across three representative critic learning rates &eta;<sub>critic</sub> (different panels) and default SAC hyperparameters. Before scaling is applied, the actor and critic learning rates are equivalent, i.e., &eta;<sub>actor</sub> = &eta;<sub>critic</sub>. Results are shown as mean reward across 10 seeds, and the shaded bands represent 95% bootstrap confidence intervals with n=1000 resamples. For beta policies, the dashed and solid lines overlap across all learning rates, indicating that the two scaling strategies are almost identical. For Gaussian policies, they are equivalent at low critic learning rates but start diverging at high &eta;<sub>critic</sub>=0.03 (left), where scaling actor LR causes collapse at k &ge; 10 while scaling actor UTD remains relatively stable. This suggests that the Gaussian policy's instability at high actor LR arises due to big updates to both the actor and critic networks at the same time, as opposed to large actor parameter movements alone. <span class="swipe-hint">Tap to enlarge</span></figcaption></figure>
+      <p class="evidence">Evidence: LR-vs-UTD scaling comparison above &middot; <a href="https://arxiv.org/abs/2607.13274">paper &sect;Results</a></p>
     </div></template>
 <template id="m5"><div>
       <span class="cnum">Conclusion 6</span>
       <div class="st">Higher actor update-to-data ratio improves beta policies but destabilizes Gaussian policies.</div>
-      <p class="cp">UTD<sub>actor</sub> has different effects depending on the policy parameterization. For beta policies,
-        increasing UTD<sub>actor</sub> from 1 to 30 significantly improves the mean reward and lowers run-to-run
-        variability consistently across PPO, SAC and GreedyAC. In contrast, for Gaussian policies, the mean reward
-        changes minimally while the variability increases significantly, rising by a factor of four for SAC and roughly
-        doubling for GreedyAC and PPO.</p>
-<p class="cp">With the best hyperparameter configurations, the beta policy achieves higher mean reward and lower mean
-        variability than the Gaussian policy across all three learning algorithms.</p>
-<figure class="plate">
-          <a class="figzoom wide" href="figs/229_actor_utd_pnas.webp" target="_blank" rel="noopener"><img src="figs/229_actor_utd_pnas.webp" alt="Mean reward and variability versus actor UTD for Gaussian and beta policies across GreedyAC, SAC, PPO" loading="lazy" width="1276" height="375"></a>
-          <figcaption><b>Higher actor update-to-data ratio improves beta policies but destabilizes Gaussian
-          policies.</b> Left and middle: mean rewards obtained by GreedyAC, SAC and PPO as UTD<sub>actor</sub> changes.
-          Right: mean variability, where lower is better; variability increases for Gaussian and decreases for the beta
-          policy. <span class="swipe-hint">Tap to enlarge</span></figcaption>
-        </figure><p class="evidence">Evidence: actor UTD sweep above &middot; <a href="https://arxiv.org/abs/2607.13274">paper &sect;Results</a></p>
+      <p class="cp">UTD<sub>actor</sub> has different effects depending on the policy parameterization (figure below). For beta policies, increasing UTD<sub>actor</sub> from 1 to 30 significantly improves the mean reward and lowers run-to-run variability consistently across PPO, SAC and GreedyAC. In contrast, for Gaussian policies, the mean reward changes minimally while the variability increases significantly, rising by a factor of four for SAC and roughly doubling for GreedyAC and PPO.</p>
+      <figure class="plate"><a class="figzoom wide" href="figs/229_actor_utd_pnas.webp" target="_blank" rel="noopener"><img src="figs/229_actor_utd_pnas.webp" alt="Mean reward and variability versus actor UTD for Gaussian and beta policies across GreedyAC, SAC, PPO" loading="lazy" width="1276" height="375"></a><figcaption><b>Higher actor update-to-data ratio improves beta policies but destabilizes Gaussian policies.</b> We computed results using top-5 learning rates for every {policy, UTD<sub>actor</sub>} combination while fixing the other hyperparameters to their default values. <b>Left and middle:</b> mean rewards obtained by GreedyAC, SAC and PPO when changing the actor UTD, where higher is better. Each dot is the average over all selected runs. The shaded area represents 95% bootstrap confidence interval over 50 runs with n=2000 resamples. The curves are drawn using a quadratic B-spline interpolation for visual clarity without altering pointwise values. With a Gaussian policy, the impact of changing UTD<sub>actor</sub> on the average performance is minimal: PPO and GreedyAC decrease, whereas SAC increases. On the other hand, the average performance of the beta policy improves very significantly as UTD<sub>actor</sub> is increased. <b>Right:</b> mean variability for different actor UTD ratios, where lower is better. Since we are aggregating results over multiple hyperparameter configurations, we compute the variability (CV<sub>i</sub> = &sigma;<sub>i</sub>/|&mu;<sub>i</sub>|) separately for each (top-5) hyperparameter configuration and average over these variabilities to give us a single number (CV<sub>mean</sub> = (1/N)&thinsp;&Sigma;<sub>i</sub>&thinsp;CV<sub>i</sub> where N=10 configurations). As we increase UTD<sub>actor</sub>, the variability increases for Gaussian and decreases for beta policy. With the best hyperparameter configurations, the beta policy achieves higher mean reward and lower mean variability than the Gaussian policy across all three learning algorithms. <span class="swipe-hint">Tap to enlarge</span></figcaption></figure>
+      <p class="evidence">Evidence: actor UTD sweep above &middot; <a href="https://arxiv.org/abs/2607.13274">paper &sect;Results</a></p>
     </div></template>
 <template id="m6"><div>
       <span class="cnum">Conclusion 7</span>
       <div class="st">Pathwise gradient estimators are often unreliable with clipped or squashed policies.</div>
-      <p class="cp">Most continuous-control codebases use the pathwise (PW) gradient estimator by default, often without
-        exposing it as a tunable choice. Whether this is a good default, however, depends on the policy
-        parameterization. PW gradients flow through the sampled action, so any transformation that distorts this path,
-        such as clipping or squashing, can negatively affect the gradient signal. In contrast, likelihood ratio (LR)
-        gradients are unaffected by this issue, since they do not differentiate through the sampled action.</p>
-<p class="cp">We observe three regimes. Clipped policies (Gaussian and Student's&nbsp;<i>t</i>) suffer a significant drop
-        in performance at higher entropies under PW but remain robust under LR &mdash; likely because the high entropy
-        pushes more sampled actions to the clipping boundary, where they contribute zero PW gradient. Squashed policies
-        achieve similar mean rewards under both estimators, but lower run-to-run variability under LR. Finally, the
-        beta policy is essentially insensitive to the choice of estimator in both mean performance and variability,
-        likely because its bounds are encoded in the density rather than controlled by a transformation. The practical
-        implication is to treat PW as a choice rather than a default whenever the policy involves clipping or
-        squashing, and to consider LR in those settings.</p>
-<figure class="plate">
-          <a class="figzoom wide" href="figs/204_sac_reparam_vs_no.webp" target="_blank" rel="noopener"><img src="figs/204_sac_reparam_vs_no.webp" alt="Pathwise vs likelihood-ratio gradient estimators across policies and entropy levels in SAC" loading="lazy" width="1456" height="384"></a>
-          <figcaption><b>Pathwise gradient estimators are often unreliable with clipped and squashed policy
-          parameterizations.</b> Left: difference in mean reward between the LR and PW estimators in SAC; points above
-          the dashed line achieve higher mean performance with LR. Middle and right: coefficient of variation under the
-          LR and PW estimators, respectively. <span class="swipe-hint">Tap to enlarge</span></figcaption>
-        </figure><p class="evidence">Evidence: estimator comparison above &middot; per-policy SAC sweeps in the supplement &middot; <a href="https://arxiv.org/abs/2607.13274">paper</a></p>
+      <p class="cp">Most continuous-control codebases use the pathwise (PW) gradient estimator by default, often without exposing it as a tunable choice. Whether this is a good default, however, depends on the policy parameterization. PW gradients flow through the sampled action, so any transformation that distorts this path such as clipping or squashing can negatively affect the gradient signal. In contrast, the likelihood ratio (LR) gradients are unaffected by this issue, since they do not differentiate through the sampled action.</p>
+      <p class="cp">The figure below shows three regimes. Firstly, clipped policies (Gaussian and Student's <i>t</i>) suffer a significant drop in performance at higher entropies under PW, but remain robust under LR. This is likely because the high entropy pushes more sampled actions to the clipping boundary, where they contribute zero PW gradient. Secondly, squashed policies achieve similar mean rewards under both estimators, but a lower run-to-run variability under the LR estimator. Finally, the beta policy is essentially insensitive to the choice of estimator in both mean performance and variability, likely because its bounds are encoded in the density rather than controlled by a transformation, so there is no clipped or squashed path for the gradient to flow through. The practical implication is to treat PW as a choice rather than a default whenever the policy involves clipping or squashing, and to consider LR in those settings.</p>
+      <figure class="plate"><a class="figzoom wide" href="figs/204_sac_reparam_vs_no.webp" target="_blank" rel="noopener"><img src="figs/204_sac_reparam_vs_no.webp" alt="Pathwise vs likelihood-ratio gradient estimators across policies and entropy levels in SAC" loading="lazy" width="1456" height="384"></a><figcaption><b>Pathwise gradient estimators are often unreliable with clipped and squashed policy parameterizations.</b> We compare pathwise (PW / reparameterized) and likelihood ratio (LR / non-reparameterized) gradient estimators in Soft Actor-Critic by picking the same hyperparameters for each policy parameterization, and display their performance across different entropy values &beta;. <b>Left:</b> absolute difference in mean reward obtained between the two gradient estimators, computed as &Delta;log<sub>10</sub>(Reward) = log<sub>10</sub>(Reward<sub>LR</sub>) &minus; log<sub>10</sub>(Reward<sub>PW</sub>). The curves are drawn using a shape-preserving cubic interpolation to improve visual clarity without altering the pointwise values. The dashed <i>baseline</i> line represents the mean performance of the reparameterization trick variant. The shaded region represents the bootstrap confidence intervals based on n=2000 resamples. A point above the dashed line implies that the corresponding setting has a higher mean performance when used with an LR estimator. We observe that the policies with clipped sampling (Student's <i>t</i> and Gaussian) obtain a higher mean reward with an LR estimator, whereas the policies with natural boundedness (beta) and squashed sampling (squashed Gaussian) behave similarly under both estimators. <b>Middle and right:</b> coefficient of variation (CV = &sigma;/|&mu;|) of the total reward across training runs for the LR and PW versions, respectively. Bars show the relative variability across all policies at different entropy values, with smaller values indicating a more stable setting. The squashed Gaussian policies are the least stable under both estimators, with a very high variability when used with the PW estimator. <span class="swipe-hint">Tap to enlarge</span></figcaption></figure>
+      <p class="evidence">Evidence: estimator comparison above &middot; per-policy SAC sweeps in the supplement &middot; <a href="https://arxiv.org/abs/2607.13274">paper</a></p>
     </div></template>
 <template id="m7"><div>
       <span class="cnum">Conclusion 8</span>
       <div class="st">Adaptive critic updating is more reliable than a fixed critic update-to-data ratio.</div>
-      <p class="cp">Comparing the adaptive critic UTD ratio, which trains the critic until its batch error falls below a
-        threshold &omega;, with the commonly used fixed critic UTD strategy, we observe that adaptive updating largely
-        avoids the failure modes of fixed critic UTD ratios. The worst case is UTD<sub>critic</sub>&nbsp;=&nbsp;1,
-        which produces 11x higher run-to-run variability for Gaussian policies and 5x for beta under
-        UTD<sub>actor</sub>&nbsp;=&nbsp;10, as well as lower mean reward across configurations. Higher fixed ratios of
-        10 or 100 perform comparably; however, they require the practitioner to either know or tune the appropriate
-        value in advance.</p>
-<p class="cp">Overall, adaptive updating replaces the more sensitive UTD<sub>critic</sub> hyperparameter with an
-        easier-to-interpret error threshold &omega;, which can be set based on the magnitude of the critic loss. In
-        principle, a threshold defined relative to a normalized reward scale should transfer across environments more
-        naturally than a raw update count, whose appropriate value depends on batch size, the critic's representational
-        capacity, and the complexity of the environment.</p>
-<figure class="plate">
-          <a class="figzoom wide" href="figs/231_critic_utd.webp" target="_blank" rel="noopener"><img src="figs/231_critic_utd.webp" alt="Fixed vs adaptive critic UTD: reward gap and variability across policies and actor UTD" loading="lazy" width="1211" height="364"></a>
-          <figcaption><b>Adaptive critic updating is more reliable than a fixed critic update-to-data ratio.</b>
-          Left: reward gap between fixed and adaptive critic UTD; values below the dashed line favor adaptive. Middle
-          and right: coefficient of variation for UTD<sub>actor</sub>&nbsp;=&nbsp;1 and 10, with adaptive shown as the
-          leftmost pair of bars. <span class="swipe-hint">Tap to enlarge</span></figcaption>
-        </figure><p class="evidence">Evidence: fixed-vs-adaptive comparison above &middot; algorithm in paper &sect;Materials &amp; Methods &middot; <a href="https://arxiv.org/abs/2607.13274">paper</a></p>
+      <p class="cp">Comparing the adaptive critic UTD ratio with the commonly used fixed critic UTD strategy, we observe that adaptive updating largely avoids the failure modes of fixed critic UTD ratios (figure below). The worst case is UTD<sub>critic</sub>=1, which produces 11x higher run-to-run variability for Gaussian policies and 5x for beta under UTD<sub>actor</sub>=10, as well as lower mean reward across configurations. Higher fixed ratios of UTD<sub>critic</sub> &isin; {10, 100} perform comparably; however, they require the practitioner to either know or tune the appropriate value in advance. The one case where the fixed ratio can outperform adaptive is beta with UTD<sub>actor</sub>=1; however, both perform poorly compared to higher UTD<sub>actor</sub>=10.</p>
+      <p class="cp">Overall, we find adaptive updating replaces the more sensitive UTD<sub>critic</sub> hyperparameter with an easier-to-interpret error threshold &omega;, which can be set based on the magnitude of the critic loss. In principle, a threshold &omega; defined relative to a normalized reward scale should transfer across environments more naturally than a raw update count, whose appropriate value depends on batch size, critic's representational capacity, and the complexity of the environment.</p>
+      <figure class="plate"><a class="figzoom wide" href="figs/231_critic_utd.webp" target="_blank" rel="noopener"><img src="figs/231_critic_utd.webp" alt="Fixed vs adaptive critic UTD: reward gap and variability across policies and actor UTD" loading="lazy" width="1211" height="364"></a><figcaption><b>Adaptive critic updating is more reliable than a fixed critic update-to-data ratio.</b> For each combination of policy, actor UTD ratio UTD<sub>actor</sub> and critic UTD ratio UTD<sub>critic</sub>, we select the best-performing learning rate and aggregate over its 10 seeds. <b>Left:</b> reward gap between the fixed critic UTD ratio UTD<sub>critic</sub> and adaptive critic UTD ratio, computed as &Delta;log<sub>10</sub>(Reward) = log<sub>10</sub>(Reward<sub>fixed</sub>) &minus; log<sub>10</sub>(Reward<sub>adaptive</sub>), so values above the dashed reference line at zero (adaptive UTD performance) indicate that the fixed ratio outperforms adaptive, and values below indicate the opposite. Solid and dashed curves correspond to UTD<sub>actor</sub>=1 and UTD<sub>actor</sub>=10, respectively. Shaded bands represent 95% bootstrap confidence intervals over 50 runs with n=2000 resamples, and curves use shape-preserving cubic interpolation between measured points for visual clarity. <b>Middle and right:</b> coefficient of variation for UTD<sub>actor</sub>=1 and UTD<sub>actor</sub>=10, respectively, with adaptive UTD shown as the leftmost pair of bars in each panel for direct comparison. Horizontal dotted lines mark 10% and 30% relative variability as fixed reference points to ease comparison across panels and figures. Fixed critic UTD ratios are competitive with adaptive only for the beta policy at low actor UTD (UTD<sub>actor</sub>=1). In every other configuration, fixed ratios either yield lower mean reward (left panel, points below baseline) or substantially higher variability (middle and right panels). The Gaussian policy at UTD<sub>critic</sub>=1 is the most extreme failure mode, with variability rising to roughly 11&times; the adaptive value when UTD<sub>actor</sub>=10. <span class="swipe-hint">Tap to enlarge</span></figcaption></figure>
+      <p class="evidence">Evidence: fixed-vs-adaptive comparison above &middot; algorithm in paper &sect;Materials &amp; Methods &middot; <a href="https://arxiv.org/abs/2607.13274">paper</a></p>
     </div></template>
 <template id="m8"><div>
       <span class="cnum">Conclusion 9 &middot; Supplement</span>
       <div class="st">Mirror descent adds complexity without consistent empirical gains.</div>
-      <p class="cp">Increasing the mirror descent period generally resulted in similar or significantly worse performance.
-        Increasing the mirror descent step size resulted in worse mean rewards at smaller entropies but higher at the
-        largest tested entropy; however, the mean reward at that entropy is still significantly lower than at the
-        smaller entropies. The worst case drops by roughly 5x compared to the gradient descent baseline.</p>
-<p class="cp">Overall, the best performance is achieved at the smallest values of the mirror descent step size and period
-        &mdash; the stronger the mirror descent, the lower the resulting performance.</p>
-<figure class="plate">
-          <a class="figzoom wide" href="figs/100_md_sac_difference.webp" target="_blank" rel="noopener"><img src="figs/100_md_sac_difference.webp" alt="Mirror descent vs gradient descent performance difference across entropies, periods and step sizes" loading="lazy" width="1220" height="363"></a>
-          <figcaption><b>Mirror descent does not consistently improve Soft Actor-Critic.</b> Values above the zero line
-          represent higher average rewards under mirror descent; values below represent performance worse than the
-          gradient descent baseline. At the two lower entropies, all mirror descent configurations perform worse.
-          <span class="swipe-hint">Tap to enlarge</span></figcaption>
-        </figure><p class="evidence">Evidence: mirror-descent sweep above &middot; full entropy breakdown in the <a href="https://arxiv.org/abs/2607.13274">supplement</a></p>
+      <p class="cp">In the figure below, we observe that increasing the mirror descent period &eta;<sub>md</sub> generally resulted in similar or significantly worse performance. Increasing the mirror descent step size &lambda; (where &lambda;=1/&tau;) resulted in worse mean rewards at smaller entropies (&beta; &isin; {0.001, 0.01}) but higher at the largest tested entropy (&beta;=0.1). However, the mean reward at the larger entropy is still significantly lower than smaller entropies. Overall, the best performance is achieved at the smallest values of mirror descent stepsize &lambda; and period &eta;<sub>md</sub>. This indicates the stronger the mirror descent, the lower is the resulting performance.</p>
+      <figure class="plate"><a class="figzoom wide" href="figs/100_md_sac_difference.webp" target="_blank" rel="noopener"><img src="figs/100_md_sac_difference.webp" alt="Mirror descent vs gradient descent performance difference across entropies, periods and step sizes" loading="lazy" width="1220" height="363"></a><figcaption><b>Mirror descent does not consistently improve Soft Actor-Critic.</b> The y-axis shows &Delta;log<sub>10</sub>(Reward) = log<sub>10</sub>(Reward<sub>MD</sub>) &minus; log<sub>10</sub>(Reward<sub>Baseline</sub>), where the rewards on the right-hand side are the rewards averaged over the top three learning rates per hyperparameter configuration. The columns represent changing entropy levels &beta;, the x-axis represents the mirror descent (MD) period &eta;<sub>md</sub>, and the colours represent different MD step sizes &lambda;=1/&tau;. The curves are drawn using a quadratic B-spline interpolation across MD periods without altering pointwise values. Values above the zero line represent higher average rewards under MD, while the values under represent performance worse than the gradient descent (GD) baseline. At the two lower entropies (&beta; &isin; {0.001, 0.01}), all MD configurations perform worse than GD. The worst case is at 1/&tau;=0.5 and high &eta;<sub>md</sub>, where the performance drops by roughly 5x compared to GD. At the highest entropy (&beta;=0.1), we observe a small improvement at the lowest MD step sizes (represented by squares), but the absolute performance at this entropy is still significantly lower than the lower entropies. <span class="swipe-hint">Tap to enlarge</span></figcaption></figure>
+      <p class="evidence">Evidence: mirror-descent sweep above &middot; full entropy breakdown in the <a href="https://arxiv.org/abs/2607.13274">supplement</a></p>
     </div></template>
 <template id="m9"><div>
       <span class="cnum">Conclusion 10 &middot; Supplement</span>
       <div class="st">Beta policy is more robust to higher learning rates when the critic's contribution is minimized.</div>
-      <p class="cp">PPO and AC(&lambda;&nbsp;&gt;&nbsp;0.9) show improved robustness to higher learning rates when coupled with
-        the beta policy. In the bandit setting, PPO has no critic, and we observe that the beta policy at lower actor
-        UTD ratios can perform just as well as at higher ratios when the learning rate is tuned. In all the other
-        settings, the beta policy struggled to learn unless the actor UTD ratio was increased.</p>
-<p class="evidence">Evidence: PPO batch-size and AC(&lambda;) sweeps in the <a href="https://arxiv.org/abs/2607.13274">supplement</a></p>
+      <p class="cp">PPO and AC(&lambda;&nbsp;&gt;&nbsp;0.9) show improved robustness to higher learning rates when coupled with the beta policy (see the supplement). In the bandit setting, PPO has no critic, and we observe that the beta policy at lower actor UTD ratios can perform just as well as at higher ratios when the learning rate is tuned. In all the other settings, the beta policy struggled to learn unless the actor UTD ratio was increased.</p>
+      <p class="evidence">Evidence: PPO batch-size and AC(&lambda;) sweeps in the <a href="https://arxiv.org/abs/2607.13274">supplement</a></p>
     </div></template>
 <template id="m10"><div>
       <span class="cnum">Conclusion 11 &middot; Supplement</span>
       <div class="st">Actor UTD reshapes learning-rate sensitivity.</div>
-      <p class="cp">The relationship between learning rate and mean performance is typically similar to an upside-down parabola:
-        the best setting in the middle, with poorer performance at the higher and lower extremes. We observe that
-        increasing the actor UTD ratio can alter the shape of this parabola, and in some cases, reduce the sensitivity
-        to the learning rate hyperparameter. This implies that in certain settings, an arbitrarily chosen learning rate
-        from a reasonable range is more likely to perform well. We observe this reduction in sensitivity with all the
-        policy losses used to analyze UTD<sub>actor</sub>: SAC with both gradient estimators, PPO, GreedyAC, and
-        MPO.</p>
-<p class="cp">However, the run-to-run variability depends on the policy parameterization. As &eta;<sub>actor</sub> is
-        increased, the Gaussian, Student's&nbsp;<i>t</i>, and squashed policies generally exhibit higher variabilities,
-        while the variability of the beta policy is reduced. Due to this, the reduced learning-rate sensitivity is
-        useful only with the beta policy parameterization.</p>
-<p class="evidence">Evidence: per-algorithm learning-rate sweeps (SAC, PPO, GreedyAC, MPO) in the <a href="https://arxiv.org/abs/2607.13274">supplement</a></p>
+      <p class="cp">The relationship between learning rate and mean performance is typically similar to an upside-down parabola: with the best setting in the middle, and a poorer performance at the higher and lower extremes. We observe that increasing the actor UTD ratio can alter the shape of this parabola, and in some cases, reduce the sensitivity to learning rate hyperparameter. This implies that in certain settings, an arbitrarily chosen learning rate from a reasonable range is more likely to perform well. We observe this reduction in sensitivity with all the policy losses that we used to analyze UTD<sub>actor</sub>: SAC with both gradient estimators, PPO, GreedyAC and MPO (see the supplement).</p>
+      <p class="cp">However, the run-to-run variability depends on the policy parameterization. As &eta;<sub>actor</sub> is increased, the Gaussian, Student's <i>t</i>, and squashed policies generally exhibit higher variabilities, while the variability of the beta policy is reduced. Due to this, the reduced learning-rate sensitivity is useful only with the beta policy parameterization.</p>
+      <p class="evidence">Evidence: per-algorithm learning-rate sweeps (SAC, PPO, GreedyAC, MPO) in the <a href="https://arxiv.org/abs/2607.13274">supplement</a></p>
     </div></template>
 <template id="m11"><div>
       <span class="cnum">Conclusion 12 &middot; Supplement</span>
       <div class="st">Averaging over more candidate actions stabilizes policy updates.</div>
-      <p class="cp">Across multiple policy losses, we observe that increasing the number of samples used to compute the policy
-        gradient increases the performance and/or reduces overall run-to-run variability. In PPO, increasing the
-        on-policy batch size increases mean performance, particularly at higher entropies; we do not observe an
-        improvement in variability for PPO because it is already small. In GreedyAC, increasing the number of proposal
-        actions improves the performance and reduces variability.</p>
-<p class="cp">Although the improvements are monotonic within our tested ranges, we surmise that there can be diminishing
-        returns or adverse effects if these hyperparameters are increased further.</p>
-<p class="evidence">Evidence: PPO batch-size and GreedyAC proposal-action sweeps in the <a href="https://arxiv.org/abs/2607.13274">supplement</a></p>
+      <p class="cp">Across multiple policy losses, we observe that increasing the number of samples used to compute the policy gradient increases the performance and/or reduces overall run-to-run variability. In PPO, increasing the on-policy batch size increases mean performance, particularly at higher entropies. We do not observe an improvement in variability for PPO because it is already too small. In GreedyAC, increasing the number of proposal actions &eta;<sub>top</sub> both improves the performance and reduces variability. Although the improvements are monotonic within our tested ranges, we surmise that there can be diminishing returns or adverse effects if these hyperparameters are increased further.</p>
+      <p class="evidence">Evidence: PPO batch-size and GreedyAC proposal-action sweeps in the <a href="https://arxiv.org/abs/2607.13274">supplement</a></p>
     </div></template>
 
 
