@@ -540,6 +540,7 @@
       border-bottom-color: var(--accent) !important;
   }
   .paper-actions .w3-button:first-child { color: var(--accent-deep) !important; }
+  .paper-actions a.w3-button:hover { text-decoration: none; }
 
   .sub1 {
       margin: 0;
@@ -823,7 +824,7 @@
       <p class="paper-venue">Submitted to <em>Scientific Reports</em> <span class="venue-abbr">(Sci. Rep.)</span>, 2026</p>
       <div class="paper-actions">
         <button onclick="location.href='https://arxiv.org/abs/2607.13274'" class="w3-button">Paper</button>
-        <button onclick="location.href='/actor-critic'" class="w3-button btn-website">Website</button>
+        <a href="/actor-critic/" class="w3-button btn-website">Website</a>
         <button type="button" class="cite-toggle" aria-expanded="false" aria-controls="bib-dac" onclick="togglePanel(this, 'bib-dac')">Cite</button>
       </div>
       <div id="bib-dac" class="bibtex-panel">
