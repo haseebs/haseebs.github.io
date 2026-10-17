@@ -100,9 +100,7 @@
       height: auto;
       object-fit: cover;
       border-radius: 5px;
-      border: 1px solid var(--rule);
-      box-shadow: 0 1px 0 rgba(255,255,255,0.6),
-                  0 14px 34px -18px rgba(43, 43, 41, 0.5);
+      box-shadow: 0 14px 34px -18px rgba(43, 43, 41, 0.5);
       display: block;
   }
 
@@ -502,6 +500,44 @@
       font-size: 1.02rem;
   }
 
+  /* ---------- Clickable cards: TL;DR collapsed until the entry is clicked ---------- */
+  .cards-ready .paper-div-with-figure { cursor: pointer; border-radius: 3px; outline: none; transition: background 0.2s; margin-bottom: 1rem; }
+  .cards-ready .paper-actions { margin-bottom: 0; }
+  .cards-ready .paper-div-with-figure:hover { background: rgba(0, 0, 0, 0.028); }
+  .cards-ready .paper-div-with-figure:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+  .cards-ready .sub1 { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 0.28s ease, opacity 0.28s ease, margin-top 0.28s ease; }
+  .cards-ready .sub1 > span { overflow: hidden; min-height: 0; }
+  .cards-ready .is-expanded .sub1 { grid-template-rows: 1fr; opacity: 1; margin-top: 0.45rem; }
+  .card-hint {
+      font-family: var(--sans);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--faint);
+      opacity: 0;
+      transition: opacity 0.2s;
+  }
+  .paper-div-with-figure:hover .card-hint, .is-expanded .card-hint { opacity: 1; }
+  @media (hover: none) { .card-hint { opacity: 1; } }
+  .paper-venue .card-hint { margin-left: 0.6rem; font-style: normal; }
+  .card-hint .c, .is-expanded .card-hint .o { display: none; }
+  .is-expanded .card-hint .c { display: inline; }
+  .expand-all {
+      order: 1;
+      background: none;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+  }
+  .expand-all:hover { color: var(--accent); }
+  @media screen and (max-width: 768px) { .expand-all { display: none; } }
+
   /* ---------- BibTeX panel ---------- */
   .bibtex-panel {
       display: none;
@@ -597,7 +633,7 @@
       <div class="right">
         <h1 class="myname">Haseeb Shah</h1>
         <hr class="name-rule">
-        <p class="role">Ph.D. Student &middot; Reinforcement Learning</p>
+        <p class="role">Ph.D. Student  ~  Reinforcement Learning</p>
         <p class="hero-bio">
           I am a Ph.D. student at the <a href="http://rlai.ualberta.ca">RLAI lab</a> at the University of Alberta, advised by
           <a href="http://webdocs.cs.ualberta.ca/~whitem/">Prof. Martha White</a>. My research focuses on foundational topics in
@@ -614,7 +650,10 @@
             <a href="https://twitter.com/haseebsz" class="fa fa-twitter" aria-label="Twitter"></a>
             <a href="https://www.instagram.com/haseeebs" class="fa fa-instagram" aria-label="Instagram"></a>
           </div>
+          <!-- CV out of date, hide it because I dont want to update it right now.
           <a href="assets/Haseeb_Shah_CV.pdf" class="cv-button"><i class="fa fa-file-text-o"></i> Curriculum Vitae</a>
+          -->
+
         </div>
       </div>
     </div>
@@ -624,11 +663,10 @@
   <section class="block">
     <h1 class="section-title">News</h1>
     <div class="news-list">
+      <div class="news-item"><span class="news-date">Sep 2026</span><span class="news-text">Started a research internship at <a href="https://rbcborealis.com">RBC Borealis</a> on offline-online reinforcement learning.</span></div>
       <div class="news-item"><span class="news-date">July 2026</span><span class="news-text">The <a href="/actor-critic">project website</a> and <a href="https://arxiv.org/abs/2607.13274">extended preprint</a> for our work on "Deconstructing Actor-Critic: A Large-Scale Empirical Study of Design Components" are now available.</span></div>
       <div class="news-item"><span class="news-date">June 2026</span><span class="news-text">Two papers (<a href="https://openreview.net/forum?id=pzD9jhpxOM">1</a>, <a href="https://openreview.net/forum?id=wmbtxVitHW">2</a>) accepted at the <a href="https://sites.google.com/view/continual-learning">RLC Continual RL workshop</a>.</span></div>
       <div class="news-item"><span class="news-date">Jan 2025</span><span class="news-text"><a href="https://openreview.net/pdf?id=OyyE1FDdrQ"><em>q</em>-Exponential Family for Policy Optimization</a> was accepted at ICLR 2025.</span></div>
-      <div class="news-item"><span class="news-date">Oct 2024</span><span class="news-text">Visited the <a href="https://alls.inrs.ca/en/">Advanced Laser Light Source Laboratory</a> in Montreal to apply RL to laser wakefield accelerators.</span></div>
-      <div class="news-item"><span class="news-date">Sep 2024</span><span class="news-text">Began my Ph.D. at the <a href="http://rlai.ualberta.ca">RLAI lab</a>, University of Alberta, advised by Martha White.</span></div>
     </div>
   </section>
 
@@ -678,6 +716,12 @@
   <div class="cv-col">
     <h1 class="section-title">Experience</h1>
     <div class="cv-list">
+          <div class="cv-entry">
+        <div class="cv-row1"><span class="cv-org">RBC Borealis</span><span class="cv-date">Sep 2026 &ndash; current</span></div>
+        <div class="cv-sub">Research Intern</div>
+        <div class="cv-meta">Canada</div>
+      </div>
+
       <div class="cv-entry">
         <div class="cv-row1"><span class="cv-org">Advanced Laser Light Source Laboratory</span><span class="cv-date">Sep 2024 &ndash; Oct 2024</span></div>
         <div class="cv-sub">Reinforcement Learning Researcher</div>
@@ -723,11 +767,12 @@
       <div class="paper-header">
         <h4 class="paper-title">Deconstructing Actor-Critic: A Large-Scale Empirical Study of Design Components</h4>
         <div class="paper-badges">
+          <span class="paper-badge">Nature Sci. Rep.</span>
           <span class="paper-badge paper-badge-muted">Under Review</span>
         </div>
       </div>
       <p class="paper-authors"><u>H. Shah</u>, L. Zhu, A. White, M. White</p>
-      <p class="paper-venue">Under Review</p>
+      <p class="paper-venue">Submitted to <em>Scientific Reports</em> <span class="venue-abbr">(Sci. Rep.)</span>, 2026</p>
       <div class="paper-actions">
         <button onclick="location.href='https://arxiv.org/abs/2607.13274'" class="w3-button">Paper</button>
         <button onclick="location.href='/actor-critic'" class="w3-button btn-website">Website</button>
@@ -747,6 +792,7 @@
       </div>
       <p class="sub1">We run and analyze over 33,000 experiments on a task derived from a real-world system to identify how actor-critic components affect performance and stability in deployment, highlighting that many existing defaults are relatively more unstable.</p>
     </div>
+
 
     <div class="paper-div-with-figure">
       <div class="paper-header">
@@ -776,11 +822,23 @@
       </div>
       <p class="sub1">We study symmetric divergences for behavior-regularized policy optimization and propose Symmetric <em>f</em>-Actor Critic, which avoids the per-environment failures encountered by other offline reinforcement learning methods.</p>
     </div>
+    <div class="paper-div-with-figure">
+      <div class="paper-header">
+        <h4 class="paper-title">COE: Mitigating Degradation while Improving Fine-tuning in Offline-to-Online RL</h4>
+        <div class="paper-badges">
+          <span class="paper-badge">ICLR 2027</span>
+          <span class="paper-badge paper-badge-muted">Under Review</span>
+        </div>
+      </div>
+      <p class="paper-authors"><u>H. Shah</u>, H. Wang, S. Singal, A. Farahmand, A. White, M. White</p>
+      <p class="paper-venue">Submitted to the International Conference on Learning Representations <span class="venue-abbr">(ICLR)</span>, 2027</p>
+      <p class="sub1">We propose a new offline-to-online RL algorithm, called Cautious Online Expansion (COE), that mitigates performance degradation while allowing for fast learning online.</p>
+    </div>
   </section>
 
   <!-- ============ PUBLICATIONS ============ -->
   <section class="block">
-    <h1 class="section-title">Publications</h1>
+    <h1 class="section-title">Conference & Journal Publications</h1>
 
     <div class="paper-div-with-figure">
       <div class="paper-header">
@@ -1012,6 +1070,77 @@
     button.setAttribute("aria-expanded", String(!isOpen));
     panel.classList.toggle("is-open", !isOpen);
   }
+
+  // Clickable paper cards: click an entry to show its TL;DR (one at a time per section),
+  // or use "Expand all" in the section heading. Without JS, TL;DRs simply stay visible.
+  document.querySelectorAll("section.block").forEach(function (sec) {
+    var cards = Array.prototype.filter.call(sec.querySelectorAll(".paper-div-with-figure"), function (c) {
+      return c.querySelector(".sub1");
+    });
+    if (!cards.length) return;
+    sec.classList.add("cards-ready");
+
+    var allBtn = document.createElement("button");
+    allBtn.type = "button";
+    allBtn.className = "expand-all";
+    if (cards.length > 1) sec.querySelector(".section-title").appendChild(allBtn);
+
+    function setOpen(card, open) {
+      card.classList.toggle("is-expanded", open);
+      card.setAttribute("aria-expanded", String(open));
+    }
+    function refresh() {
+      var allOpen = cards.every(function (c) { return c.classList.contains("is-expanded"); });
+      if (!cards.some(function (c) { return c.classList.contains("is-expanded"); })) sec.removeAttribute("data-all");
+      allBtn.textContent = allOpen ? "Collapse all" : "Expand all";
+    }
+    allBtn.addEventListener("click", function () {
+      var open = allBtn.textContent === "Expand all";
+      cards.forEach(function (c) { setOpen(c, open); });
+      if (open) sec.setAttribute("data-all", ""); else sec.removeAttribute("data-all");
+      refresh();
+    });
+
+    cards.forEach(function (card) {
+      var abs = card.querySelector(".sub1");
+      var inner = document.createElement("span");
+      while (abs.firstChild) inner.appendChild(abs.firstChild);
+      abs.appendChild(inner);
+
+      var hint = document.createElement("span");
+      hint.className = "card-hint";
+      hint.innerHTML = '<span class="o">Click for TL;DR</span><span class="c">Click to hide</span>';
+      // Sits after the links, or at the end of the venue line when an entry has no links
+      var slot = card.querySelector(".paper-actions") || card.querySelector(".paper-venue");
+      if (!slot) {
+        slot = document.createElement("div");
+        slot.className = "paper-actions";
+        card.insertBefore(slot, abs);
+      }
+      slot.appendChild(hint);
+
+      card.tabIndex = 0;
+      card.setAttribute("aria-expanded", "false");
+      function toggle() {
+        var open = !card.classList.contains("is-expanded");
+        if (open && !sec.hasAttribute("data-all")) {
+          cards.forEach(function (c) { if (c !== card) setOpen(c, false); });
+        }
+        setOpen(card, open);
+        refresh();
+      }
+      card.addEventListener("click", function (e) {
+        if (e.target.closest("button, a, .bibtex-panel") || String(window.getSelection())) return;
+        toggle();
+      });
+      card.addEventListener("keydown", function (e) {
+        if (e.target !== card || (e.key !== "Enter" && e.key !== " ")) return;
+        e.preventDefault();
+        toggle();
+      });
+    });
+    refresh();
+  });
 
   // Copy BibTeX to clipboard with brief feedback
   function copyBibtex(button) {
